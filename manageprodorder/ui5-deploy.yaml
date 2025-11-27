@@ -1,0 +1,30 @@
+
+
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: com.merkavim.ewm.manageprodorder
+type: application
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        ignoreCertError: true
+        target:
+          url: http://16.190.80.13:8000
+          client: '400'
+        app:
+          name: Z_PICKING_BY_WB
+          description: initialization of application
+          package: YMOBILE_SCANNERS
+          transport: MRDK920008
+        exclude:
+          - /test/
+
+

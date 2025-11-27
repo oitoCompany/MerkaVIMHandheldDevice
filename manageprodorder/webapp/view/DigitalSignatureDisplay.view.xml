@@ -1,0 +1,57 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.DigitalSignatureDisplay"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="digitalSignatureDisplayPage" title="{i18n>documentDetails}" showNavButton="true" navButtonPress="onNavBack">
+        <VBox id="displayVBox" class="sapUiSmallMargin">
+            <HBox id="displayButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <Button id="btnClearScreen" text="{i18n>clearScreen}" type="Unstyled" press="onClearSignature" class="doubleHeightButton greenButton" />
+                <Button id="btnSave" text="{i18n>save}" type="Unstyled" press="onSave" class="doubleHeightButton greenButton sapUiSmallMarginBegin" />
+            </HBox>
+            
+            <!-- Document Details Section -->
+            <Panel id="documentDetailsPanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="detailsBox" class="sapUiSmallMarginBottom">
+                    <f:SimpleForm id="documentForm" editable="true" layout="ResponsiveGridLayout">
+                        <f:content>
+                            <Label id="lblEmployeeNumber" text="{i18n>employeeNumber}" required="true"/>
+                            <Input id="inpEmployeeNumber" 
+                                value="{digitalSignature>/employeeNumber}" 
+                                placeholder="{i18n>employeeNumberPlaceholder}"
+                                change="onEmployeeNumberChange"
+                                required="true"/>
+                            
+                            <Label id="lblEmployeeEmail" text="{i18n>employeeEmail}"/>
+                            <Input id="inpEmployeeEmail" 
+                                value="{digitalSignature>/employeeEmail}" 
+                                placeholder="{i18n>employeeEmailPlaceholder}"
+                                editable="false"/>
+                            
+                            <Label id="lblDocNumber" text="{i18n>materialDocumentNumber}"/>
+                            <Input id="txtDocNumber" value="{digitalSignature>/MBLNR}" editable="false"/>
+                            
+                            <Label id="lblPrintOutput" text="{i18n>printOutput}"/>
+                            <CheckBox id="chkPrintOutput" selected="{digitalSignature>/printOutput}"/>
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+            </Panel>
+            
+            <!-- Signature Canvas Section -->
+            <Panel id="displaySignaturePanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="displaySignatureBox" class="sapUiSmallMargin">
+                    <Label id="lblDisplaySignature" text="{i18n>employeeSignature}" required="true" class="sapUiSmallMarginBottom"/>
+                    <core:HTML id="signatureCanvasHtml" content="&lt;canvas id='displaySignatureCanvas' style='border: 2px solid #ccc; touch-action: none; background-color: white; cursor: crosshair; width: 100%; max-width: 800px; height: 300px;'&gt;&lt;/canvas&gt;" xmlns:core="sap.ui.core"/>
+                </VBox>
+            </Panel>
+        </VBox>
+        
+        <footer>
+            <OverflowToolbar id="displayFooter" visible="{= ${device>/isPhone} }">
+                <ToolbarSpacer id="footerSpacer12"/>
+                <Button id="btnClearScreenFooter" text="{i18n>clearScreen}" type="Unstyled" press="onClearSignature" class="doubleHeightButton greenButton"/>
+                <Button id="btnSaveFooter" text="{i18n>save}" type="Unstyled" press="onSave" class="doubleHeightButton greenButton sapUiSmallMarginBegin"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

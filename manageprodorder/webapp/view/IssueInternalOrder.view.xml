@@ -1,0 +1,59 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.IssueInternalOrder"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="issueInternalOrderPage" title="{i18n>addedItemsTitle}" showHeader="true"  showNavButton="true" navButtonPress="onNavBack" >
+        <content>
+            <VBox id="_IDGenVBox6" class="sapUiMediumMargin">
+                <!-- Desktop/tablet actions toolbar (top, above inputs) -->
+                <Toolbar id="issueInternalOrderTopToolbar" visible="{= !${device>/isPhone} }" class="topActionToolbar">
+                    <Button id="_IDGenButton2" text="{i18n>clearButton}" press="onClearFields" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
+                    <Button id="_IDGenButton3" text="{i18n>addButton}" press="onAdd" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
+                    <Button id="_IDGenButton4" text="{i18n>showitem}" press="onContinue"  type="Unstyled" class="doubleHeightButton greenButton" />
+                </Toolbar>
+                <Panel id="_IDGenPanel"  expandable="false" class="sapUiResponsiveMargin" width="auto">
+                    <VBox id="_IDGenVBox7">
+
+                        <Label id="_IDGenLabel4" text="{i18n>materialNumberLabel}" labelFor="materialInput"/>
+                        <Input id="materialInput" width="50%" value="{view>/MATNR}"/>
+
+                        <Label id="_IDGenLabel2" text="{i18n>issuingStorageLocationLabel}" labelFor="issuingStorageLocationInput"/>
+                        <Input id="issuingStorageLocationInput" width="40%" value="{view>/LGORT}"/>
+
+                        <Label id="_IDGenLabel3" text="{i18n>internalOrderLabel}" labelFor="internalOrderInput"/>
+                        <Input id="internalOrderInput" width="40%" value="{view>/AUFNR}" showValueHelp="true" valueHelpRequest="onInternalOrderValueHelp"/>
+
+                        <Label id="_IDGenLabel1" text="{i18n>costCenterLabel}" labelFor="costCenterInput"/>
+                        <Input id="costCenterInput" width="40%" value="{view>/KOSTL}" showValueHelp="true" valueHelpRequest="onCostCenterValueHelp"/>
+
+
+                        <Label id="_IDGenLabel5" text="{i18n>issueQuantityLabel}" labelFor="issueQuantityInput"/>
+                        <Input id="issueQuantityInput" type="Number" width="40%" value="{view>/PICKING_QTY}"/>
+
+                        <!-- New disabled fields from attachment -->
+                        <Label id="_IDGenLabel7" text="{i18n>materialDescription}" labelFor="materialDescriptionInput"/>
+                        <Input id="materialDescriptionInput" width="50%" value="{view>/MAKTX}" enabled="false"/>
+
+                        <Label id="_IDGenLabel8" text="{i18n>itemLocatorLabel}" labelFor="itemLocatorInput"/>
+                        <Input id="itemLocatorInput" width="40%" value="{view>/LGPBE}" enabled="false"/>
+
+                        <Label id="_IDGenLabel9" text="{i18n>baseUoM}" labelFor="uomInput"/>
+                        <Input id="uomInput" width="40%" value="{view>/MEINS}" enabled="false"/>
+
+                        <Label id="_IDGenLabel10" text="{i18n>quantityInStockLabel}" labelFor="quantityInStockInput"/>
+                        <Input id="quantityInStockInput" width="40%" value="{view>/LABST}" enabled="false"/>
+                    </VBox>
+                </Panel>
+                
+            </VBox>
+        </content>
+        <footer>
+            <!-- Mobile-only footer actions (OverflowToolbar for consistency) -->
+            <OverflowToolbar id="issueInternalOrderFooterToolbar" visible="{= ${device>/isPhone} }" class="mobileFooterToolbar">
+                <ToolbarSpacer id="issueInternalOrderFooterSpacer" />
+                    <Button id="_IDGenButton5" text="{i18n>clearButton}" press="onClearFields" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
+                    <Button id="_IDGenButton6" text="{i18n>addButton}" press="onAdd" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
+                    <Button id="_IDGenButton7" text="{i18n>showitem}" press="onContinue"  type="Unstyled" class="doubleHeightButton greenButton" />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

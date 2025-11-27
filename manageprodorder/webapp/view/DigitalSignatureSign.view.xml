@@ -1,0 +1,48 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.DigitalSignatureSign"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="digitalSignatureSignPage" title="{i18n>documentSaved}" showNavButton="true" navButtonPress="onNavBack">
+        <VBox id="signVBox" class="sapUiSmallMargin">
+            <HBox id="signButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <Button id="btnContinue" text="{i18n>continue}" type="Unstyled" press="onContinue" class="doubleHeightButton greenButton" />
+            </HBox>
+            
+            <!-- Success Message -->
+            <Panel id="successPanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="successBox" class="sapUiSmallMargin" alignItems="Center">
+                    <core:Icon xmlns:core="sap.ui.core" id="successIcon" src="sap-icon://message-success" size="4rem" color="#2b7d2b" class="sapUiMediumMarginBottom"/>
+                    <Title id="successTitle" text="{i18n>documentSavedSuccessfully}" level="H2" class="sapUiSmallMarginBottom"/>
+                </VBox>
+            </Panel>
+            
+            <!-- Document Details Section -->
+            <Panel id="savedDocumentDetailsPanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="savedDetailsBox" class="sapUiSmallMarginBottom">
+                    <f:SimpleForm id="savedDocumentForm" editable="false" layout="ResponsiveGridLayout">
+                        <f:content>
+                            <Label id="lblSavedDocNumber" text="{i18n>materialDocumentNumber}"/>
+                            <Text id="txtSavedDocNumber" text="{savedDocument>/MBLNR}"/>
+                            
+                            <Label id="lblSavedFiscalYear" text="{i18n>fiscalYear}"/>
+                            <Text id="txtSavedFiscalYear" text="{savedDocument>/MJAHR}"/>
+                            
+                            <Label id="lblSavedDocumentDate" text="{i18n>documentDate}"/>
+                            <Text id="txtSavedDocumentDate" text="{savedDocument>/BLDAT}"/>
+                            
+                            <Label id="lblSavedPostingDate" text="{i18n>postingDate}"/>
+                            <Text id="txtSavedPostingDate" text="{savedDocument>/BUDAT}"/>
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+            </Panel>
+        </VBox>
+        
+        <footer>
+            <OverflowToolbar id="signFooter" visible="{= ${device>/isPhone} }">
+                <ToolbarSpacer id="footerSpacer"/>
+                <Button id="btnContinueFooter" text="{i18n>continue}" type="Unstyled" press="onContinue" class="doubleHeightButton greenButton"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

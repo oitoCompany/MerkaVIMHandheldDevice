@@ -1,0 +1,232 @@
+{
+  "_version": "1.12.0",
+  "sap.app": {
+    "id": "com.merkavim.ewm.manageprodorder",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "supportedLocales": [
+      "en",
+      "he"
+    ],
+    "fallbackLocale": "en",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.7",
+      "toolsId": "75394418-6db5-4b5a-8f47-f8fd5cb99220"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/yoito_ui5/yms/",
+        "type": "REST"
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.120.25",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.comp": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "com.merkavim.ewm.manageprodorder.i18n.i18n"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "com.merkavim.ewm.manageprodorder.view",
+        "async": true,
+        "viewPath": "com.merkavim.ewm.manageprodorder.view"
+      },
+      "routes": [
+        {
+          "name": "RouteView1",
+          "pattern": "",
+          "target": [
+            "TargetView1"
+          ]
+        },
+        {
+          "name": "Logout",
+          "pattern": "Logout",
+          "target": [
+            "TargetLogout"
+          ]
+        },
+        {
+          "name": "ProductionOrder",
+          "pattern": "ProductionOrder",
+          "target": [
+            "TargetProductionOrder"
+          ]
+        },
+        {
+          "name": "ProductionOrderContinue",
+          "pattern": "ProductionOrderContinue",
+          "target": [
+            "TargetProductionOrderContinue"
+          ]
+        },
+        {
+          "name": "IssueItems",
+          "pattern": "IssueItems",
+          "target": [
+            "TargetIssueItems"
+          ]
+        },
+        {
+          "name": "DocumentCreated",
+          "pattern": "DocumentCreated",
+          "target": [
+            "TargetDocumentCreated"
+          ]
+        },
+        {
+          "name": "IssueInternalOrder",
+          "pattern": "IssueInternalOrder",
+          "target": [
+            "TargetIssueInternalOrder"
+          ]
+        },
+        {
+          "name": "InternalOrderCreated",
+          "pattern": "InternalOrderCreated/{MBLNR}/{MJAHR}",
+          "target": [
+            "TargetInternalOrderCreated"
+          ]
+        },
+        {
+          "name": "IssueInternalOrderItems",
+          "pattern": "IssueInternalOrderItems",
+          "target": [
+            "TargetIssueInternalOrderItems"
+          ]
+        },
+        {
+          "name": "DigitalSignature",
+          "pattern": "DigitalSignature",
+          "target": [
+            "TargetDigitalSignature"
+          ]
+        },
+        {
+          "name": "DigitalSignatureDisplay",
+          "pattern": "DigitalSignatureDisplay",
+          "target": [
+            "TargetDigitalSignatureDisplay"
+          ]
+        },
+        {
+          "name": "DigitalSignatureSign",
+          "pattern": "DigitalSignatureSign",
+          "target": [
+            "TargetDigitalSignatureSign"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetView1": {
+          "id": "View1",
+          "name": "View1"
+        },
+        "TargetLogout": {
+          "id": "Logout",
+          "name": "Logout"
+        },
+        
+        "TargetProductionOrder": {
+          "id": "ProductionOrder",
+          "name": "ProductionOrder"
+        },
+        "TargetProductionOrderContinue": {
+          "id": "ProductionOrderContinue",
+          "name": "ProductionOrderContinue"
+        },
+        "TargetIssueItems": {
+          "id": "IssueItems",
+          "name": "IssueItems"
+        },
+        "TargetDocumentCreated": {
+          "id": "DocumentCreated",
+          "name": "DocumentCreated"
+        },
+        "TargetIssueInternalOrder": {
+          "id": "IssueInternalOrder",
+          "name": "IssueInternalOrder"
+        },
+        "TargetIssueInternalOrderItems": {
+          "id": "IssueInternalOrderItems",
+          "name": "IssueInternalOrderItems"
+        },
+        "TargetInternalOrderCreated": {
+          "id": "InternalOrderCreated",
+          "name": "InternalOrderCreated"
+        },
+        "TargetDigitalSignature": {
+          "id": "DigitalSignature",
+          "name": "DigitalSignature"
+        },
+        "TargetDigitalSignatureDisplay": {
+          "id": "DigitalSignatureDisplay",
+          "name": "DigitalSignatureDisplay"
+        },
+        "TargetDigitalSignatureSign": {
+          "id": "DigitalSignatureSign",
+          "name": "DigitalSignatureSign"
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "com.merkavim.ewm.manageprodorder.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

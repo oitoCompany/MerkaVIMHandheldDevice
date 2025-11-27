@@ -1,0 +1,29 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.App"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <!-- Global header toolbar and routed app content -->
+    <VBox id="rootVBox" height="100%">
+        <OverflowToolbar id="globalHeaderToolbar" design="Transparent">
+                         <Image id="appLogo"
+                             src="logo/image.png"
+                             height="2rem"
+                             decorative="false"
+                             tooltip="Home"
+                             press="onLogoPress"
+                             class="appHeaderLogo"/>
+            <ToolbarSpacer id="globalHdrSpacer"/>
+            <Button id="userMenuButton"
+                    icon="sap-icon://account"
+                    type="Transparent"
+                    tooltip="User"
+                    press="onUserButtonPress"/>
+        </OverflowToolbar>
+        <App id="app">
+            <layoutData>
+                <FlexItemData id="appFlexData" growFactor="1"/>
+            </layoutData>
+        </App>
+    </VBox>
+</mvc:View>

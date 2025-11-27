@@ -1,0 +1,52 @@
+
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.ProductionOrder"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:core="sap.ui.core">
+    <Page id="prodOrderPage" title="{i18n>prodOrderTileHeader}" showNavButton="true" navButtonPress="onNavBack">
+        <VBox id="prodOrderVBox" class="sapUiSmallMargin">
+            <HBox id="prodOrderButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <Button id="btnInlineClear" text="{i18n>clear}" type="Unstyled" class="doubleHeightButton lightBlueButton" press="onInlineClear"/>
+                <Button id="btnInlineContinue" text="{i18n>continue}" type="Unstyled" press="onContinue" class="sapUiSmallMarginBegin doubleHeightButton greenButton" />
+            </HBox>
+            <Panel id="prodOrderPanel"  expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="inlineCreateBox" class="sapUiSmallMarginBottom">
+                    <Label id="lblInlineMaterial" text="{i18n>material}" labelFor="inpInlineMaterial"/>
+                    <Input id="inpInlineMaterial" value="{view>/newEntry/Material}" width="70%"/>
+                    <Label id="lblInlineProdOrder" text="{i18n>productionOrder}" labelFor="inpInlineProdOrder"/>
+                    <Input id="inpInlineProdOrder" value="{view>/newEntry/ProductionOrder}" width="70%"/>
+                        <VBox id="operationRangeVBox">
+                            <Label id="lblInlineOperation" text="{i18n>operation}"/>
+                            <HBox id="operationRangeBox" class="sapUiSmallMarginBottom">
+                                <Label id="lblInlineOperationFrom" text="{i18n>operationFrom}" labelFor="inpInlineOperationFrom"/>
+                                <Input id="inpInlineOperationFrom" value="{view>/newEntry/OperationFrom}" class="shortInput"/>
+                                <Label id="lblInlineOperationTo" text="{i18n>operationTo}" labelFor="inpInlineOperationTo" class="sapUiSmallMarginBegin"/>
+                                <Input id="inpInlineOperationTo" value="{view>/newEntry/OperationTo}" class="shortInput"/>
+                            </HBox>
+                        </VBox>
+                    <VBox id="reservationStorageLocationRangeVBox">
+                        <Label id="lblInlineResStorLoc" text="{i18n>reservationStorageLocation}"/>
+                        <HBox id="reservationStorageLocationRangeBox" class="sapUiSmallMarginBottom">
+                            <Label id="lblInlineResStorLocFrom" text="{i18n>operationFrom}" labelFor="inpInlineResStorLocFrom"/>
+                            <Input id="inpInlineResStorLocFrom" value="{view>/newEntry/ReservationStorageLocation}" class="shortInput"/>
+                            <Label id="lblInlineResStorLocTo" text="{i18n>operationTo}" labelFor="inpInlineResStorLocTo" class="sapUiSmallMarginBegin"/>
+                            <Input id="inpInlineResStorLocTo" value="{view>/newEntry/ReservationStorageLocationTo}" class="shortInput"/>
+                        </HBox>
+                    </VBox>
+                    <Label id="lblInlineIssueStr" text="{i18n>issuesingstoragelocation}" labelFor="inpInlineRemark"/>
+                    <Input id="inpInlineIssueStr" value="{view>/newEntry/IssuesingStorageLocation}" width="40%" required="true"/>
+                    <Label id="lblInlineRemark" text="{i18n>remark}" labelFor="inpInlineRemark"/>
+                    <Input id="inpInlineRemark" value="{view>/newEntry/Remark}" width="70%"/>
+                </VBox>
+            </Panel>
+        </VBox>
+        <footer>
+            <OverflowToolbar id="prodOrderFooterToolbar" visible="{= ${device>/isPhone} }">
+                <ToolbarSpacer id="prodOrderFooterSpacer"/>
+                    <Button id="btnInlineContinue1" text="{i18n>continue}" type="Unstyled" press="onContinue" class="doubleHeightButton greenButton" />
+                    <Button id="btnInlineClear1" text="{i18n>clear}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton" press="onInlineClear"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

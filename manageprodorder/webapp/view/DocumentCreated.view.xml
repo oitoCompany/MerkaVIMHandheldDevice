@@ -1,0 +1,39 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.DocumentCreated"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="docCreatedPage" title="{i18n>prodOrderTileHeader}" showNavButton="true" navButtonPress="onNavBack">
+        <headerContent>
+            <Button id="homeButton" icon="sap-icon://home" press="onNavHome"/>
+        </headerContent>
+        <content>
+            <VBox id="docCreatedVBox" class="sapUiSmallMargin" renderType="Bare">
+                <!-- Mobile cards (visible on phone) -->
+                <VBox id="dcMobileCardsContainer" visible="{= ${device>/isPhone} }">
+                    <List id="dcMobileCardList" items="{created>/items}" mode="None" showSeparators="All">
+                        <items>
+                            <CustomListItem id="dcMobileCardListItem">
+                                <VBox id="dcMobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin">
+                                    <Text id="dcMobileCardDocNum" text="{i18n>materialdocnum}: {created>DocumentNumber}"/>
+                                </VBox>
+                            </CustomListItem>
+                        </items>
+                    </List>
+                </VBox>
+
+                <!-- Desktop/tablet table (hidden on phone) -->
+                <Table id="createdItemsTable" items="{created>/items}" class="sapUiSmallMarginTop" visible="{= ${device>/isPhone} !== true }">
+                    <columns>
+                        <Column id="colCreatedMat"><header><Text id="txtCreatedMatHdr" text="{i18n>materialdocnum}"/></header></Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="cliCreatedItem">
+                            <cells>
+                                <Text id="cellCreatedMat" text="{created>DocumentNumber}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

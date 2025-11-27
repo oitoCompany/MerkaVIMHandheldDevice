@@ -1,0 +1,336 @@
+/* Enter your custom styles here */
+
+:root {
+	/* Space reserved for header + form; smaller = taller table */
+	--poc-fixed-offset: 14rem;
+}
+
+/* Ensure the container that wraps the sticky block doesn't clip children. */
+.stickyContainer {
+	overflow: visible !important;
+}
+
+/* Desktop/tablet: default sticky behavior (used on other pages) */
+.sap-desktop .stickyInputFields {
+	position: -webkit-sticky; /* Safari */
+	position: sticky;
+	top: 3.5rem; /* approx header bar height; adjust if theme differs */
+	z-index: 100; /* above table headers */
+	background: #fff;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+/* On ProductionOrderContinue page, disable sticky so form scrolls with content */
+#prodOrderContinuePage .stickyInputFields {
+	position: static;
+	top: auto;
+	z-index: auto;
+	box-shadow: none;
+}
+
+/* Slightly reduce button size on small phone screens so they don't dominate */
+@media (max-width: 600px) {
+	.doubleHeightButton {
+		height: 2.2rem;
+		min-height: 2.2rem;
+		font-size: 1rem;
+	}
+}
+
+/* Disable sticky behavior on phones so content scrolls naturally */
+.sap-phone .stickyInputFields {
+	position: static;
+	box-shadow: none;
+}
+
+.centered-panel {
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.scrollableTableContainer {
+	/* Allow the table container to grow and fill remaining vertical space */
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	min-height: 0; /* important so inner scroll works inside flex item */
+	overflow: hidden; /* hide overflow, inner table scrolls instead */
+}
+
+/* Responsive inline form layout for ProductionOrderContinue header fields */
+.responsiveFormArea {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.responsiveFormRow {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.responsiveFormLabel {
+	flex: 0 0 9rem; /* base label width on rem for scalability */
+	max-width: 40%;
+}
+
+.responsiveFormInput {
+	flex: 1 1 12rem;
+	min-width: 6rem;
+	max-width: 100%;
+}
+
+/* On very small devices, stack label above input for readability */
+@media (max-width: 480px) {
+	.responsiveFormRow {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.responsiveFormLabel {
+		flex: 0 0 auto;
+		max-width: 100%;
+		margin-bottom: 0.125rem;
+	}
+
+	.responsiveFormInput {
+		flex: 1 1 auto;
+		width: 100%;
+	}
+}
+
+/* Ensure ScrollContainer's inner wrapper expands and scrolls */
+.scrollableTableContainer .sapMScrollCont {
+	flex: 1 1 auto;
+	min-height: 0;
+	height: 100%; /* fill container to enable internal scroll */
+	overflow-y: auto; /* vertical scroll inside the table area */
+}
+
+/* Scroll is handled by ScrollContainer in the view */
+
+.doubleHeightButton {
+	height: 2.5rem; /* 4rem - 1/3rd = ~2.67rem */
+	min-height: 2.5rem;
+	font-size: 1.1rem;
+	border-radius: 0.7rem;
+}
+
+.greenButton {
+    background-color: #4CAF50;
+    color: black !important;
+    border: none;
+    border-radius: 0.7rem;
+    font-weight: bold;
+}
+
+.lightBlueButton {
+	background-color: #5bc0ff;
+	color: black;
+	border: none;
+	border-radius: 0.7rem;
+	font-weight: bold;
+}
+
+.lightBlueButton:hover, .lightBlueButton:active {
+	background-color: #3399cc;
+	box-shadow: 0 0 8px #3399cc;
+	outline: none;
+}
+
+.topActionToolbar {
+	margin-bottom: 0.5rem;
+	background-color: #f9f9f9;
+	border-radius: 0.5rem;
+	padding: 0.25rem 0.5rem;
+}
+
+.greenButton:hover, .greenButton:active {
+	background-color: #388E3C;
+	box-shadow: 0 0 8px #388E3C;
+	outline: none;
+}
+
+.doubleHeightButton:active {
+	box-shadow: 0 0 8px #888;
+	outline: none;
+}
+
+
+.greenButton {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 0.7rem;
+	font-weight: bold;
+}
+
+/* App header logo: keep rectangular aspect, fit in toolbar */
+.appHeaderLogo {
+	height: 2rem;
+	width: auto;        /* avoid stretching a rectangular logo */
+	object-fit: contain;
+	display: block;
+}
+
+/* Cap the table scroll area to viewport minus top content */
+.limitTableHeight {
+	/* Use dynamic viewport height where supported to avoid OS chrome issues */
+	max-height: min(calc(100dvh - var(--poc-fixed-offset)), calc(100vh - var(--poc-fixed-offset)));
+	box-sizing: border-box; /* include borders in height calc */
+}
+
+/* Give a little breathing room so the last row isn't clipped */
+/* Add breathing room at the bottom so last row is fully visible */
+.limitTableHeight .sapMListUl,
+.limitTableHeight .sapMListTbl,
+.limitTableHeight .sapMScrollContScroll {
+	padding-bottom: 1.25rem;
+}
+
+/* Make page content a flex column so inner container can size and scroll */
+.pageFlex .sapMPageContent {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	overflow: hidden; /* prevent child cumulative overflow beyond viewport */
+}
+
+.materialHighlight .sapMInputBaseInner {
+	border-color: #f7a70c;
+	box-shadow: 0 0 0 2px rgba(247, 167, 12, 0.35);
+	background-color: #fff8e1;
+}
+
+/* Short numeric / range inputs: size relative to viewport and font */
+@media (min-width: 600px) {
+	.shortInput {
+		width: 4.5em;
+	}
+}
+
+@media (max-width: 599px) {
+	.shortInput {
+		width: 30%;
+		max-width: 6em;
+	}
+}
+
+/* Digital Signature Canvas Styles */
+.signatureCanvasContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 1rem 0;
+}
+
+/* Prevent SimpleForm from overflowing on tablets */
+.sapUiForm .sapUiFormResGridCont {
+	max-width: 100%;
+	overflow: hidden;
+}
+
+/* Ensure form inputs don't cause horizontal overflow */
+.sapUiForm .sapMInputBase {
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+/* Fix for SimpleForm ResponsiveGridLayout on tablets */
+@media (min-width: 600px) and (max-width: 1023px) {
+	.sapUiFormResGridCont > .sapUiRGLContainerCont {
+		max-width: 100%;
+	}
+	
+	/* Ensure labels don't push content off-screen */
+	.sapUiFormResGridCont .sapMLabel {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+}
+
+#signatureCanvas {
+	border: 2px solid #ccc;
+	border-radius: 0.5rem;
+	cursor: crosshair;
+	touch-action: none;
+	background-color: #fff;
+	max-width: 100%;
+	height: auto;
+}
+
+@media (max-width: 600px) {
+	#signatureCanvas {
+		width: 100%;
+		max-width: 350px;
+	}
+}
+
+/* Compact field layout styles */
+.compactFieldsContainer {
+	padding: 0.5rem;
+	background-color: #f9f9f9;
+	border-radius: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.compactLabel {
+	font-size: 0.85rem;
+	color: #666;
+	margin-bottom: 0.125rem;
+	line-height: 1.2;
+}
+
+.compactItemNumber {
+	font-size: 1.1rem;
+	font-weight: bold;
+	line-height: 1.3;
+	margin-bottom: 0.125rem;
+}
+
+.compactDescription {
+	font-size: 0.95rem;
+	line-height: 1.3;
+	margin-bottom: 0.5rem;
+	color: #333;
+}
+
+.compactDetailsRow {
+	gap: 1.5rem;
+	flex-wrap: wrap;
+}
+
+.compactFieldGroup {
+	min-width: 80px;
+}
+
+.compactFieldLabel {
+	font-size: 0.75rem;
+	color: #666;
+	margin-bottom: 0.125rem;
+	line-height: 1.2;
+}
+
+.compactFieldValue {
+	font-size: 0.95rem;
+	font-weight: 500;
+	line-height: 1.2;
+}
+
+/* Reduce overall spacing in compact view */
+.compactFieldsContainer .sapUiTinyMarginBottom {
+	margin-bottom: 0.25rem !important;
+}
+
+
+
+
+
+
+
+
+
+

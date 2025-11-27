@@ -1,0 +1,50 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <Page id="page" showHeader="false" enableScrolling="true">
+        <content>
+            <VBox id="homeVBox" class="sapUiMediumMargin" width="100%" renderType="Bare">
+                <Text id="introText" text="{i18n>introText}" wrapping="true"/>
+                <FlexBox id="tilesRow" renderType="Bare" wrap="Wrap" justifyContent="Start">
+                    <GenericTile id="ProductionOrder"
+                        header="{i18n>prodOrderTileHeader}"
+                        press="onProductionOrderPress"
+                        class="sapUiTinyMargin">
+                        <tileContent>
+                            <TileContent id="prodOrderTileContent">
+                                <content>
+                                    <ImageContent id="prodOrderImageContent" src="sap-icon://factory"/>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+                    <GenericTile id="IssueInternalOrder"
+                        header="{i18n>issueInternalOrderTileHeader}"
+                        press="onIssueInternalOrderPress"
+                        class="sapUiTinyMargin">
+                        <tileContent>
+                            <TileContent id="issueIntOrderTileContent">
+                                <content>
+                                    <ImageContent id="issueIntOrderImageContent" src="sap-icon://order-status"/>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+                    <GenericTile id="DigitalSignature"
+                        header="{i18n>digitalSignatureTileHeader}"
+                        press="onDigitalSignaturePress"
+                        class="sapUiTinyMargin">
+                        <tileContent>
+                            <TileContent id="digitalSignatureTileContent">
+                                <content>
+                                    <ImageContent id="digitalSignatureImageContent" src="sap-icon://signature"/>
+                                </content>
+                            </TileContent>
+                        </tileContent>
+                    </GenericTile>
+                </FlexBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

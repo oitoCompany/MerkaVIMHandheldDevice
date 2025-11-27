@@ -1,0 +1,42 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.DigitalSignature"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="digitalSignaturePage" title="{i18n>digitalSignatureTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <VBox id="digitalSignatureVBox" class="sapUiSmallMargin">
+            <HBox id="searchButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <Button id="btnClear" text="{i18n>clear}" type="Unstyled" class="doubleHeightButton lightBlueButton" press="onClearSearch"/>
+                <Button id="btnDisplay" text="{i18n>display}" type="Unstyled" press="onDisplay" class="sapUiSmallMarginBegin doubleHeightButton greenButton" />
+            </HBox>
+            <Panel id="searchPanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <VBox id="searchBox" class="sapUiSmallMarginBottom">
+                    <Label id="lblMaterialDocument" text="{i18n>materialDocumentNumber}" labelFor="inpMaterialDocument" required="true"/>
+                    <HBox id="inputBox" width="100%">
+                        <MultiInput id="inpMaterialDocument" 
+                            width="100%" 
+                            placeholder="{i18n>materialDocumentPlaceholder}"
+                            tokenUpdate="onTokenUpdate"
+                            submit="onSubmitToken"
+                            showValueHelp="false"
+                            showSuggestion="false"
+                            enableSuggestionsHighlighting="false"
+                            tokens="{digitalSignature>/documentTokens}">
+                            <tokens>
+                                <Token id="documentToken" text="{digitalSignature>key}" key="{digitalSignature>key}" delete="onTokenDelete"/>
+                            </tokens>
+                        </MultiInput>
+                        <Button id="btnAdd" icon="sap-icon://add" type="Emphasized" press="onAddDocument" class="sapUiSmallMarginBegin" tooltip="Add Document"/>
+                    </HBox>
+                    <Text id="txtDocumentCount" text="Documents added: {digitalSignature>/documentTokens/length}" class="sapUiTinyMarginTop"/>
+                </VBox>
+            </Panel>
+        </VBox>
+        
+        <footer>
+            <OverflowToolbar id="digitalSignatureFooter" visible="{= ${device>/isPhone} }">
+                <ToolbarSpacer id="footerSpacer1"/>
+                <Button id="btnDisplayFooter" text="{i18n>display}" type="Unstyled" press="onDisplay" class="doubleHeightButton greenButton"/>
+                <Button id="btnClearFooter" text="{i18n>clear}" type="Unstyled" press="onClearSearch" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"/>
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

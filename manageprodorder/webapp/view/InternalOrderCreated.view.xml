@@ -1,0 +1,25 @@
+<mvc:View
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    controllerName="com.merkavim.ewm.manageprodorder.controller.InternalOrderCreated"
+    displayBlock="true">
+    <Page id="_IDGenPage" title="{i18n>addedItemsTitle}"  showNavButton="true" navButtonPress="onNavBack" >
+
+    <content>
+            <VBox id="_IDGenVBox" alignItems="Center" justifyContent="Center">
+                <HBox id="_IDGenHBox1" alignItems="Center" justifyContent="Center">
+                    <Text id="_IDGenText" text="{i18n>documentCreatedTitle}" />
+                </HBox>
+                <HBox id="_IDGenHBox2" alignItems="Center" justifyContent="Center">
+                    <Text id="docInfo" text="{i18n>documentNumber}: {internalOrderCreated>/docNumber}"/>
+                </HBox>
+                    <Label id="_IDGenLabel" text="" />
+                    <Button id="_IDGenButton" text="{i18n>goToDigitalSign}" press="onSign" class="doubleHeightButton greenButton" type="Unstyled"/>
+            </VBox>
+    </content>
+        <headerContent>
+            <Button id="_IDGenButton1" icon="sap-icon://home" press="onNavHome"/>
+        </headerContent>
+    </Page>
+</mvc:View>

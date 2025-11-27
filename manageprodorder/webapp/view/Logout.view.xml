@@ -1,0 +1,17 @@
+<mvc:View
+  controllerName="com.merkavim.ewm.manageprodorder.controller.Logout"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  displayBlock="true">
+  <Page id="logoutPage" title="{i18n>logoutTitle}" showNavButton="true" navButtonPress="onNavHome">
+    <content>
+      <VBox id="logoutVBox" width="100%" alignItems="Center" justifyContent="Center" class="sapUiLargeMarginTop sapUiSmallMargin">
+        <core:Icon id="logoutIcon" src="sap-icon://log" size="3rem" color="Default"/>
+        <Title id="logoutTitle" level="H3" text="{i18n>logoutHeading}" class="sapUiSmallMarginTop"/>
+        <Text id="logoutText" text="{i18n>logoutMessage}" class="sapUiSmallMarginTop"/>
+        <Button id="logoutBackHomeButton" text="{i18n>logoutBackHome}" type="Emphasized" press="onNavHome" class="sapUiMediumMarginTop"/>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

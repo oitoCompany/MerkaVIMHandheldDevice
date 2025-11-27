@@ -1,0 +1,130 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.IssueItems"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="issueItemsPage" title="{i18n>prodOrderTileHeader}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} }">
+        <content>
+        <VBox id="issueItemsVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                 <Toolbar id="issueItemsTopActions" visible="{= ${device>/isPhone} !== true }" class="sapUiTinyMarginBottom">
+                     <Button id="btnIssueSaveTop" text="{i18n>save}" press="onSave" type="Unstyled" class="doubleHeightButton greenButton"/>
+                     <ToolbarSpacer id="issueItemsTopSpacer"/>
+                     <Button id="btnIssueSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                 </Toolbar>
+             <VBox id="issueItemsSummaryBox" class="sapUiSmallMarginBottom" justifyContent="Center">
+                    <Text id="txtIssueItemsSummary" text="{i18n>summary}" class="sapUiHighlight"/>
+            </VBox>
+            <!-- Compact layout for mobile -->
+            <VBox id="issueInputFieldsVBoxMobile" class="compactFieldsContainer" visible="{= ${device>/isPhone} }">
+                <VBox id="issueItemInfoVBox" class="sapUiTinyMarginBottom">
+                    <Label id="issueInputLblMatMobile" text="{i18n>item}" class="compactLabel"/>
+                    <Text id="issueInputTxtMatMobile" text="{inputFields>/Material}" class="compactItemNumber"/>
+                    <Text id="issueInputTxtMatDescMobile" text="{inputFields>/MaterialDescription}" class="compactDescription"/>
+                </VBox>
+                <HBox id="issueDetailsHBox" alignItems="Center" justifyContent="Start" class="compactDetailsRow">
+                    <VBox id="issueUomVBox" class="compactFieldGroup">
+                        <Label id="issueInputLblUOMMobile" text="{i18n>uom}" class="compactFieldLabel"/>
+                        <Text id="issueInputTxtUOMMobile" text="{inputFields>/UOM}" class="compactFieldValue"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Original SimpleForm for desktop/tablet -->
+            <VBox id="issueInputFieldsVBox" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <f:SimpleForm id="issueItemsHeaderForm"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                    columnsXL="2" columnsL="2" columnsM="2"
+                    breakpointM="600" breakpointL="1024" breakpointXL="1440"
+                    singleContainerFullSize="false">
+                    <f:content>
+                        <Label id="issueInputLblMat" text="{i18n>material}" labelFor="issueInputMat"/>
+                        <Input id="issueInputMat" value="{inputFields>/Material}" enabled="false"/>
+
+                        <Label id="issueInputLblMatDesc" text="{i18n>materialDescription}" labelFor="issueInputMatDesc"/>
+                        <Input id="issueInputMatDesc" value="{inputFields>/MaterialDescription}" enabled="false"/>
+
+                        <Label id="issueInputLblUOM" text="{i18n>uom}" labelFor="issueInputUOM"/>
+                        <Input id="issueInputUOM" value="{inputFields>/UOM}" enabled="false"/>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+            <VBox id="summaryInputBox" class="sapUiSmallMarginBottom" direction="Row" alignItems="Center">
+                <Text id="txtSummary" text= "{i18n>summary}" class="sapUiSmallMarginEnd"/>
+                <Input id="inputSummary" value="" enabled="false" width="16em"/>
+            </VBox>
+            <!-- Mobile cards (visible on phone) -->
+            <ScrollContainer id="issueMobileCardsScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} }">
+            <VBox id="issueMobileCardsContainer">
+                <List id="issueMobileCardList" items="{issueItems>/items}" mode="None" showSeparators="All">
+                    <items>
+                        <CustomListItem id="issueMobileCardListItem">
+                            <VBox id="issueMobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin">
+                                <Text id="issueMobileCardProdOrder" text="{i18n>productionOrder}: {issueItems>AUFNR}" class="sapUiTinyMarginBottom"/>
+                                <Text id="issueMobileCardMatDesc" text="{i18n>materialDescription1}: {issueItems>MODEL_DESC}"/>
+                                <Text id="issueMobileCardShortBus" text="{i18n>shortbusnum}: {issueItems>CY_SEQNR}"/>
+                                <Text id="issueMobileCardQtyToPick" text="{i18n>qtyToPick1}: {issueItems>PICKING_QTY}"/>
+                                <Text id="issueMobileCardBatch" text="{i18n>batchnumber}: {issueItems>CHARG}"/>
+                                <Text id="issueMobileCardSerial" text="{i18n>serialNumber}: {issueItems>SERNR}"/>
+                            </VBox>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+
+            <!-- Desktop/tablet table (hidden on phone) -->
+            <ScrollContainer id="issueDesktopTableScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} !== true }">
+                <Table id="issueItemsTable" sticky="ColumnHeaders" items="{issueItems>/items}" class="sapUiSmallMarginTop">
+                <columns>
+                    <Column id="colIssItem"><header><Text id="txtIssItem" text="{i18n>productionOrder}"/></header></Column>
+                    <Column id="colIssItemDesc"><header><Text id="txtIssItemDesc" text="{i18n>materialDescription1}"/></header></Column>
+                    <Column id="colIssLocation"><header><Text id="txtIssLocation" text="{i18n>shortbusnum}"/></header></Column>                
+                    <Column id="colIssDate"><header><Text id="txtIssDate" text="{i18n>qtyToPick1}"/></header></Column>
+                    <Column id="colIssInventory"><header><Text id="txtIssInventory" text="{i18n>batchnumber}"/></header></Column>
+                    <Column id="colIssQtyInReservation"><header><Text id="txtIssQtyInReservation" text="{i18n>serialNumber}"/></header></Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="cliIssueItem">
+                        <cells>
+                            <Text id="cellIssItem" text="{issueItems>AUFNR}"/>
+                            <Text id="cellIssItemDesc" text="{issueItems>MODEL_DESC}"/>
+                            <Text id="cellIssLocation" text="{issueItems>CY_SEQNR}"/>
+                           <Text id="cellIssDate" text="{issueItems>PICKING_QTY}"/>
+                            <Text id="cellIssInventory" text="{issueItems>CHARG}"/>
+                            <Text id="cellIssQtyInReservation" text="{issueItems>SERNR}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            </ScrollContainer>
+        </VBox>
+        </content>
+        <footer>
+            <Bar id="issueItemsFooterBar" visible="{= ${device>/isPhone} }">
+                <contentLeft>
+                    <Button id="btnIssueSortMobile" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                </contentLeft>
+                <contentRight>
+                    <ToolbarSpacer id="prodOrderFooterSpacer123"/>
+                    <Button id="btnIssueSave" text="{i18n>save}" press="onSave" type="Unstyled" class="doubleHeightButton greenButton"/>
+                </contentRight>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="issueSortDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="issueSortItemProdOrder" text="{i18n>productionOrder}" key="AUFNR"/>
+                    <ViewSettingsItem id="issueSortItemMatDesc" text="{i18n>materialDescription1}" key="MODEL_DESC"/>
+                    <ViewSettingsItem id="issueSortItemShortBus" text="{i18n>shortbusnum}" key="CY_SEQNR"/>
+                    <ViewSettingsItem id="issueSortItemQtyToPick" text="{i18n>qtyToPick1}" key="PICKING_QTY"/>
+                    <ViewSettingsItem id="issueSortItemBatch" text="{i18n>batchnumber}" key="CHARG"/>
+                    <ViewSettingsItem id="issueSortItemSerial" text="{i18n>serialNumber}" key="SERNR"/>
+                </sortItems>
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

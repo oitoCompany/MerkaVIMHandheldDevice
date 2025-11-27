@@ -1,0 +1,161 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.ProductionOrderContinue"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+    <Page id="prodOrderContinuePage" title="{i18n>prodOrderTileHeader}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} }">
+        <content>
+        <VBox id="continueVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                <Toolbar id="prodOrderContinueTopToolbar" visible="{= !${device>/system/phone} }" class="topActionToolbar">
+                    <Button id="btnClearSelectionTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
+                    <Button id="btnDisplayIssueTop" text="{i18n>displayItemsForIssue}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                    <ToolbarSpacer id="topToolbarSpacer"/>
+                    <Button id="btnSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <Button id="btnFilterTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
+                </Toolbar>
+            <!-- Compact layout for mobile -->
+            <VBox id="inputFieldsVBoxMobile" class="compactFieldsContainer" visible="{= ${device>/isPhone} }">
+                <VBox id="itemInfoVBox" class="sapUiTinyMarginBottom">
+                    <Label id="lblInputMaterialMobile" text="{i18n>material}" class="compactLabel"/>
+                    <Text id="txtInputMaterialMobile" text="{inputFields>/Material}" class="compactItemNumber"/>
+                    <Text id="txtInputMaterialDescriptionMobile" text="{inputFields>/MaterialDescription}" class="compactDescription"/>
+                </VBox>
+                <HBox id="detailsHBox" alignItems="Center" justifyContent="Start" class="compactDetailsRow">
+                    <VBox id="uomVBox" class="compactFieldGroup">
+                        <Label id="lblInputUOMMobile" text="{i18n>uom}" class="compactFieldLabel"/>
+                        <Text id="txtInputUOMMobile" text="{inputFields>/UOM}" class="compactFieldValue"/>
+                    </VBox>
+                    <VBox id="stockVBox" class="compactFieldGroup">
+                        <Label id="lblInputStockMobile" text="{i18n>stock}" class="compactFieldLabel"/>
+                        <Text id="txtInputStockMobile" text="{inputFields>/Stock}" class="compactFieldValue"/>
+                    </VBox>
+                    <VBox id="binVBox" class="compactFieldGroup">
+                        <Label id="lblInputLocationMobile" text="{i18n>storageBin}" class="compactFieldLabel"/>
+                        <Text id="txtInputLocationMobile" text="{inputFields>/Location}" class="compactFieldValue"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <!-- Original SimpleForm for desktop/tablet -->
+            <VBox id="inputFieldsVBox" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <f:SimpleForm id="prodOrderContinueForm"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="3" labelSpanL="3" labelSpanM="12" labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="1" emptySpanL="1" emptySpanM="0" emptySpanS="0"
+                    columnsXL="2" columnsL="2" columnsM="1"
+                    breakpointM="600" breakpointL="1024" breakpointXL="1440"
+                    singleContainerFullSize="false">
+                    <f:content>
+                        <Label id="lblInputMaterial" text="{i18n>material}" labelFor="inputMaterial"/>
+                        <Input id="inputMaterial" value="{inputFields>/Material}" placeholder="{i18n>material}" enabled="false" textAlign="Begin"/>
+
+                        <Label id="lblInputMaterialDescription" text="{i18n>materialDescription}" labelFor="inputMaterialDescription"/>
+                        <Input id="inputMaterialDescription" value="{inputFields>/MaterialDescription}" placeholder="{i18n>materialDescription}" enabled="false" textAlign="Begin"/>
+
+                        <Label id="lblInputUOM" text="{i18n>uom}" labelFor="inputUOM"/>
+                        <Input id="inputUOM" value="{inputFields>/UOM}" placeholder="{i18n>uom}" enabled="false" textAlign="Begin"/>
+
+                        <Label id="lblInputLocation" text="{i18n>location}" labelFor="inputLocation"/>
+                        <Input id="inputLocation" value="{inputFields>/Location}" placeholder="{i18n>location}" enabled="false" textAlign="Begin"/>
+
+                        <Label id="lblInputStock" text="{i18n>stock}" labelFor="inputStock"/>
+                        <Input id="inputStock" value="{inputFields>/Stock}" placeholder="{i18n>stock}" enabled="false" textAlign="Begin"/>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+
+            <!-- Card-based layout for mobile mode -->
+            <ScrollContainer id="mobileCardsScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} }">
+            <VBox id="mobileCardsContainer">
+                <Toolbar id="mobileCardsTopToolbar" design="Transparent" class="sapUiTinyMarginBottom">
+                    <ToolbarSpacer id="mobileTopToolbarSpacer"/>
+                    <Button id="btnSelectAllMobile" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
+                    <Button id="btnSortMobileTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <Button id="btnFilterMobileTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
+                </Toolbar>
+                <List id="mobileCardList" items="{pickItems>/items}" mode="None" showSeparators="All">
+                    <items>
+                        <CustomListItem id="mobileCardListItem">
+                            <VBox id="mobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin" >
+                                <HBox id="mobileCardHeaderHBox" alignItems="Center" justifyContent="End" class="sapUiTinyMarginBottom">
+                                    <CheckBox id="mobileCardSelectCheckBox" selected="{pickItems>selected}" select="onSelectRow"/>
+                                </HBox>
+                                <Text id="mobileCardActionText" text="{i18n>action}: {pickItems>VORNR}" class="sapUiTinyMarginBottom"/>
+                                <Text id="mobileCardModelText" text="{i18n>model}: {pickItems>MODEL}"/>
+                                <Text id="mobileCardModelDescText" text="{i18n>modelDesc}: {pickItems>MODEL_DESC}"/>
+                                <Text id="mobileCardShortBusNumText" text="{i18n>shortbusnum}: {pickItems>CY_SEQNR}"/>
+                                <Text id="mobileCardDateText" text="{i18n>date}: {path: 'pickItems>BDTER', formatter: '.formatter.bdterToDDMMYY'}"/>
+                                <Text id="mobileCardQtyInReservationText" text="{i18n>qtyInReservation}: {pickItems>RESERVED_QTY}"/>
+                                <HBox id="mobileCardQtyToPickHBox" alignItems="Center">
+                                    <Text id="mobileCardQtyToPickLabel" text="{i18n>qtyToPick}: "/>
+                                    <Input id="mobileCardQtyToPickInput" class="hoverFocusInput" value="{pickItems>PICKING_QTY}" valueLiveUpdate="true" type="Tel" width="4em" liveChange="onQtyToPickLiveChange"/>
+                                </HBox>
+                            </VBox>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+
+            <!-- Table for desktop/tablet only: scroll only the items -->
+            <ScrollContainer id="desktopTableScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} !== true }">
+                <Table id="pickTable" sticky="ColumnHeaders" items="{pickItems>items}" mode="None" class="sapUiSmallMarginTop" updateFinished="onPickTableUpdateFinished">
+                    <columns>
+                        <Column id="colAction" width="3em">
+                            <header>
+                                <CheckBox id="selectAllCheckBox" select="onSelectAll"/>
+                            </header>
+                        </Column>
+                        <Column id="colItem"><header><Text id="txtColItem" text="{i18n>action}"/></header></Column>
+                        <Column id="colItemDesc"><header><Text id="txtColItemDesc" text="{i18n>model}"/></header></Column>
+                        <Column id="colDate"><header><Text id="txtColDate" text="{i18n>modelDesc}"/></header></Column>
+                        <Column id="colLocation"><header><Text id="txtColLocation" text="{i18n>shortbusnum}"/></header></Column>
+                        <Column id="colInventory"><header><Text id="txtColInventory" text="{i18n>date}"/></header></Column>
+                        <Column id="colQtyInReservation"><header><Text id="txtColQtyInReservation" text="{i18n>qtyInReservation}"/></header></Column>
+                        <Column id="colQtyToPick"><header><Text id="txtColQtyToPick" text="{i18n>qtyToPick}"/></header></Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="pickTableRowTemplate">
+                            <cells>
+                                <CheckBox id="rowSelectCheckBox" selected="{pickItems>selected}" select="onSelectRow"/>
+                                <Text id="rowItem" text="{pickItems>VORNR}"/>
+                                <Text id="rowItemDesc" text="{pickItems>MODEL}"/>
+                                <Text id="rowDate" text="{pickItems>MODEL_DESC}"/>
+                                <Text id="rowLocation" text="{pickItems>CY_SEQNR}"/>
+                                <Text id="rowInventory" text="{path: 'pickItems>BDTER', formatter: '.formatter.bdterToDDMMYY'}"/>
+                                <Text id="rowQtyInReservation" text="{pickItems>RESERVED_QTY}" width="4em"/>
+                                <Input id="rowQtyToPick" class="hoverFocusInput" value="{pickItems>PICKING_QTY}" valueLiveUpdate="true" type="Tel" width="4em" liveChange="onQtyToPickLiveChange"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+        </VBox>
+        </content>
+        <footer>
+            <Bar id="prodOrderContinueFooterBar" visible="{= ${device>/isPhone} }">
+                <contentMiddle>
+                    <Button id="btnClearSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
+                    <Button id="btnDisplayIssue" text="{i18n>displayItemsForIssue}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                </contentMiddle>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="sortDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="sortItemAction" text="{i18n>action}" key="VORNR"/>
+                    <ViewSettingsItem id="sortItemModel" text="{i18n>model}" key="MODEL"/>
+                    <ViewSettingsItem id="sortItemModelDesc" text="{i18n>modelDesc}" key="MODEL_DESC"/>
+                    <ViewSettingsItem id="sortItemShortBus" text="{i18n>shortbusnum}" key="CY_SEQNR"/>
+                    <ViewSettingsItem id="sortItemDate" text="{i18n>date}" key="BDTER"/>
+                    <ViewSettingsItem id="sortItemQtyReserved" text="{i18n>qtyInReservation}" key="RESERVED_QTY"/>
+                </sortItems>
+            </ViewSettingsDialog>
+            <ViewSettingsDialog id="filterDialog" confirm="onFilterConfirm" title="{i18n>filter}">
+                <!-- Filter items are built dynamically in controller on beforeOpen -->
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>
