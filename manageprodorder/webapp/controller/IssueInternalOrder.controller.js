@@ -247,6 +247,14 @@ sap.ui.define([
                 LABST: "",
                 WERKS: oData.WERKS
             });
+            this._setMaterialFocus();
+            var MatInput = this.getView().byId("materialInput");
+            if (MatInput) {
+                jquery.sap.delayedCall(0, this, function () {
+                    MatInput.focus();
+                })
+               
+            }
         },
 
         onClearFieldsAdd: function () {
