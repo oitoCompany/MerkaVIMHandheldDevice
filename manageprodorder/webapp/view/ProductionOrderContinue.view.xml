@@ -2,11 +2,11 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:f="sap.ui.layout.form">
-    <Page id="prodOrderContinuePage" title="{i18n>prodOrderTileHeader}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} }">
+    <Page id="prodOrderContinuePage" title="{i18n>prodOrderTileHeader}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} === true || ${device>/isTablet} === true }">
         <content>
         <VBox id="continueVBox" class="sapUiSmallMargin" height="100%">
             <!-- Desktop/tablet actions toolbar -->
-                <Toolbar id="prodOrderContinueTopToolbar" visible="{= !${device>/system/phone} }" class="topActionToolbar">
+                <Toolbar id="prodOrderContinueTopToolbar" visible="{= ${device>/isPhone} === false &amp;&amp; ${device>/isTablet} === false}" class="topActionToolbar">
                     <Button id="btnClearSelectionTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
                     <Button id="btnDisplayIssueTop" text="{i18n>displayItemsForIssue}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
                     <ToolbarSpacer id="topToolbarSpacer"/>
@@ -14,7 +14,7 @@
                     <Button id="btnFilterTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
                 </Toolbar>
             <!-- Compact layout for mobile -->
-            <VBox id="inputFieldsVBoxMobile" class="compactFieldsContainer" visible="{= ${device>/isPhone} }">
+            <VBox id="inputFieldsVBoxMobile" class="compactFieldsContainer" visible="{= ${device>/isPhone} === true|| ${device>/isTablet} === true }">
                 <VBox id="itemInfoVBox" class="sapUiTinyMarginBottom">
                     <Label id="lblInputMaterialMobile" text="{i18n>material}" class="compactLabel"/>
                     <Text id="txtInputMaterialMobile" text="{inputFields>/Material}" class="compactItemNumber"/>
@@ -37,7 +37,7 @@
             </VBox>
 
             <!-- Original SimpleForm for desktop/tablet -->
-            <VBox id="inputFieldsVBox" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+            <VBox id="inputFieldsVBox" class="sapUiSmallMarginBottom" visible="{= ${device>/isPhone} === false &amp;&amp; ${device>/isTablet} === false}">
                 <f:SimpleForm id="prodOrderContinueForm"
                     editable="false"
                     layout="ResponsiveGridLayout"
@@ -67,8 +67,8 @@
             </VBox>
 
             <!-- Card-based layout for mobile mode -->
-            <ScrollContainer id="mobileCardsScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} }">
-            <VBox id="mobileCardsContainer">
+            <!-- <ScrollContainer id="mobileCardsScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} || ${device>/isTablet} }"> -->
+            <VBox id="mobileCardsContainer" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
                 <Toolbar id="mobileCardsTopToolbar" design="Transparent" class="sapUiTinyMarginBottom">
                     <ToolbarSpacer id="mobileTopToolbarSpacer"/>
                     <Button id="btnSelectAllMobile" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
@@ -97,10 +97,10 @@
                     </items>
                 </List>
             </VBox>
-            </ScrollContainer>
+            <!-- </ScrollContainer> -->
 
             <!-- Table for desktop/tablet only: scroll only the items -->
-            <ScrollContainer id="desktopTableScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} !== true }">
+            <ScrollContainer id="desktopTableScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="{= ${device>/isTablet} === false &amp;&amp;  ${device>/isPhone} === false}">
                 <Table id="pickTable" sticky="ColumnHeaders" items="{pickItems>items}" mode="None" class="sapUiSmallMarginTop" updateFinished="onPickTableUpdateFinished">
                     <columns>
                         <Column id="colAction" width="3em">
@@ -135,7 +135,7 @@
         </VBox>
         </content>
         <footer>
-            <Bar id="prodOrderContinueFooterBar" visible="{= ${device>/isPhone} }">
+            <Bar id="prodOrderContinueFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
                 <contentMiddle>
                     <Button id="btnClearSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
                     <Button id="btnDisplayIssue" text="{i18n>displayItemsForIssue}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />

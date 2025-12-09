@@ -63,6 +63,12 @@
         "settings": {
           "bundleName": "com.merkavim.ewm.manageprodorder.i18n.i18n"
         }
+      },
+        "issueOrdInitModel": {
+          "type": "sap.ui.model.json.JSONModel",
+          "settings": {
+            "defaultBindingMode": "TwoWay"
+          }
       }
     },
     "resources": {

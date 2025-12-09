@@ -78,7 +78,7 @@ sap.ui.define([
             var sCurrentMat = (oData.MATNR || "").trim();
             var sLastMat = (this._lastMaterialEntered || "").trim();
             var bMaterialChanged = sCurrentMat !== sLastMat;
-            oData.LGORT = oData.LGORT ;
+            oData.LGORT = bMaterialChanged ? "" : (oData.LGORT || ""); 
             oData.MAKTX = bMaterialChanged ? "" : (oData.MAKTX || "");
             oData.LGPBE = bMaterialChanged ? "" : (oData.LGPBE || "");
             oData.MEINS = bMaterialChanged ? "" : (oData.MEINS || "");
@@ -112,7 +112,7 @@ sap.ui.define([
 
                     // Check for error indicator 'E' in SAP message structure
                     if (response && response.MSG && response.MSG.MSGTY === "E") {
-                       // MessageBox.error(response.MSG.MSGTX || "Error occurred");
+                       MessageBox.error(response.MSG.MSGTX || "Error occurred");
                         return;
                     }
 
@@ -212,6 +212,7 @@ sap.ui.define([
                         oData.DATA.PICKING_QTY = "";
                     }
                     var oIssueOrdInitModel = new sap.ui.model.json.JSONModel(oData);
+                    that.getOwnerComponent().getModel("issueOrdInitModel").setData(oData);
                     that.getView().setModel(oIssueOrdInitModel, "issueOrdInitModel");
                     let oModel = that.getView().getModel("view");
 
@@ -230,7 +231,13 @@ sap.ui.define([
                 }
             });
         },
-
+        onAfterRendering: function () {
+           var inputfocus = this.getView().byId("issueQuantityInput");
+                 inputfocus.attachBrowserEvent("focusin", function() {
+                     inputfocus.$().find("input").select();
+                     this.selectText(0, this.getValue().length);
+        });
+        },
         onClearFields: function () {
             var oModel = this.getView().getModel("view");
             var oData = oModel.getData();
@@ -351,8 +358,12 @@ sap.ui.define([
                     var oSelected = oConfirmEvent.getParameter("selectedItem");
                     if (oSelected) {
                         oInput.setValue(oSelected.getTitle());
+                        try{
                         var oViewModel = oInput.getBindingContext("view").getModel();
                         oViewModel.setProperty("/AUFNR", oSelected.getTitle());
+                        }catch(e){
+
+                        }
                     }
                 },
                 search: function (oSearchEvent) {
@@ -390,8 +401,10 @@ sap.ui.define([
                     var oSelected = oConfirmEvent.getParameter("selectedItem");
                     if (oSelected) {
                         oInput.setValue(oSelected.getTitle());
+                        try{
                         var oViewModel = oInput.getBindingContext("view").getModel();
                         oViewModel.setProperty("/KOSTL", oSelected.getTitle());
+                    }catch(e){}
                     }
                 },
                 search: function (oSearchEvent) {

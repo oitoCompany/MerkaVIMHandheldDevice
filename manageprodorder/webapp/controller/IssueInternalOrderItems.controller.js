@@ -52,10 +52,10 @@ sap.ui.define([
                 layout: "ResponsiveGridLayout",
                 content: [
                     new sap.m.Label({ text: this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("internalOrderLabel") }),
-                    new sap.m.Input({ value: oData.AUFNR, liveChange: function (e) { oData.AUFNR = e.getParameter("value"); } }),
+                    new sap.m.Input({ value: oData.AUFNR, showValueHelp:true, valueHelpRequest:this.onInternalOrderValueHelp.bind(this),liveChange: function (e) { oData.AUFNR = e.getParameter("value");} }),
                     // Add Cost Center (KOSTL) below AUFNR
                     new sap.m.Label({ text: this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("costCenterLabel") }),
-                    new sap.m.Input({ value: oData.KOSTL, liveChange: function (e) { oData.KOSTL = e.getParameter("value"); } }),
+                    new sap.m.Input({ value: oData.KOSTL,showValueHelp:true, valueHelpRequest:this.onCostCenterValueHelp.bind(this),liveChange: function (e) { oData.KOSTL = e.getParameter("value"); } }),
                     new sap.m.Label({ text: this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("storageLocationLabel") }),
                     new sap.m.Input({ value: oData.LGORT, liveChange: function (e) { oData.LGORT = e.getParameter("value"); } }),
                     new sap.m.Label({ text: this.getOwnerComponent().getModel("i18n").getResourceBundle().getText("materialNumberLabel") }),
@@ -81,6 +81,84 @@ sap.ui.define([
                     press: function () { oDialog.close(); }
                 }),
                 afterClose: function () { oDialog.destroy(); }
+            });
+            oDialog.open();
+        },
+
+         onInternalOrderValueHelp: function (oEvent) {
+            var oModel = this.getOwnerComponent().getModel("issueOrdInitModel");
+            var aInternalOrders = oModel && oModel.getProperty("/LIST/AUFNR") ? oModel.getProperty("/LIST/AUFNR") : [];
+            var oInput = oEvent.getSource();
+            var oDialog = new sap.m.SelectDialog({
+                title: "Select Internal Order",
+                items: aInternalOrders.map(function (item) {
+                    return new sap.m.StandardListItem({
+                        title: item.AUFNR_CODE || item.AUFNR,
+                        description: item.AUFNR_DESC || ""
+                    });
+                }),
+                confirm: function (oConfirmEvent) {
+                    var oSelected = oConfirmEvent.getParameter("selectedItem");
+                    if (oSelected) {
+                        oInput.setValue(oSelected.getTitle());
+                        // var oViewModel = oInput.getBindingContext("view").getModel();
+                        // oViewModel.setProperty("/AUFNR", oSelected.getTitle());
+                    }
+                },
+                search: function (oSearchEvent) {
+                    var sValue = oSearchEvent.getParameter("value");
+                    var aFiltered = aInternalOrders.filter(function (item) {
+                        var code = item.AUFNR_CODE || item.AUFNR;
+                        var desc = item.AUFNR_DESC || "";
+                        return (desc && desc.toLowerCase().includes(sValue.toLowerCase())) || (code && code.includes(sValue));
+                    });
+                    oDialog.removeAllItems();
+                    aFiltered.forEach(function (item) {
+                        oDialog.addItem(new sap.m.StandardListItem({
+                            title: item.AUFNR_CODE || item.AUFNR,
+                            description: item.AUFNR_DESC || ""
+                        }));
+                    });
+                }
+            });
+            oDialog.open();
+        },
+
+        onCostCenterValueHelp: function (oEvent) {
+            var oModel = this.getOwnerComponent().getModel("issueOrdInitModel");
+            var aCostCenters = oModel && oModel.getProperty("/LIST/KOSTL") ? oModel.getProperty("/LIST/KOSTL") : [];
+            var oInput = oEvent.getSource();
+            var oDialog = new sap.m.SelectDialog({
+                title: "Select Cost Center",
+                items: aCostCenters.map(function (item) {
+                    return new sap.m.StandardListItem({
+                        title: item.KOSTL_CODE || item.KOSTL,
+                        description: item.KOSTL_DESC || ""
+                    });
+                }),
+                confirm: function (oConfirmEvent) {
+                    var oSelected = oConfirmEvent.getParameter("selectedItem");
+                    if (oSelected) {
+                        oInput.setValue(oSelected.getTitle());
+                        // var oViewModel = oInput.getBindingContext("view").getModel();
+                        // oViewModel.setProperty("/KOSTL", oSelected.getTitle());
+                    }
+                },
+                search: function (oSearchEvent) {
+                    var sValue = oSearchEvent.getParameter("value");
+                    var aFiltered = aCostCenters.filter(function (item) {
+                        var code = item.KOSTL_CODE || item.KOSTL;
+                        var desc = item.KOSTL_DESC || "";
+                        return (desc && desc.toLowerCase().includes(sValue.toLowerCase())) || (code && code.includes(sValue));
+                    });
+                    oDialog.removeAllItems();
+                    aFiltered.forEach(function (item) {
+                        oDialog.addItem(new sap.m.StandardListItem({
+                            title: item.KOSTL_CODE || item.KOSTL,
+                            description: item.KOSTL_DESC || ""
+                        }));
+                    });
+                }
             });
             oDialog.open();
         },

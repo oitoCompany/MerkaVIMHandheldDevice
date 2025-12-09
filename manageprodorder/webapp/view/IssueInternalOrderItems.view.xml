@@ -5,7 +5,7 @@
         <content>
             <VBox id="_IDGenVBox4" class="sapUiMediumMargin" >
                 <!-- Desktop/tablet actions toolbar -->
-                <Toolbar id="issueInternalOrderItemsTopToolbar" visible="{= ${device>/isPhone} !== true }" class="topActionToolbar">
+                <Toolbar id="issueInternalOrderItemsTopToolbar" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }" class="topActionToolbar">
                     <Button id="continueButtonTop" text="{i18n>continue1}" type="Unstyled" class="doubleHeightButton greenButton" press="onContinue"/>
                     <ToolbarSpacer id="iioTopSpacer"/>
                     <Button id="iioSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
@@ -17,7 +17,7 @@
                 </VBox>
                 <VBox id="_IDGenVBox5" height="16px" />
                 <!-- Mobile cards (visible on phone) -->
-                <VBox id="iioMobileCardsContainer" visible="{= ${device>/isPhone} }">
+                <VBox id="iioMobileCardsContainer" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
                     <List id="iioMobileCardList" items="{items>/items}" mode="None" showSeparators="All">
                         <items>
                             <CustomListItem id="iioMobileCardListItem">
@@ -40,7 +40,7 @@
                 </VBox>
 
                 <!-- Desktop/tablet table (hidden on phone) -->
-                <Table id="itemsTable" items="{items>/items}" width="100%" fixedLayout="true" visible="{= ${device>/isPhone} !== true }">
+                <Table id="itemsTable" items="{items>/items}" width="100%" fixedLayout="true" visible="{= ${device>/isTablet} === false &amp;&amp;  ${device>/isPhone} === false}">
                     <columns>
                          <Column id="colIioAUFNR" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioAUFNR" text="{i18n>internalOrder}"/></Column>
                         <Column id="colIioLGORT" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioLGORT" text="{i18n>storageLocation}"/></Column>
@@ -73,7 +73,7 @@
         </content>
         <footer>
             <!-- Mobile-only footer actions (OverflowToolbar for consistency) -->
-            <OverflowToolbar id="issueInternalOrderFooterToolbar12" visible="{= ${device>/isPhone} }" class="mobileFooterToolbar">
+            <OverflowToolbar id="issueInternalOrderFooterToolbar12" visible="{= ${device>/isPhone} || ${device>/isTablet}}" class="mobileFooterToolbar">
                 <Button id="iioSortMobile" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
                 <ToolbarSpacer id="issueInternalOrderFooterSpacer12" />
                 <Button id="continueButtonTop1" text="{i18n>continue1}" type="Unstyled" class="doubleHeightButton greenButton" press="onContinue"/>

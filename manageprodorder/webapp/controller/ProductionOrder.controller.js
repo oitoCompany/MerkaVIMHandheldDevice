@@ -386,6 +386,14 @@ sap.ui.define([
         onInlineClear: function () {
             var oViewModel = this.getView().getModel("view");
             oViewModel.setProperty("/newEntry", { Material: "", ProductionOrder: "", Operation: "", ReservationStorageLocation: "", LogisticsGroup: "", Remark: "" });
+            this._setMaterialFocus();
+            var MatInput = this.getView().byId("inpInlineMaterial");
+            if (MatInput) {
+                jquery.sap.delayedCall(0, this, function () {
+                    MatInput.focus();
+                })
+               
+            }
         },
 
         // Cleanup Enter key listener

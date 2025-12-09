@@ -27,7 +27,7 @@
 
 
                         <Label id="_IDGenLabel5" text="{i18n>issueQuantityLabel}" labelFor="issueQuantityInput"/>
-                        <Input id="issueQuantityInput" type="Number" width="40%" value="{view>/PICKING_QTY}"/>
+                        <Input id="issueQuantityInput" class="hoverFocusInput" type="Number" width="40%" value="{view>/PICKING_QTY}"/>
 
                         <!-- New disabled fields from attachment -->
                         <Label id="_IDGenLabel7" text="{i18n>materialDescription}" labelFor="materialDescriptionInput"/>
