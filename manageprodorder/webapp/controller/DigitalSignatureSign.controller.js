@@ -16,10 +16,19 @@ sap.ui.define([
             var oSavedDocModel = this.getOwnerComponent().getModel("savedDocument");
             if (!oSavedDocModel || !oSavedDocModel.getProperty("/MBLNR")) {
                 // If no data, navigate back to search
-                var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                oRouter.navTo("DigitalSignature");
+                // var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+                // oRouter.navTo("DigitalSignature");
                 return;
             }
+
+            var oDataModel = this.getOwnerComponent().getModel("MaterialDocumentItemModel").getData();
+            var oTokens = this.getOwnerComponent().getModel("MaterialDocumentokenModel").getData();
+            var oTempRecord;
+            // for( var i=0; i<oTokens.length; i++ ) {
+            //     oTempRecord = oTokens
+
+            // }
+                
 
             // Set the saved document model to the view
             this.getView().setModel(oSavedDocModel, "savedDocument");

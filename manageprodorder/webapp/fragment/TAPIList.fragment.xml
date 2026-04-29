@@ -1,0 +1,33 @@
+
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <SelectDialog
+        id="selectItemDialog"
+        title="{i18n>selectTapiItem}"
+        items="{TapiListModel>/TAPI_LIST}"
+        confirm="onTapiItemSelected"
+        cancel="onCloseDialog"
+        liveChange="onSearchTapiItems"
+       >
+
+       
+           
+                                  
+
+                <StandardListItem
+                    id="listTapiId"
+                 
+                    title="{TapiListModel>TAPI_CODE} - {TapiListModel>TAPI_DESC}"
+                   
+                    type="Active" />
+
+            
+    
+
+        
+
+    </SelectDialog>
+
+</core:FragmentDefinition>

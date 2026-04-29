@@ -27,12 +27,27 @@ sap.ui.define([
             // Navigate back to start page (View1) for a fresh flow
             oRouter.navTo("RouteView1");
         },
-        
+
         onNavHome: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo("RouteView1");
         },
-
+        onViewMaterialDocPress: function (oEvent) {
+            var sDocNumber = oEvent.getSource().getText();
+            var oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("DigitalSignatureItems", {
+                MBLNR: sDocNumber,
+                Flag:"X" 
+            });
+        },
+        onViewMaterialDocPressMobile: function (oEvent) {
+            var sDocNumber = oEvent.getSource().getText();
+            var oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("DigitalSignatureItems", {
+                MBLNR: sDocNumber.split(":")[1], // in mobile the text may contain extra info after a space 
+                Flag:"X" 
+            });
+        },
         _ensureCreatedModel: function () {
             var oView = this.getView();
             var oComponent = this.getOwnerComponent();

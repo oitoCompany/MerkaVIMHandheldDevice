@@ -1,0 +1,141 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.PickForCartIDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout">
+    <Page id="pcdPage" title="{i18n>PickCartTitleDetails}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} === true || ${device>/isTablet} === true }">
+        <content>
+        <VBox id="continuepcdVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                <Toolbar id="prodOrderContinueToppcdToolbar" visible="{= ${device>/isPhone} === false &amp;&amp; ${device>/isTablet} === false}" class="topActionToolbar">
+                    <!-- <Button id="btnClearSelectionpcdTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
+                    <Button id="btnDisplayIssuepcdTop" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                    <ToolbarSpacer id="topToolbarpcdSpacer"/>
+                    <Button id="btnSortpcdTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <Button id="btnFilterpcdTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
+                </Toolbar>
+           
+          
+            <!-- <VBox id="inputFieldspcdVBox" class="sapUiSmallMarginBottom" >
+                <f:SimpleForm id="prodOrderpcdContinueForm"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="4"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                    columnsXL="2" columnsL="2" columnsM="2" class="displayitle "
+                    >
+                    <f:content>
+                        <core:Title id="testitle" />
+                        <Label id="lblInputpcdMaterial" text="{i18n>Cart}" labelFor="inputpcdMaterial" design="Bold" />
+                        <Text id="inputpcdMaterial" text="{PickForCartMainModel>/DATA/CART}"  class="compactFieldValue"/>
+                        <Label id="lblInputpcdLocation" text="{i18n>BusModelNumber}" labelFor="inputpcdLocation" design="Bold"/>
+                        <Text id="inputpcdLocation" text="{PickForCartMainModel>/HEAD/MODEL}" class="compactFieldValue"/>
+                        
+                        <Label id="lblInputpcdUOM" text="{i18n>CartType}" labelFor="inputpcdUOM" design="Bold"/>
+                        <Text id="inputpcdUOM" text="{PickForCartMainModel>/DATA/CART_TYPE}" class="compactFieldValue"/>
+                        <core:Title id="testtitle" />
+                        <Label id="lblInputMaterialpcdDescription" text="{i18n>CartDescription}" labelFor="inputMaterialpcdDescription" design="Bold"/>
+                        <Text id="inputMaterialpcdDescription" text="{PickForCartMainModel>/DATA/CART_TYPE_DESC}" class="compactFieldValue"/>
+
+                        
+
+                        <Label id="lblInputPCDStock" text="{i18n>BusModel}" labelFor="inputPCDStock" design="Bold"/>
+                        <Text id="inputPCDStock" text="{PickForCartMainModel>/HEAD/MODEL_DESC}" class="compactFieldValue"/>
+                        <Label id="lblInputPCDclass" text="{i18n>Class}" labelFor="inputPCDDclass" design="Bold"/>
+                        <Text id="inputPCDclass" text="{PickForCartMainModel>/HEAD/DEPT_DESC}" class="compactFieldValue"/>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox> -->
+             <VBox id="inputFldsVBoxIMobile" class="compactFieldsContainer" visible="true">
+              
+                <HBox id="detailsHox" alignItems="Center" justifyContent="Start" class="compactDetailsRow">
+                    <VBox id="uomBox" class="compactFieldGroup">
+                        <HBox id="yi" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="lblIutUerOMMobile" text="{=${i18n>Cart}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputUOMobile" text="{PickForCartMainModel>/DATA/CART}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+
+                        <HBox id="yi1" alignItems="Center" class="alignMyItems">
+                        <Label id="lblInputLeroationMobile" text="{=${i18n>BusModelNumber}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputocaertionMobile" text="{PickForCartMainModel>/HEAD/MODEL}" class="compactFieldValuedups"/>
+                        </HBox>
+
+                        <HBox id="ui4" alignItems="Center" class="alignMyItems">
+                        <Label id="lblInputpcdUOM" text="{=${i18n>CartType}  +'\u00a0'+ ':'+ '\u00a0'}" labelFor="inputpcdUOM" class="compactFieldLabel"/>
+                        <Text id="inputpcdUOM" text="{PickForCartMainModel>/DATA/CART_TYPE}" class="compactFieldValue"/>
+                        </HBox>
+                          
+                    </VBox>
+                   
+                    <VBox id="binVByox" class="compactFieldGroup">
+                        <HBox id="yu2" alignItems="Baseline" class="alignMyItems">
+                         
+                        <Label id="lblInutLerionMobile" text="{=${i18n>CartDescription}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputobile" text="{PickForCartMainModel>/DATA/CART_TYPE_DESC}" class="compactFieldValue"/>
+                        </HBox>
+                        <HBox id="yu3" alignItems="Baseline" class="alignMyItems">
+                        <Label id="lblInpcatiMobile" text="{=${i18n>BusModel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                         <Text id="txtInputcaeronMobile" text="{PickForCartMainModel>/HEAD/MODEL_DESC}" class="compactFieldValue"/>
+                        </HBox>
+                        <HBox id="tyu3" alignItems="Baseline" class="alignMyItems">
+                         <Label id="lblInputPCDclass" text="{=${i18n>Class}  +'\u00a0'+ ':'+ '\u00a0'}" labelFor="inputPCDDclass" class="compactFieldLabel"/>
+                        <Text id="inputPCDclass" text="{PickForCartMainModel>/HEAD/DEPT_DESC}" class="compactFieldValue"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+          
+           
+           
+
+            <!-- Table for desktop/tablet only: scroll only the items -->
+            <ScrollContainer id="desktopTablepcdScroll" width="100%" height="50vh" vertical="true" horizontal="false" >
+                <Table id="pickpcdTable" sticky="ColumnHeaders" items="{PickForCartMainModel>/BUS}" mode="None" class="sapUiSmallMarginTop displayTableHeader myBlueHeaderTable" updateFinished="onPickTableUpdateFinished">
+                    <columns>
+                       
+                        <Column id="colpcdItem"><header><Text id="txtColpcdItem" text="{i18n>BusNumber}"/></header></Column>
+                        <Column id="colpcdItemDesc"><header><Text id="txtColpcdItemDesc" text="{i18n>CustomerName}"/></header></Column>
+                        <Column id="colpcdDate"><header><Text id="txtColpcdDate" text="{i18n>Order}"/></header></Column>
+                        
+                    </columns>
+                    <items>
+                        <ColumnListItem id="pickTableRowpcdTemplate">
+                            <cells>
+                               
+                                <Text id="rowpcdItem" text="{PickForCartMainModel>BUS}"/>
+                                <Text id="rowpcdItemDesc" text="{PickForCartMainModel>NAME1}"/>
+                                <Text id="rowpcdDate" text="{PickForCartMainModel>AUFNR}"/>
+                               
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+        </VBox>
+        </content>
+        <footer>
+            <Bar id="prodOrderContinuePCDFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
+                <contentMiddle>
+                    <!-- <Button id="btnClearSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
+                    <Button id="btnDisplayPCDIssue" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                </contentMiddle>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="sortPCDDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="sortItemPCDAction" text="{i18n>LongBusNumber}" key="BUS"/>
+                    <ViewSettingsItem id="sortItemPCDModel" text="{i18n>CustomerName}" key="NAME1"/>
+                    <ViewSettingsItem id="sortItemPCDModelDesc" text="{i18n>FQA}" key="AUFNR"/>
+                   
+                </sortItems>
+            </ViewSettingsDialog>
+            <ViewSettingsDialog id="filterPCDDialog" confirm="onFilterConfirm" title="{i18n>filter}">
+                <!-- Filter items are built dynamically in controller on beforeOpen -->
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

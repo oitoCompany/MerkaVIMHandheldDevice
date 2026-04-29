@@ -12,12 +12,15 @@
 
 /* Desktop/tablet: default sticky behavior (used on other pages) */
 .sap-desktop .stickyInputFields {
-	position: -webkit-sticky; /* Safari */
+	position: -webkit-sticky;
+	/* Safari */
 	position: sticky;
-	top: 3.5rem; /* approx header bar height; adjust if theme differs */
-	z-index: 100; /* above table headers */
+	top: 3.5rem;
+	/* approx header bar height; adjust if theme differs */
+	z-index: 100;
+	/* above table headers */
 	background: #fff;
-	box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 /* On ProductionOrderContinue page, disable sticky so form scrolls with content */
@@ -54,8 +57,10 @@
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
-	min-height: 0; /* important so inner scroll works inside flex item */
-	overflow: hidden; /* hide overflow, inner table scrolls instead */
+	min-height: 0;
+	/* important so inner scroll works inside flex item */
+	overflow: hidden;
+	/* hide overflow, inner table scrolls instead */
 }
 
 /* Responsive inline form layout for ProductionOrderContinue header fields */
@@ -72,7 +77,8 @@
 }
 
 .responsiveFormLabel {
-	flex: 0 0 9rem; /* base label width on rem for scalability */
+	flex: 0 0 9rem;
+	/* base label width on rem for scalability */
 	max-width: 40%;
 }
 
@@ -105,38 +111,42 @@
 .scrollableTableContainer .sapMScrollCont {
 	flex: 1 1 auto;
 	min-height: 0;
-	height: 100%; /* fill container to enable internal scroll */
-	overflow-y: auto; /* vertical scroll inside the table area */
+	height: 100%;
+	/* fill container to enable internal scroll */
+	overflow-y: auto;
+	/* vertical scroll inside the table area */
 }
 
 /* Scroll is handled by ScrollContainer in the view */
 
 .doubleHeightButton {
-	height: 2.5rem; /* 4rem - 1/3rd = ~2.67rem */
+	height: 2.5rem;
+	/* 4rem - 1/3rd = ~2.67rem */
 	min-height: 2.5rem;
 	font-size: 1.1rem;
 	border-radius: 0.7rem;
 }
 
 .greenButton {
-    background-color: #af4c54;
-    color: black !important;
-    border: none;
-    border-radius: 0.7rem;
-    font-weight: bold;
-}
-
-.lightBlueButton {
-	background-color: #5bc0ff;
-	color: black;
+	background-color: #af4c54;
+	color: black !important;
 	border: none;
 	border-radius: 0.7rem;
 	font-weight: bold;
 }
 
-.lightBlueButton:hover, .lightBlueButton:active {
-	background-color: #3399cc;
-	box-shadow: 0 0 8px #3399cc;
+.lightBlueButton {
+	background-color: #a9c4f2 !important ;
+	color: black;
+	border: 1px solid #a9c4f2;
+	border-radius: 0.7rem;
+	font-weight: bold;
+}
+
+.lightBlueButton:hover,
+.lightBlueButton:active {
+	background-color: #a9c4f2;
+	box-shadow: 0 0 8px #a9c4f2;
 	outline: none;
 }
 
@@ -147,9 +157,10 @@
 	padding: 0.25rem 0.5rem;
 }
 
-.greenButton:hover, .greenButton:active {
-	background-color: #388E3C;
-	box-shadow: 0 0 8px #388E3C;
+.greenButton:hover,
+.greenButton:active {
+	background-color: #6392ec;
+	box-shadow: 0 0 8px #6392ec;
 	outline: none;
 }
 
@@ -160,17 +171,25 @@
 
 
 .greenButton {
-	background-color: #4CAF50;
+	background-color: #6392ec;
 	color: white;
 	border: none;
 	border-radius: 0.7rem;
 	font-weight: bold;
 }
 
+.greenButtonBlue {
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 0.7rem;
+	font-weight: bold;
+}
 /* App header logo: keep rectangular aspect, fit in toolbar */
 .appHeaderLogo {
 	height: 2rem;
-	width: auto;        /* avoid stretching a rectangular logo */
+	width: auto;
+	/* avoid stretching a rectangular logo */
 	object-fit: contain;
 	display: block;
 }
@@ -179,7 +198,8 @@
 .limitTableHeight {
 	/* Use dynamic viewport height where supported to avoid OS chrome issues */
 	max-height: min(calc(100dvh - var(--poc-fixed-offset)), calc(100vh - var(--poc-fixed-offset)));
-	box-sizing: border-box; /* include borders in height calc */
+	box-sizing: border-box;
+	/* include borders in height calc */
 }
 
 /* Give a little breathing room so the last row isn't clipped */
@@ -196,7 +216,8 @@
 	flex-direction: column;
 	height: 100%;
 	min-height: 0;
-	overflow: hidden; /* prevent child cumulative overflow beyond viewport */
+	overflow: hidden;
+	/* prevent child cumulative overflow beyond viewport */
 }
 
 .materialHighlight .sapMInputBaseInner {
@@ -241,10 +262,10 @@
 
 /* Fix for SimpleForm ResponsiveGridLayout on tablets */
 @media (min-width: 600px) and (max-width: 1023px) {
-	.sapUiFormResGridCont > .sapUiRGLContainerCont {
+	.sapUiFormResGridCont>.sapUiRGLContainerCont {
 		max-width: 100%;
 	}
-	
+
 	/* Ensure labels don't push content off-screen */
 	.sapUiFormResGridCont .sapMLabel {
 		word-wrap: break-word;
@@ -326,11 +347,208 @@
 }
 
 
+/* .sapUiSizeCompact .sapMInputBase:not(.sapMInputBaseHasEndIcons):not(.sapMInputBaseHasBeginIcons) .sapMInputBaseContentWrapper {
+    min-width: 2rem;
+    height: 2.3rem;
+} */
+
+
+/* .sapUiSizeCompact .sapMInputBase {
+    line-height: 1rem;
+    height: 2.625rem;
+} */
+
+/* .sapUiSizeCompact .sapMInputBaseHasEndIcons .sapMInputBaseContentWrapper, .sapUiSizeCompact .sapMInputBaseHasBeginIcons .sapMInputBaseContentWrapper {
+    min-width: 4rem;
+    height: 2.3rem;
+} */
+
+.sapMTB.sapMTBStandard {
+	border-bottom: solid .0625rem #ffffff;
+}
+
+.boldText {
+	font-weight: bold;
+}
+.textbacgroundcolor {
+	/* background-color: #80808030 !important; */
+}
+
+.customBeginClass {
+	margin-right: 1rem;
+}
+
+
+.customHeight.sapUiSizeCompact .sapMInputBase {
+	line-height: 1rem;
+	height: 0.5rem;
+}
+
+
+.customheightinputnew.sapMInputBaseHeightMargin {
+	margin: -0.2rem 0 !important;
+}
+
+.fontstyle {
+
+	font-size: x-large;
+}
+
+.LabelMarginTop {
+	margin-top: 0.15rem !important;
+}
+
+.disableSelection {
+	opacity: 0.6;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+.displayitle .sapUiFormTitle {
+
+	display: none !important;
+}
+
+.displayTableHeader .sapUiTableHeaderDataCell .sapMText,
+.sapMColumnHeader .sapMText {
+	font-weight: bolder !important;
+	font-size: 0.975rem;
+	color: #043494;
+}
+
+.displayBorder .sapMListTblHeader {
+	border: 4px solid #043494 !important;
+}
+
+.myBlueHeaderTable .sapMListTblHeader {
+    border-bottom: 2px solid #043494 !important;
+	background-color: #d6deed !important;
+}
+
+/* 2. Target the individual cells inside the header row */
+/* This is often where the line is actually rendered in Fiori themes */
+.myBlueHeaderTable thead th,
+.myBlueHeaderTable .sapMListTblHeaderCell {
+    border-bottom: 2px solid #043494 !important;
+	background-color: #d6deed !important;
+}
+
+/* 3. If you have "sticky" headers enabled, use this */
+.myBlueHeaderTable .sapMListTblHasStickyHeader .sapMListTblHeaderCell {
+    border-bottom-color: #043494 !important;
+}
+
+/* Remove the horizontal padding between the two form columns */
+.noColumnGap .sapUiResponsiveGrid > div {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Optional: If you want the labels to be right-aligned 
+   so they touch the input field directly */
+.noColumnGap .sapMLabel {
+    text-align: right !important;
+    justify-content: flex-end !important;
+    padding-right: 0.5rem !important;
+}
+
+.compactFieldValuedups {
+	font-size: 0.95rem;
+	font-weight: 500;
+	line-height: 1.2;
+}
+
+.alignMyItems .sapMLabel,
+.alignMyItems .sapMText {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Ensure the label has a consistent line height */
+.alignMyItems .sapMLabel {
+    line-height: normal !important;
+}
+
+.textcolor.sapMText {
+	color: #043494 !important;
+	font-weight: bold !important;
+}
+
+.hebrewbreak .sapMTextLineClamp{
+	white-space: pre-line !important;
+    display: inline-block !important;
+}
+
+.gridBackgroundcolor {
+	background-color: #d6deed !important;
+}
+
+.compactFieldValueTable {
+	font-size: 0.95rem;
+	font-weight: 1000;
+	line-height: 1.2;
+}
+
+
+
+.inputTableBorderd .sapMInputBaseInner {
+	border-color: #456294 !important ;
+    border: 1px solid!important;
+}
+
+.boldTitle{
+	font-weight: bold!important;
+	font-size: 1.5rem!important;
+	color: #043494 !important;
+}
+
+.bordeerBottom{
+	border-bottom: 2px solid #043494 !important;
+	padding-bottom: 10px !important;
+}
 
 
 
 
+/* Target the row based on the DOM attribute */
+li[data-ISSUED="X"] {
+    background-color: #f2f2f2 !important;
+    touch-action: pan-y !important;
+	pointer-events: none;
+}
+/* Target the row based on the DOM attribute */
+li[data-ISSUED=""] {
+    background-color: #ffffff !important;
+    touch-action: pan-y !important;
+	
+}
+
+li[data-issued="X"] {
+    background-color: #f2f2f2 !important;
+    touch-action: pan-y !important;
+	pointer-events: none;
+}
+/* Target the row based on the DOM attribute */
+li[data-issued=""] {
+    background-color: #ffffff !important;
+    touch-action: pan-y !important;
+	
+}
 
 
+.delete.sapMBtn .sapMBtnIcon {
+    /* cursor: inherit; */
+    color: red ! important;
+}
 
+.custmboldinput .sapMInputBaseInner {
+	font-weight: bold !important;
+}
 
+.fontWeight.sapMLnk {
+	font-size: 1.1rem !important;
+	font-weight: bolder !important;
+	/* color: #043494 !important; */
+}

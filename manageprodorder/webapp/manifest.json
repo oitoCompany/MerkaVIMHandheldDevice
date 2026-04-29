@@ -50,7 +50,8 @@
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.ui.comp": {}
+        "sap.ui.comp": {},
+        "sap.f":{}
       }
     },
     "contentDensities": {
@@ -64,11 +65,131 @@
           "bundleName": "com.merkavim.ewm.manageprodorder.i18n.i18n"
         }
       },
-        "issueOrdInitModel": {
-          "type": "sap.ui.model.json.JSONModel",
-          "settings": {
-            "defaultBindingMode": "TwoWay"
-          }
+      "issueOrdInitModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "MaterialDocumentItemModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "MaterialDocumentokenModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "IssueBasedonReservationMainModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "IssueBasedonReservationItemModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "issueReservItemsModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "TilesModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "SLitems": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "StockTransferInitModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "CartList": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "PickForCartModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "PickForCartListModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "PickForCartMainModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "issueCartItems": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+       "TapiListModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "batchList": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "SerialList": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "GlobalVariable": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "SerialListMain":{
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "PickForCartCheckModel":{
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "CartdlvListModel":{
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
       }
     },
     "resources": {
@@ -107,14 +228,14 @@
         },
         {
           "name": "ProductionOrder",
-          "pattern": "ProductionOrder",
+          "pattern": "ProductionOrder/:RFlag:",
           "target": [
             "TargetProductionOrder"
           ]
         },
         {
           "name": "ProductionOrderContinue",
-          "pattern": "ProductionOrderContinue",
+          "pattern": "ProductionOrderContinue/:NFLAG:",
           "target": [
             "TargetProductionOrderContinue"
           ]
@@ -135,14 +256,14 @@
         },
         {
           "name": "IssueInternalOrder",
-          "pattern": "IssueInternalOrder",
+          "pattern": "IssueInternalOrder/:Flag:",
           "target": [
             "TargetIssueInternalOrder"
           ]
         },
         {
           "name": "InternalOrderCreated",
-          "pattern": "InternalOrderCreated/{MBLNR}/{MJAHR}",
+          "pattern": "InternalOrderCreated/{MBLNR}/:MJAHR:/:PFLAG:",
           "target": [
             "TargetInternalOrderCreated"
           ]
@@ -162,6 +283,13 @@
           ]
         },
         {
+          "name": "DigitalSignatureItems",
+          "pattern": "DigitalSignatureItems/:MBLNR:/:Flag:",
+          "target": [
+            "TargetDigitalSignatureItems"
+          ]
+        },
+        {
           "name": "DigitalSignatureDisplay",
           "pattern": "DigitalSignatureDisplay",
           "target": [
@@ -174,6 +302,104 @@
           "target": [
             "TargetDigitalSignatureSign"
           ]
+        },
+        {
+          "name": "IssueBasedonReservation",
+          "pattern": "IssueBasedonReservation",
+          "target": [
+            "TargetIssueBasedonReservation"
+          ]
+        },
+        {
+          "name": "IssueBasedOnReservationItems",
+          "pattern": "IssueBasedOnReservationItems/:NFLAG:",
+          "target": [
+            "TargetIssueBasedonReservationItems"
+          ]
+        },
+        {
+          "name": "IssueReservSelectItems",
+          "pattern": "IssueReservSelectItems",
+          "target": [
+            "TargetIssueReservSelectItems"
+          ]
+        },
+        {
+          "name": "StockTransferBetweenSL",
+          "pattern": "StockTransferBetweenSL",
+          "target": [
+            "TargetStockTransferBetweenSL"
+          ]
+        },
+        {
+          "name": "StockTransferbnSLItems",
+          "pattern": "StockTransferbnSLItems",
+          "target": [
+            "TargetStockTransferBetweenSLItems"
+          ]
+        },
+        {
+          "name": "Batch",
+          "pattern": "Batch/{HeadData}/{View}",
+          "target": [
+            "TargetBatch"
+          ]
+        },
+        {
+          "name": "Serial",
+          "pattern": "Serial/{HeadData}/{View}",
+          "target": [
+            "TargetSerial"
+          ]
+        },
+        {
+          "name": "PickForCart",
+          "pattern": "PickForCart/:CART:",
+          "target": [
+            "TargetPickForCart"
+          ]
+        },
+        {
+          "name": "PickForCartIDetails",
+          "pattern": "PickForCartIDetails",
+          "target": [
+            "TargetPickForCartIDetails"
+          ]
+        },
+        {
+          "name": "PickForCartItems",
+          "pattern": "PickForCartItems/:NFLAG:",
+          "target": [
+            "TargetPickForCartItems"
+          ]
+        },
+        {
+          "name": "PickIssueCartItems",
+          "pattern": "PickIssueCartItems",
+          "target": [
+            "TargetPickIssueCartItems"
+          ]
+        },
+        {
+          "name": "PickForCartList",
+          "pattern": "PickForCartList",
+          "target": [
+            "TargetPickForCartList"
+          ]
+        },
+        {
+          "name": "CartDelivery",
+          "pattern": "CartDelivery",
+          "target": [
+            "TargetCartDDelivery"
+          ]
+        },
+        {
+          "name": "CartDlvIDetails",
+          "pattern": "CartDlvIDetails",
+          "target": [
+            "TargetCartDlvIDetails"
+          ]
         }
       ],
       "targets": {
@@ -183,9 +409,7 @@
         },
         "TargetLogout": {
           "id": "Logout",
-          "name": "Logout"
-        },
-        
+          "name": "Logout"        },
         "TargetProductionOrder": {
           "id": "ProductionOrder",
           "name": "ProductionOrder"
@@ -218,6 +442,10 @@
           "id": "DigitalSignature",
           "name": "DigitalSignature"
         },
+        "TargetDigitalSignatureItems": {
+          "id": "DigitalSignatureItems",
+          "name": "DigitalSignatureItems"
+        },
         "TargetDigitalSignatureDisplay": {
           "id": "DigitalSignatureDisplay",
           "name": "DigitalSignatureDisplay"
@@ -225,6 +453,62 @@
         "TargetDigitalSignatureSign": {
           "id": "DigitalSignatureSign",
           "name": "DigitalSignatureSign"
+        },
+        "TargetIssueBasedonReservation": {
+          "id": "IssueBasedonReservation",
+          "name": "IssueBasedonReservation"
+        },
+        "TargetIssueBasedonReservationItems": {
+          "id": "IssueBasedonReservationItems",
+          "name": "IssueBasedonReservationItems"
+        },
+        "TargetIssueReservSelectItems": {
+          "id": "IssueReservSelectItems",
+          "name": "IssueReservSelectItems"
+        },
+        "TargetStockTransferBetweenSL": {
+          "id": "StockTransferBetweenSL",
+          "name": "StockTransferBetweenSL"
+        },
+        "TargetStockTransferBetweenSLItems": {
+          "id": "StockTransferbnSLItems",
+          "name": "StockTransferbnSLItems"
+        },
+        "TargetBatch": {
+          "id": "Batch",
+          "name": "Batch"
+        },
+        "TargetSerial": {
+          "id": "Serial",
+          "name": "Serial"
+        },
+        "TargetPickForCart": {
+          "id": "PickForCart",
+          "name": "PickForCart"
+        },
+        "TargetPickForCartIDetails": {
+          "id": "PickForCartIDetails",
+          "name": "PickForCartIDetails"
+        },
+        "TargetPickForCartList": {
+          "id": "PickForCartList",
+          "name": "PickForCartList"
+        },
+        "TargetPickForCartItems": {
+          "id": "PickForCartItems",
+          "name": "PickForCartItems"
+        },
+        "TargetPickIssueCartItems": {
+          "id": "PickIssueCartItems",
+          "name": "PickIssueCartItems"
+        },
+        "TargetCartDDelivery": {
+          "id": "CartDelivery",
+          "name": "CartDelivery"
+        },
+        "TargetCartDlvIDetails": {
+          "id": "CartDlvIDetails",
+          "name": "CartDlvIDetails"
         }
       }
     },

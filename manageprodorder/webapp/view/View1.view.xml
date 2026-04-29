@@ -1,50 +1,104 @@
 <mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
-    xmlns:core="sap.ui.core">
+    xmlns="sap.m" xmlns:f="sap.f"
+    xmlns:core="sap.ui.core" xmlns:layout="sap.ui.layout">
     <Page id="page" showHeader="false" enableScrolling="true">
         <content>
-            <VBox id="homeVBox" class="sapUiMediumMargin" width="100%" renderType="Bare">
-                <Text id="introText" text="{i18n>introText}" wrapping="true"/>
-                <FlexBox id="tilesRow" renderType="Bare" wrap="Wrap" justifyContent="Start">
-                    <GenericTile id="ProductionOrder"
-                        header="{i18n>prodOrderTileHeader}"
-                        press="onProductionOrderPress"
-                        class="sapUiTinyMargin">
+           
+                  <!-- <f:GridContainer id="gridContainerId" items="{TilesModel>/}" >
+                    <f:layout>
+                        <f:GridContainerSettings id="gridcontainer" columnSize="5rem" rowSize="0rem" gap="7rem" />
+                    </f:layout>
+                   <GenericTile id="listGrid"
+                        header="{TilesModel>APP_DESC}"
+                        press="onTilePress"
+                        class="sapUiTinyMargin"
+                        width="160px" visible="{= ${TilesModel>APP_NAME} !== ''? true : false }" >
                         <tileContent>
-                            <TileContent id="prodOrderTileContent">
+                            <TileContent id="GridContent">
                                 <content>
-                                    <ImageContent id="prodOrderImageContent" src="sap-icon://factory"/>
+                                    <ImageContent id="GridimageContent" src="{TilesModel>APP_ICON}"/>
                                 </content>
                             </TileContent>
                         </tileContent>
+                       
                     </GenericTile>
-                    <GenericTile id="IssueInternalOrder"
-                        header="{i18n>issueInternalOrderTileHeader}"
-                        press="onIssueInternalOrderPress"
-                        class="sapUiTinyMargin">
-                        <tileContent>
-                            <TileContent id="issueIntOrderTileContent">
-                                <content>
-                                    <ImageContent id="issueIntOrderImageContent" src="sap-icon://order-status"/>
-                                </content>
-                            </TileContent>
-                        </tileContent>
-                    </GenericTile>
-                    <GenericTile id="DigitalSignature"
-                        header="{i18n>digitalSignatureTileHeader}"
-                        press="onDigitalSignaturePress"
-                        class="sapUiTinyMargin">
-                        <tileContent>
-                            <TileContent id="digitalSignatureTileContent">
-                                <content>
-                                    <ImageContent id="digitalSignatureImageContent" src="sap-icon://signature"/>
-                                </content>
-                            </TileContent>
-                        </tileContent>
-                    </GenericTile>
-                </FlexBox>
-            </VBox>
-        </content>
+                  </f:GridContainer> -->
+
+                   <f:GridContainer
+id="dashboardGrid"
+items="{TilesModel>/}"
+snapToRow="true">
+
+<f:layout>
+
+<f:GridContainerSettings id="gridSettings"
+columnSize="5rem"
+rowSize="5rem"
+gap="0.75rem"/>
+</f:layout>
+<f:layoutXS>
+<f:GridContainerSettings id="mobs"
+columnSize="5rem"
+rowSize="5rem"
+gap="2rem" />
+</f:layoutXS>
+<f:layoutS>
+<f:GridContainerSettings id="mob"
+columnSize="5rem"
+rowSize="5rem"
+gap="2rem"/>
+</f:layoutS>
+<f:layoutM>
+<f:GridContainerSettings id="tab"
+columnSize="5rem"
+rowSize="5rem"
+gap="2rem"/>
+</f:layoutM>
+<f:layoutL>
+<f:GridContainerSettings id="desk"
+columnSize="5rem"
+rowSize="5rem"
+gap="2rem"/>
+
+</f:layoutL>
+
+<f:items>
+
+<GenericTile
+header="{TilesModel>APP_DESC}"
+press="onTilePress"
+class="sapUiTinyMargin"
+visible="{= !!${TilesModel>APP_NAME} }">
+
+<layoutData>
+<f:GridContainerItemLayoutData
+columns="2"
+rows="2"/>
+</layoutData>
+
+<tileContent>
+
+<TileContent>
+
+<content>
+
+<ImageContent
+src="{TilesModel>APP_ICON}" />
+
+</content>
+
+</TileContent>
+
+</tileContent>
+
+</GenericTile>
+
+</f:items>
+
+</f:GridContainer>         
+                          </content>
+
+                
     </Page>
 </mvc:View>

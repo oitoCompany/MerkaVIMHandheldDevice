@@ -1,0 +1,220 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.Batch"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core">
+    <Page id="BatchSerialPage" title="{i18n>BatchTileHeader}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} === true || ${device>/isTablet} === true }">
+        <content>
+        <VBox id="BatchSerialVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                <Toolbar id="BatchSerialTopToolbar" visible="{= ${device>/isPhone} === true }" class="topActionToolbar">
+                    <Button id="btnBatchSerialClearSelectionTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
+                    <Button id="btnBatchSerialDisplayIssueTop" text="{i18n>saveLabel}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                    <ToolbarSpacer id="topBatchSerialToolbarSpacer"/>
+                    <Button id="btnBatchSerialSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <!-- <Button id="btnBatchSerialFilterTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/> -->
+                </Toolbar>
+            <!-- Compact layout for mobile -->
+            <VBox id="inputFieldsVyBoxIMobile" class="compactFieldsContainer" visible="true">
+              
+                <HBox id="detailsyerHBox" alignItems="Center" justifyContent="Start" class="compactDetailsRow">
+                    <VBox id="uomVeyrBox" class="compactFieldGroup">
+                        <HBox id="yuyi" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="lblInputUeyrOMMobile" text="{=${i18n>Plant}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputUeryOMMobile" text="{batchList>/HEAD/WERKS}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+
+                        <HBox id="yuyyyi1" alignItems="Center" class="alignMyItems">
+                        <Label id="lblInputLeyrocationMobile" text="{=${i18n>materialNumberLabel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputLocyaertionMobile" text="{batchList>/HEAD/MATNR}" class="compactFieldValuedups"/>
+                        </HBox>
+                          
+                    </VBox>
+                   
+                    <VBox id="binVButyox" class="compactFieldGroup">
+                        <HBox id="yuiuu2" alignItems="Baseline" class="alignMyItems">
+                         
+                        <Label id="lblInuputLerionMobile" text="{=${i18n>storageLocationLabel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInpuutMMobile" text="{batchList>/HEAD/LGORT}" class="compactFieldValue"/>
+                        <Label id="lblInptLerofgycaytionMobile" text="{=${i18n>quantity}  +'\u00a0'+ ':'+ '\u00a0'}" class="sapUiSmallMarginBegin compactFieldLabel"/>
+                        <Text id="txtInputLcaergfyytionMobile"  text="{batchList>/HEAD/MENGE}" class="compactFieldValuedups"/>
+                        </HBox>
+                        <HBox id="yuui3" alignItems="Baseline" class="alignMyItems">
+                        <Label id="lblInupcuationMobile" text="{=${i18n>materialDescriptionLabel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                         <Text id="txtInpuutuLocaueronMobile" text="{batchList>/HEAD/MAKTX}" class="compactFieldValue"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+          
+
+            <!-- Table for desktop/tablet only: scroll only the items -->
+            <ScrollContainer id="desktopTablebsScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} === true}">
+            
+                <Table id="pickbsTable" sticky="ColumnHeaders" items="{batchList>/BATCH}" mode="None" class="sapUiSmallMarginTop" updateFinished="onPickTableUpdateFinished">
+                    <columns>
+                        <Column id="colbsAction" width="3em">
+                            <header>
+                                <CheckBox id="selectbsAllCheckBox" select="onSelectAll" enabled="{= ${batchList>SELECTED} === 'X' ? false : true }"/>
+                            </header>
+                        </Column>
+                        <Column id="colbsItem"><header><Text id="txtbsColItem" text="{i18n>BatchName}"/></header></Column>
+                        <Column id="colbsItemDesc"><header><Text id="txtbsColItemDesc" text="{i18n>BatchValidity}"/></header></Column>
+                        <Column id="colbsDate"><header><Text id="txtbsColDate" text="{i18n>QuantityInBatch}"/></header></Column>
+                        <Column id="colbsLocation"><header><Text id="txtbsColLocation" text="{i18n>QuantityToDispense}"/></header></Column>
+                       
+                    </columns>
+                    <items>
+                        <ColumnListItem id="pickbsTableRowTemplate">
+                            <cells>
+                                <CheckBox id="rowbsSelectCheckBox" selected="{batchList>selected}" select="onSelectRow"/>
+                                
+                                
+                                <Text id="rowbsLocation" text="{batchList>CHARG}"/>
+                                <Text id="rowbsInventory" text="{path: 'batchList>VFDAT', formatter: '.formatter.bdterToDDMMYY'}"/>
+                                <Text id="rowbsQtyInReservation" text="{path:'batchList>CLABS',formatter:'.formatNumber'}" width="4em"/>
+                                <Input id="rowbsQtyToPick" class="hoverFocusInput" value="{path:'batchList>MENGE',formatter:'.formatNumber'}" valueLiveUpdate="true"  width="4em" type="Number" liveChange="onQtyToPickLiveChange"  editable="{= ${batchList>EDIT} === 'X'}"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+            <VBox id="dfr8rt" visible="{= ${device>/isPhone} === false }">
+             <Toolbar id="mobileCar8rdsPCITopToolbar" design="Transparent" class="sapUiTinyMarginBottom" >
+                    <ToolbarSpacer id="mobiler8TopToolbarPCISpacer"/>
+                    <Button id="btnSelectAllrMo8bilePCI" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
+                    <Button id="btnSortMobilreTo8pPCI" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog" visible="{= ${device>/isPhone} === true || ${device>/isTablet} === true }"/>
+                    <!-- <Button id="btnFilterMobrile8TopPCI" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog" visible="{= ${device>/isPhone} === true || ${device>/isTablet} === true }"/> -->
+                </Toolbar>
+            </VBox>
+              <VBox id="forhetyader" class="gridBackgroundcolor bordeerBottom" visible="{= ${device>/isPhone} === false}">
+             
+                <layout:Grid id="grislayoctyontiid78" class="sapUiTinyMarginBegin  sapUiSmallMarginTop customBeginClass gridBackgroundcolor " hSpacing="0" vSpacing="1" visible="{= ${device>/isPhone} === false }">
+                                    <HBox id="idtyn" justifyContent="Center" alignItems="Center">
+                                      <layoutData>
+                                     <layout:GridData id="yuuyu" span="XL3 L3 M3 S3"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCardMatDesc14" class="boldText" text="{=${i18n>model} + ':' + '\u00a0'  }"/> -->
+                                    <Text id="iioMobileCardatuyuDsc24N" text="{i18n>BatchName} " class="textcolor"/>
+                                    </HBox> 
+                                   
+                                     <HBox id="id5ty6rN" justifyContent="Start" alignItems="Start" class="sapUiSmallMarginBegin">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGtyridDarta146N" span="XL3 L3 M3 S3"/>
+                                     </layoutData>
+                                   
+                                    <Text id="iioMobileCardMattyesc26N" text="{i18n>BatchValidity}" class="textcolor"/>
+                                    </HBox>  
+                                    <HBox id="ider1N" class="sapUiSmallMarginBegin">
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGrierdDaa14N" span="XL3 L3 M3 S3"/>
+                                     </layoutData>
+
+                                     <Text id="iioMobileCardMatNr4N" text="{i18n>QuantityInBatch} " class="textcolor"/>
+                                   </HBox> 
+                                     
+                                 <HBox id="mobileCardHeeraderHBox1N" alignItems="Center"  >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGerridDta0N" span="XL3 L3 M3 S3"/>
+                                     </layoutData>
+                                     <HBox id="buttonBoerxHBxu1N" >
+                                      <Text id="iioMobileerCar267NN" text="{i18n>QuantityToDispense}" class="textcolor hebrewbreak" wrapping="true" renderWhitespace="true"/>
+                                      <!-- <CheckBox id="mobileCardSelectCheckBoxu1N" selected="{pickItems>selected}" select="onSelectRow"/> -->
+                                     </HBox>
+                                </HBox> 
+                               
+                             
+                               
+                                 
+                            </layout:Grid>
+            </VBox>
+            <!-- Card-based layout for mobile mode -->
+            <ScrollContainer id="mobileCartrdsPCIScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} === false}">
+             <VBox id="mobileCardsPCICortntainer" >
+              
+                <List id="mobileCardPCILrtist" items="{batchList>/BATCH}" mode="MultiSelect" showSeparators="All" updateFinished="onMobileListUpdateFinished">
+                    <items>
+                        <CustomListItem id="mobileCrtardPCIListItem"  >
+                         <customData>
+                        <core:CustomData 
+                                               key="ISSUED" 
+                                               value="{batchList>SELECTED}" 
+                                                    writeToDom="true" />
+                                          </customData>
+                             <layout:Grid id="grislayoutcortntiid78" class="sapUiSmallMarginTop customBeginClass" hSpacing="0" vSpacing="1" >
+                                    <HBox id="ider4n" justifyContent="Start" class="sapUiMediumMarginBegin">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGiderData144N" span="XL3 L3 M3 S3"/>
+                                     </layoutData>
+                                     <Text id="iioMobileCardtDesc26N" text="{batchList>CHARG} " class="compactFieldValueTable "/>
+                                    </HBox> 
+                                   
+                                     
+                                     <HBox id="idrf56N" justifyContent="Start" alignItems="Start" class="sapUiSmallMarginBegin"> 
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridDdfata146N" span="XL3 L3 M3 S6"/>
+                                     </layoutData>
+                                    <HBox id="podfiu">
+                                    <Text id="iioMobileCarddfMatDesc26N" text="{path: 'batchList>VFDAT', formatter: '.formatter.bdterToDDMMYY'} " class="compactFieldValueTable "/>
+
+                                     
+                                   
+                                    </HBox>
+                                    </HBox>  
+                                    <HBox id="id44rf41N" alignItems="Start"  justifyContent="Start" class="sapUiMediumMarginBegin">
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGrffidData14N" span="XL3 L3 M3 S2"/>
+                                     </layoutData>
+                                       
+                                      <Text id="iioMobileCaratDesc26N" text="{path:'batchList>CLABS',formatter:'.formatNumber'}" class="compactFieldValueTable "/>
+
+                                  
+                                   </HBox>  
+                                    
+                                
+                                 
+                                     <HBox id="id56rt7bN" justifyContent="Start" class="sapUiMediumMarginBegin">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGrrtridData1467bN" span="XL3 L3 M3 S3"/>
+                                     </layoutData>
+                                       <Input id="mobileCardQtyTorttPickInputt1N" class="hoverFocusInput customheightinputnew" value="{path:'batchList>MENGE',formatter:'.formatNumber'}" valueLiveUpdate="true"  width="4em" type="Number" liveChange="onQtyToPickLiveChange"  editable="{= ${batchList>EDIT} === 'X'}"/>     
+                                      </HBox>  
+                                
+                                
+                              
+                                
+                            </layout:Grid>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+        </VBox>
+        </content>
+        <footer>
+        <Bar id="prodOrderContinuebsFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
+                <contentMiddle>
+                    <Button id="btnClearbsSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
+                    <Button id="btnDisplaybsIssue" text="{i18n>saveLabel}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                </contentMiddle>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="sortbsDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="sortItembsAction" text="{i18n>BatchName}" key="CHARG"/>
+                    <ViewSettingsItem id="sortItembsModel" text="{i18n>BatchValidity}" key="VFDAT"/>
+                    <ViewSettingsItem id="sortItemModelbsDesc" text="{i18n>QuantityInBatch}" key="CLABS"/>
+                    
+                    <ViewSettingsItem id="sortItembsDate" text="{i18n>QuantityToDispense}" key="MENGE"/>
+                    
+                </sortItems>
+            </ViewSettingsDialog>
+            <ViewSettingsDialog id="filterbsDialog" confirm="onFilterConfirm" title="{i18n>filter}">
+                <!-- Filter items are built dynamically in controller on beforeOpen -->
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

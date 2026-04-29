@@ -1,0 +1,105 @@
+<mvc:View
+    controllerName="com.merkavim.ewm.manageprodorder.controller.CartDelivery"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="Pcarage"
+        title="{i18n>CartDeliveryTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <VBox
+            id="PcarVBox"
+            class="sapUiSmallMargin"
+        >
+            <HBox
+                id="searchButtnspcBar"
+                class="sapUiSmallMarginBottom"
+                visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }"
+            >
+                <Button
+                    id="btnpClear"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    class="doubleHeightButton lightBlueButton"
+                    press="onClearSearch"
+                />
+                <Button
+                    id="btnpcisplay"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onCartCheck"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+               
+               
+            </HBox>
+            <Panel
+                id="searchcPanel"
+                expandable="false"
+                class="sapUiResponsiveMargin"
+                width="auto"
+            >
+                <VBox
+                    id="searcpcBox"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <Label
+                        id="lblMaterialpcocument"
+                        text="{i18n>Cart}"
+                        labelFor="inpMaterialDocument"
+                        required="true"
+                    />
+                    <HBox
+                        id="inpupcBox"
+                        width="100%"
+                    >
+                        <Input id="InputPcT" value="{CartModel>/CART}" liveChange="onLiveChangeMaterialDocument" type="Number" />
+
+
+
+                                            </HBox>
+                    <!-- <Button
+                        id="btest"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press="onAddDocument"
+                        class="sapUiSmallMarginBegin"
+                        tooltip="Add Document"
+                    /> -->
+
+                
+                  
+                
+                </VBox>
+            </Panel>
+        </VBox>
+
+        <footer>
+            <OverflowToolbar
+                id="pctFooter"
+                visible="{= ${device>/isPhone} || ${device>/isTablet} }"
+            >
+                <ToolbarSpacer id="footerpcSpaucer1" />
+                <Button
+                    id="btnDisplayupcFooter"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onCartCheck"
+                    class="doubleHeightButton greenButton"
+                />
+                <Button
+                    id="btnClearpctFooter"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    press="onClearSearch"
+                    class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"
+                />
+                
+               
+                 
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

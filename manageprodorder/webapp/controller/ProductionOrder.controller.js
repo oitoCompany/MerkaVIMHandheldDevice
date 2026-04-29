@@ -70,8 +70,64 @@ sap.ui.define([
 
             // Ensure view model is reset every time the route is entered
             var oRouter = this.getOwnerComponent().getRouter();
-            oRouter.getRoute("ProductionOrder").attachPatternMatched(this._resetViewModel, this);
+            oRouter.getRoute("ProductionOrder").attachPatternMatched(this.onRouteMatched, this);
 
+
+        },
+        onAfterRendering: function () {
+            var inputfocus = this.getView().byId("inpInlineMaterial");
+            inputfocus.attachBrowserEvent("focusin", function () {
+                inputfocus.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus1 = this.getView().byId("inpInlineProdOrder");
+            inputfocus1.attachBrowserEvent("focusin", function () {
+                inputfocus1.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus2 = this.getView().byId("inpInlineOperationFrom");
+            inputfocus2.attachBrowserEvent("focusin", function () {
+                inputfocus2.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus3 = this.getView().byId("inpInlineOperationTo");
+            inputfocus3.attachBrowserEvent("focusin", function () {
+                inputfocus3.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus4 = this.getView().byId("inpInlineResStorLocFrom");
+            inputfocus4.attachBrowserEvent("focusin", function () {
+                inputfocus4.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus5 = this.getView().byId("inpInlineIssueStr");
+            inputfocus5.attachBrowserEvent("focusin", function () {
+                inputfocus5.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus6 = this.getView().byId("inpInlineResStorLocTo");
+            inputfocus6.attachBrowserEvent("focusin", function () {
+                inputfocus6.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus7 = this.getView().byId("inpInlineRemark");
+            inputfocus7.attachBrowserEvent("focusin", function () {
+                inputfocus7.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+        },
+
+        onRouteMatched: function (oEvent) {
+
+            var oArgs = oEvent.getParameter("arguments") || {};
+            var oView = this.getView();
+            var Rflag = oArgs.RFlag || "";
+            // Reset view model when route is matched
+            if (Rflag === "" || Rflag === undefined) {
+                this._resetViewModel(oEvent);
+            } else {
+                // Do not reset view model if RFlag is set (returning from continue)
+            }
 
         },
 
@@ -79,7 +135,7 @@ sap.ui.define([
          * Reset the view-scoped model each time the ProductionOrder route is matched
          * so we don't rely on onInit which runs only once per controller lifecycle.
          */
-        _resetViewModel: function () {
+        _resetViewModel: function (oEvent) {
             var oView = this.getView();
             var oViewModel = oView.getModel("view");
             var oData = {
@@ -101,7 +157,7 @@ sap.ui.define([
             } else {
                 oViewModel.setData(oData);
             }
-            
+
             // Set focus on material input when route is matched
             this._setMaterialFocus();
         },
@@ -109,26 +165,26 @@ sap.ui.define([
         /**
          * Helper to set focus on material input field with proper timing
          */
-        _setMaterialFocus: function() {
+        _setMaterialFocus: function () {
             var that = this;
             // Use requestAnimationFrame for better timing with UI rendering
-            window.requestAnimationFrame(function() {
-                setTimeout(function() {
+            window.requestAnimationFrame(function () {
+                setTimeout(function () {
                     var oMaterialInput = that.getView().byId("inpInlineMaterial");
                     if (oMaterialInput && oMaterialInput.getDomRef()) {
                         oMaterialInput.focus();
                         // Force focus multiple times to override UI5's automatic focus management
-                        setTimeout(function() {
+                        setTimeout(function () {
                             if (oMaterialInput && oMaterialInput.getDomRef()) {
                                 oMaterialInput.focus();
                             }
                         }, 100);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             if (oMaterialInput && oMaterialInput.getDomRef()) {
                                 oMaterialInput.focus();
                             }
                         }, 300);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             if (oMaterialInput && oMaterialInput.getDomRef()) {
                                 oMaterialInput.focus();
                             }
@@ -150,7 +206,7 @@ sap.ui.define([
             var sCurrentMat = (oSelectionData.Material || "").trim();
             var sLastMat = (this._lastMaterialEntered || "").trim();
             var bMaterialChanged = sCurrentMat !== sLastMat;
-
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE" ? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0, 1);
             var oPayload = {
                 DATA: {
                     MATNR: oSelectionData.Material || "",
@@ -163,8 +219,9 @@ sap.ui.define([
                     LGORT_FT: bMaterialChanged ? "" : (oSelectionData.ReservationStorageLocationTo || ""),
                     LGORT_T: bMaterialChanged ? "" : (oSelectionData.IssuesingStorageLocation || ""),
                     LOGGR: oSelectionData.LogisticsGroup || "",
-                    BKTXT: (oSelectionData.Remark || ""), 
-                    SPRAS: sap.ui.getCore().getConfiguration().getLanguage().substring(0,1) || "E"// send only first letter
+                    BKTXT: (oSelectionData.Remark || ""),
+                    CHECK: "",
+                    SPRAS: lang || "E"// send only first letter
                 }
             };
 
@@ -196,7 +253,7 @@ sap.ui.define([
                     }
                     // Update last material after successful check
                     that._lastMaterialEntered = oViewModel.getProperty("/newEntry/Material") || sCurrentMat || null;
-                    MessageToast.show("Validated");
+                    // MessageToast.show("Validated");
                 },
                 error: function (xhr, status, error) {
                     MessageBox.error("Backend call failed: " + (xhr.responseText || status));
@@ -205,8 +262,23 @@ sap.ui.define([
         },
 
         onNavBack: function () {
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("RouteView1", {}, true);
+            var that = this;
+            MessageBox.warning(
+                that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("ScreenExitWarningTitle"), {
+                actions: [that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"), MessageBox.Action.CANCEL],
+                emphasizedAction: that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"),
+                onClose: function (sAction) {
+                    if (sAction === that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")) {
+                        // User confirmed deletion
+                        var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
+                        oRouter.navTo("RouteView1", {}, true);
+                    } else {
+                        // User cancelled deletion, do nothing
+                        return;
+                    }
+                }
+            });
+
         },
         onNavHome: function () {
             var oRouter = this.getOwnerComponent().getRouter();
@@ -224,6 +296,7 @@ sap.ui.define([
             var oViewModel = this.getView().getModel("view");
             var oSelectionData = Object.assign({}, oViewModel.getProperty("/newEntry"));
             var that = this;
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE" ? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0, 1);
             // Prepare payload for backend
             var oPayload = {
                 DATA: {
@@ -238,7 +311,8 @@ sap.ui.define([
                     LGORT_T: oSelectionData.IssuesingStorageLocation || "",
                     LOGGR: oSelectionData.LogisticsGroup || "",
                     BKTXT: oSelectionData.Remark || "",
-                    SPRAS: sap.ui.getCore().getConfiguration().getLanguage().substring(0,1) || "E"
+                    CHECK: "X",
+                    SPRAS: lang || "E"
                 }
             };
             // Call backend endpoint
@@ -301,7 +375,9 @@ sap.ui.define([
                                         LGPBE: items[i].LGPBE,
                                         LABST: items[i].LABST,
                                         WERKS: items[i].WERKS,
-                                        BDTER: items[i].BDTER
+                                        BDTER: items[i].BDTER,
+                                        SERNP: items[i].SERNP,
+                                        XCHPF: items[i].XCHPF
                                     });
                                 }
                                 // If aPicking is blank, show error and do not route
@@ -311,7 +387,7 @@ sap.ui.define([
                                     return;
                                 }
                                 // Sort aPicking by BDTER ascending
-                                aPicking.sort(function(a, b) {
+                                aPicking.sort(function (a, b) {
                                     return (a.BDTER > b.BDTER) ? 1 : (a.BDTER < b.BDTER) ? -1 : 0;
                                 });
 
@@ -320,7 +396,8 @@ sap.ui.define([
                                     Stock: header.LABST,
                                     Material: header.MATNR,
                                     MaterialDescription: header.MAKTX,
-                                    UOM: header.MEINS
+                                    UOM: header.MEINS,
+                                    LGORT: oSelectionData.IssuesingStorageLocation
                                 }
 
                                 var oPickModel = oComponent.getModel("pickItems");
@@ -340,16 +417,16 @@ sap.ui.define([
                                     console.log("[ProductionOrder] selection on component:", oComponent.getModel("selection") && oComponent.getModel("selection").getData());
                                 } catch (e) { }
                                 // Clear newEntry model before routing
-                                var oViewModel = that.getView().getModel("view");
-                                oViewModel.setProperty("/newEntry", {
-                                    Material: "",
-                                    ProductionOrder: "",
-                                    Operation: "",
-                                    ReservationStorageLocation: "",
-                                    LogisticsGroup: "",
-                                    Remark: "",
-                                    IssuesingStorageLocation: ""
-                                });
+                                // var oViewModel = that.getView().getModel("view");
+                                // oViewModel.setProperty("/newEntry", {
+                                //     Material: "",
+                                //     ProductionOrder: "",
+                                //     Operation: "",
+                                //     ReservationStorageLocation: "",
+                                //     LogisticsGroup: "",
+                                //     Remark: "",
+                                //     IssuesingStorageLocation: ""
+                                // });
                                 var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
                                 oRouter.navTo("ProductionOrderContinue");
                             },
@@ -392,14 +469,14 @@ sap.ui.define([
                 jquery.sap.delayedCall(0, this, function () {
                     MatInput.focus();
                 })
-               
+
             }
         },
 
         // Cleanup Enter key listener
         onExit: function () {
             if (this._oEnterDelegate) {
-                try { this.getView().removeEventDelegate(this._oEnterDelegate); } catch (e) {}
+                try { this.getView().removeEventDelegate(this._oEnterDelegate); } catch (e) { }
                 this._oEnterDelegate = null;
             }
         }

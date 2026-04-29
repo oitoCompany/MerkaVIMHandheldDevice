@@ -1,0 +1,152 @@
+<mvc:View
+    controllerName="com.merkavim.ewm.manageprodorder.controller.PickForCart"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="PcartPage"
+        title="{i18n>PickCartTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <VBox
+            id="PcartVBox"
+            class="sapUiSmallMargin"
+        >
+            <HBox
+                id="searchButtonspcBar"
+                class="sapUiSmallMarginBottom"
+                visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }"
+            >
+                <Button
+                    id="btnpcClear"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    class="doubleHeightButton lightBlueButton"
+                    press="onClearSearch"
+                />
+                <Button
+                    id="btnpcDisplay"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onCartCheck"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btnpclist"
+                    text="{i18n>Listofcarts}"
+                    type="Unstyled"
+                    press="onDisplayList"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btnpcPrint"
+                    text="{i18n>PrintFirst}"
+                    type="Unstyled"
+                    press="onMainPrint"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btnpcPrintNew"
+                    text="{i18n>GenerateCart}"
+                    type="Unstyled"
+                    press="onMainPrintNew"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+            </HBox>
+            <Panel
+                id="searchpcPanel"
+                expandable="false"
+                class="sapUiResponsiveMargin"
+                width="auto"
+            >
+                <VBox
+                    id="searchpcBox"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <Label
+                        id="lblMaterialpcDocument"
+                        text="{i18n>Cart}"
+                        labelFor="inpMaterialDocument"
+                        required="true"
+                    />
+                    <HBox
+                        id="inputpcBox"
+                        width="100%"
+                    >
+                        <Input id="InputPc" value="{PickForCartModel>/CART}" liveChange="onLiveChangeMaterialDocument" type="Number" />
+
+
+
+                                            </HBox>
+                    <!-- <Button
+                        id="btest"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press="onAddDocument"
+                        class="sapUiSmallMarginBegin"
+                        tooltip="Add Document"
+                    /> -->
+
+                
+                    <CheckBox
+                        id="chkbox1"
+                        text="{i18n>includingItemsAlreadyPicked}"
+                        select="onSelectPartial"
+                        selected="{PickForCartModel>/ISSUED_ITEMS}"
+                    />
+                 <CheckBox
+                        id="chkbox2"
+                        text="{i18n>onlyItemsNotYetPicked}"
+                        select="onSelectOnlyInStock"
+                        selected="{PickForCartModel>/ITEMS_IN_STOCK}"
+                    />
+                </VBox>
+            </Panel>
+        </VBox>
+
+        <footer>
+            <OverflowToolbar
+                id="pcFooter"
+                visible="{= ${device>/isPhone} || ${device>/isTablet} }"
+            >
+                <ToolbarSpacer id="footerpcSpacer1" />
+                <Button
+                    id="btnDisplaypcFooter"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onCartCheck"
+                    class="doubleHeightButton greenButton"
+                />
+                <Button
+                    id="btnClearpcFooter"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    press="onClearSearch"
+                    class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"
+                />
+                 <Button
+                    id="btnpcfooterlist"
+                    text="{i18n>Listofcarts}"
+                    type="Unstyled"
+                    press="onDisplayList"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btcfooterlist"
+                    text="{i18n>PrintFirst}"
+                    type="Unstyled"
+                    press="onMainPrint"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                  <Button
+                    id="btnpcPrintNew3"
+                    text="{i18n>GenerateCart}"
+                    type="Unstyled"
+                    press="onMainPrintNew"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

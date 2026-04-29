@@ -7,12 +7,12 @@ sap.ui.define([
     "sap/m/ViewSettingsItem",
     "sap/ui/model/Filter",
     "sap/ui/model/Sorter"
-], function(BaseController, JSONModel, MessageBox, formatter, ViewSettingsFilterItem, ViewSettingsItem, Filter, Sorter) {
-// formatter is loaded for view binding
+], function (BaseController, JSONModel, MessageBox, formatter, ViewSettingsFilterItem, ViewSettingsItem, Filter, Sorter) {
+    // formatter is loaded for view binding
     "use strict";
     return BaseController.extend("com.merkavim.ewm.manageprodorder.controller.ProductionOrderContinue", {
         formatter: formatter,
-        onInit: function() {
+        onInit: function () {
             this._aHoverFocusDelegates = [];
             // Disable custom hover-to-focus behavior
             // this._hoverFocusDisabled = true; // commented per request: only comments, no deletions
@@ -29,8 +29,14 @@ sap.ui.define([
                 if (oRouter && oRouter.getRoute("ProductionOrderContinue")) {
                     // keep reference
                     var that = this;
-                    oRouter.getRoute("ProductionOrderContinue").attachPatternMatched(function() {
+                    oRouter.getRoute("ProductionOrderContinue").attachPatternMatched(function (oEvent) {
                         that._ensurePickItemsModel();
+                        var oArgs = oEvent.getParameter("arguments") || {};
+                        var NFlAG = oArgs.NFLAG || "";
+
+                        if (NFlAG !== "X") {
+                            that.onClearSelection();
+                        }
                     });
                 } else {
                     // fallback immediate attempt
@@ -42,15 +48,54 @@ sap.ui.define([
             }
         },
 
-        onAfterRendering: function() {
+        onAfterRendering: function () {
             if (BaseController.prototype.onAfterRendering) {
                 BaseController.prototype.onAfterRendering.apply(this, arguments);
             }
             this._attachQtyInputSelectDelegates();
             // this._attachHoverFocusDelegates(); // disabled
-        },
 
-        onExit: function() {
+            var oList = this.byId("mobileCardPCyIList");
+            if (oList && oList.getItems) {
+                var oItems = oList.getItems() || [];
+                oItems.forEach(function (oItem) {
+                    var Input = oItem.getContent()[0].mAggregations.content[5].mAggregations.items[0];
+                    if (Input && Input.addEventDelegate) {
+                        Input.addEventDelegate({
+                            onfocusin: function () {
+                                setTimeout(function () {
+
+                                    Input.$().find("input").select();
+                                    this.selectText(0, this.getValue().length);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+
+        },
+        onMobileListUpdateFinished: function (oEvent) {
+            var oList = this.byId("mobileCardPCyIList");
+            if (oList && oList.getItems) {
+                var oItems = oList.getItems() || [];
+                oItems.forEach(function (oItem) {
+                    var Input = oItem.getContent()[0].mAggregations.content[5].mAggregations.items[0];
+                    if (Input && Input.addEventDelegate) {
+                        Input.addEventDelegate({
+                            onfocusin: function () {
+                                setTimeout(function () {
+
+                                    Input.$().find("input").select();
+                                    this.selectText(0, this.getValue().length);
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        },
+        onExit: function () {
             this._clearHoverFocusDelegates();
             this._clearQtyInputSelectDelegates();
             if (BaseController.prototype.onExit) {
@@ -58,7 +103,7 @@ sap.ui.define([
             }
         },
 
-        _ensurePickItemsModel: function() {
+        _ensurePickItemsModel: function () {
             var oView = this.getView();
             var oComponent = this.getOwnerComponent();
             var oPickModel = oComponent.getModel("pickItems");
@@ -103,13 +148,13 @@ sap.ui.define([
 
                             if ((aRenderedItems ? aRenderedItems.length : 0) === 0 && (iContextsCount > 0 || iModelItemsCount > 0)) {
                                 console.log("[ProductionOrderContinue] Binding has contexts or model items but no rendered items — attempting retries and forcing rebind if needed");
-                                try { oPickModel.refresh && oPickModel.refresh(true); } catch (e) {}
-                                try { oItemsBinding.refresh && oItemsBinding.refresh(); } catch (e) {}
-                                try { oTable.invalidate && oTable.invalidate(); oTable.rerender && oTable.rerender(); } catch (e) {}
+                                try { oPickModel.refresh && oPickModel.refresh(true); } catch (e) { }
+                                try { oItemsBinding.refresh && oItemsBinding.refresh(); } catch (e) { }
+                                try { oTable.invalidate && oTable.invalidate(); oTable.rerender && oTable.rerender(); } catch (e) { }
 
                                 // small retry loop: try a few times (synchronously scheduling via setTimeout) to give UI5 time to process bindings
                                 var iAttempts = 0;
-                                var fnRetry = function() {
+                                var fnRetry = function () {
                                     iAttempts++;
                                     var aNowRendered = oTable.getItems && oTable.getItems();
                                     if (aNowRendered && aNowRendered.length > 0) {
@@ -118,8 +163,8 @@ sap.ui.define([
                                     }
                                     if (iAttempts <= 3) {
                                         // try a light rebind: unbind and rebind with the existing template (or rely on fallback later)
-                                        try { oTable.unbindItems(); } catch (e) {}
-                                        try { oTable.bindItems({ path: "pickItems>/items", template: oTemplate || null }); } catch (e) {}
+                                        try { oTable.unbindItems(); } catch (e) { }
+                                        try { oTable.bindItems({ path: "pickItems>/items", template: oTemplate || null }); } catch (e) { }
                                         setTimeout(fnRetry, 100);
                                         return;
                                     }
@@ -239,15 +284,58 @@ sap.ui.define([
                 console.warn("[ProductionOrderContinue] No pickItems model found on component");
             }
         },
-        onNavBack: function() {
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("ProductionOrder");
+        formatNumber: function (value) {
+            if (value) {
+                return parseFloat(value).toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 });
+            } else if (value === 0) {
+                return "0";
+            }
+
         },
+        onRemarkLiveChange: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oViewModel = this.getOwnerComponent().getModel("validData");
+            if (oViewModel) {
+                oViewModel.setProperty("/BKTXT", sValue);
+            }
+        },
+        onNavBack: function () {
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            oRouter.navTo("ProductionOrder", {
+                RFlag: "X",
+            }, true);
+        },
+          onPressBatchSerial: function (oEvent) {
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            // var HeadData = this.getOwnerComponent().getModel("PickForCartMainModel").getProperty("/HEAD");
+            var HeadData = Object.assign({}, oEvent.getSource().getBindingContext("pickItems").getObject());
+            var Spath = oEvent.getSource().getBindingContext("pickItems").getPath();
+            this.getOwnerComponent().getModel("GlobalVariable").setProperty('/Spath', Spath);
+            HeadData.LGORT = this.getOwnerComponent().getModel("inputFields").getProperty("/LGORT");
+            if (HeadData.XCHPF !== '') {
+                HeadData = JSON.stringify(HeadData);
+                HeadData = encodeURIComponent(HeadData);
+                oRouter.navTo("Batch", {
+                    HeadData: HeadData,
+                    View: "ProductionOrderContinue"
+                    // Path:Spath
+                }, true);
+            } else {
+                HeadData = JSON.stringify(HeadData);
+                HeadData = encodeURIComponent(HeadData);
+                oRouter.navTo("Serial", {
+                    HeadData: HeadData,
+                    View: "ProductionOrderContinue"
+                    // Path:Spath
+                }, true);
+            }
+        },
+
 
         /**
          * Open the sort dialog (ViewSettingsDialog)
          */
-        onOpenSortDialog: function() {
+        onOpenSortDialog: function () {
             var oDlg = this.byId("sortDialog");
             if (oDlg) {
                 oDlg.open();
@@ -257,7 +345,7 @@ sap.ui.define([
         /**
          * Open the filter dialog (ViewSettingsDialog) and build filter items dynamically
          */
-        onOpenFilterDialog: function() {
+        onOpenFilterDialog: function () {
             var oDlg = this.byId("filterDialog");
             if (!oDlg) { return; }
 
@@ -287,11 +375,11 @@ sap.ui.define([
          * Build dynamic filter items for ViewSettingsDialog based on distinct values in pickItems model
          * @param {sap.m.ViewSettingsDialog} oDlg
          */
-        _buildFilterDialogItems: function(oDlg) {
+        _buildFilterDialogItems: function (oDlg) {
             if (!oDlg) { return; }
 
             // Clear previous filter items
-            try { oDlg.destroyFilterItems(); } catch (e) {}
+            try { oDlg.destroyFilterItems(); } catch (e) { }
 
             var oComponent = this.getOwnerComponent();
             var oPickModel = oComponent && oComponent.getModel && oComponent.getModel("pickItems");
@@ -299,23 +387,23 @@ sap.ui.define([
 
             var oI18n = this.getView().getModel("i18n");
             var rb = oI18n && oI18n.getResourceBundle && oI18n.getResourceBundle();
-            function t(k){ try { return rb.getText(k); } catch(e){ return k; } }
+            function t(k) { try { return rb.getText(k); } catch (e) { return k; } }
 
             // Define fields to filter with label resolvers
             var aFields = [
-                { key: "VORNR",       label: t("action") },
-                { key: "MODEL",       label: t("model") },
-                { key: "MODEL_DESC",  label: t("modelDesc") },
-                { key: "CY_SEQNR",    label: t("shortbusnum") },
-                { key: "BDTER",       label: t("date"), formatter: this.formatter && this.formatter.bdterToDDMMYY },
-                { key: "RESERVED_QTY",label: t("qtyInReservation") },
+                { key: "VORNR", label: t("action") },
+                { key: "MODEL", label: t("model") },
+                { key: "MODEL_DESC", label: t("modelDesc") },
+                { key: "CY_SEQNR", label: t("shortbusnum") },
+                { key: "BDTER", label: t("date"), formatter: this.formatter && this.formatter.bdterToDDMMYY },
+                { key: "RESERVED_QTY", label: t("qtyInReservation") },
                 { key: "PICKING_QTY", label: t("qtyToPick") }
             ];
 
             // Pre-detect value type per field from first non-null sample
             var mTypes = {};
-            aFields.forEach(function(f){
-                for (var i=0;i<aItems.length;i++){
+            aFields.forEach(function (f) {
+                for (var i = 0; i < aItems.length; i++) {
                     var v = aItems[i] && aItems[i][f.key];
                     if (v !== undefined && v !== null && v !== "") {
                         mTypes[f.key] = typeof v;
@@ -329,9 +417,9 @@ sap.ui.define([
             // Build a lookup of currently applied filters to preselect items in the dialog
             var mActiveFilters = this._getCurrentFilterValueMap();
 
-            aFields.forEach(function(f){
+            aFields.forEach(function (f) {
                 var mDistinct = Object.create(null);
-                aItems.forEach(function(row){
+                aItems.forEach(function (row) {
                     if (!row) { return; }
                     var v = row[f.key];
                     if (v === undefined || v === null || v === "") { return; }
@@ -347,7 +435,7 @@ sap.ui.define([
                         multiSelect: true
                     });
 
-                    aValues.forEach(function(k){
+                    aValues.forEach(function (k) {
                         var vRaw = mDistinct[k];
                         var sText = (typeof f.formatter === 'function') ? f.formatter(vRaw) : String(vRaw);
                         // API fix: ViewSettingsFilterItem uses addItem (singular)
@@ -370,7 +458,7 @@ sap.ui.define([
          * Build a map of currently applied filter values keyed by field.
          * Example: { MODEL: { "X1": true, "X2": true }, VORNR: { "10": true } }
          */
-        _getCurrentFilterValueMap: function() {
+        _getCurrentFilterValueMap: function () {
             var m = Object.create(null);
             function add(path, val) {
                 var s = String(val);
@@ -401,13 +489,13 @@ sap.ui.define([
          * Apply filtering chosen in ViewSettingsDialog to both table (desktop) and list (mobile)
          * @param {sap.ui.base.Event} oEvent confirm event from ViewSettingsDialog
          */
-        onFilterConfirm: function(oEvent) {
+        onFilterConfirm: function (oEvent) {
             var mParams = oEvent.getParameters();
             var aSelectedItems = mParams && mParams.filterItems || [];
 
             // Group selected values by field
             var mFieldToValues = {};
-            aSelectedItems.forEach(function(oItem){
+            aSelectedItems.forEach(function (oItem) {
                 if (!oItem || !oItem.getParent) { return; }
                 var oGroup = oItem.getParent();
                 var sField = oGroup && oGroup.getKey && oGroup.getKey();
@@ -418,10 +506,10 @@ sap.ui.define([
 
             // Build compound filters: OR within same field, AND across different fields
             var aAndFilters = [];
-            Object.keys(mFieldToValues).forEach(function(sField){
+            Object.keys(mFieldToValues).forEach(function (sField) {
                 var aValues = mFieldToValues[sField] || [];
                 if (!aValues.length) { return; }
-                var aOrFilters = aValues.map(function(v){
+                var aOrFilters = aValues.map(function (v) {
                     // Convert numeric-looking values to number where appropriate by peeking at model data type
                     var vConv = v;
                     if (/^\s*-?\d+(?:\.\d+)?\s*$/.test(v)) { vConv = Number(v); }
@@ -449,7 +537,7 @@ sap.ui.define([
                 var oListBinding = oList.getBinding("items");
                 if (oListBinding && oListBinding.filter) {
                     // Note: reuse same Filter objects is fine; but create new to avoid shared state
-                    var aCloned = aAndFilters.map(function(f){
+                    var aCloned = aAndFilters.map(function (f) {
                         return (f.aFilters)
                             ? new Filter({ filters: f.aFilters.slice(), and: f.bAnd })
                             : new Filter(f.sPath, f.sOperator, f.oValue1, f.oValue2);
@@ -462,7 +550,7 @@ sap.ui.define([
         /**
          * Handler for the dialog's Reset button: remove all filters from table and mobile list.
          */
-        onFilterReset: function() {
+        onFilterReset: function () {
             try {
                 var oTable = this.byId("pickTable");
                 var oList = this.byId("mobileCardList");
@@ -480,7 +568,7 @@ sap.ui.define([
          * Apply sorting chosen in ViewSettingsDialog to both table (desktop) and list (mobile)
          * @param {sap.ui.base.Event} oEvent confirm event from ViewSettingsDialog
          */
-        onSortConfirm: function(oEvent) {
+        onSortConfirm: function (oEvent) {
             var mParams = oEvent.getParameters();
             var sPath = mParams.sortItem && mParams.sortItem.getKey();
             var bDescending = !!mParams.sortDescending;
@@ -518,14 +606,14 @@ sap.ui.define([
         /**
          * Header checkbox handler: toggle selected flag for all pick items
          */
-        onSelectAll: function(oEvent) {
+        onSelectAll: function (oEvent) {
             var bSelected = !!oEvent.getParameter("selected");
             var oComponent = this.getOwnerComponent();
             var oPickModel = oComponent.getModel("pickItems");
             if (!oPickModel) { return; }
             try {
                 var aItems = oPickModel.getProperty("/items") || [];
-                aItems = aItems.map(function(it){ it.selected = bSelected; return it; });
+                aItems = aItems.map(function (it) { it.selected = bSelected; return it; });
                 oPickModel.setProperty("/items", aItems);
                 // also update header checkbox state explicitly (defensive)
                 var oHeaderCB = this.byId("selectAllCheckBox");
@@ -536,7 +624,7 @@ sap.ui.define([
         /**
          * Row checkbox handler: update model and header checkbox state
          */
-        onSelectRow: function(oEvent) {
+        onSelectRow: function (oEvent) {
             var oSource = oEvent.getSource();
             var bSelected = !!oEvent.getParameter("selected");
             var oContext = oSource.getBindingContext("pickItems");
@@ -549,7 +637,7 @@ sap.ui.define([
                 oPickModel.setProperty(sPath + "/selected", bSelected);
                 // update header checkbox: selected only if all rows selected
                 var aItems = oPickModel.getProperty("/items") || [];
-                var bAll = aItems.length > 0 && aItems.every(function(it){ return !!it.selected; });
+                var bAll = aItems.length > 0 && aItems.every(function (it) { return !!it.selected; });
                 var oHeaderCB = this.byId("selectAllCheckBox");
                 if (oHeaderCB) { oHeaderCB.setSelected(bAll); }
             } catch (e) { console.warn("onSelectRow error", e); }
@@ -559,7 +647,7 @@ sap.ui.define([
          * Mobile "Select All" button: toggle all items selected/cleared.
          * It reuses the same pickItems model flag used by desktop checkboxes.
          */
-        onSelectAllMobile: function() {
+        onSelectAllMobile: function () {
             var oComponent = this.getOwnerComponent();
             var oPickModel = oComponent && oComponent.getModel && oComponent.getModel("pickItems");
             if (!oPickModel) { return; }
@@ -567,10 +655,10 @@ sap.ui.define([
             try {
                 var aItems = oPickModel.getProperty("/items") || [];
                 // determine if we should select or clear: select if not all currently selected
-                var bAllSelected = aItems.length > 0 && aItems.every(function(it){ return !!it.selected; });
+                var bAllSelected = aItems.length > 0 && aItems.every(function (it) { return !!it.selected; });
                 var bTarget = !bAllSelected;
 
-                aItems = aItems.map(function(it){ it.selected = bTarget; return it; });
+                aItems = aItems.map(function (it) { it.selected = bTarget; return it; });
                 oPickModel.setProperty("/items", aItems);
 
                 // also sync header checkbox on desktop, if present
@@ -580,21 +668,107 @@ sap.ui.define([
                 /* eslint no-console: 0 */
                 console.warn("onSelectAllMobile error", e);
             }
+
+
+
+            if (this.bTarget === undefined) {
+                this.bTarget = true;
+            }
+            else {
+                this.bTarget = !this.bTarget;
+            }
+
+
+            var list = this.byId("mobileCardPCyIList");
+            var oItems = list && list.getItems && list.getItems();
+            if (oItems && oItems.length > 0) {
+
+                oItems.forEach(function (it) {
+
+                    list.setSelectedItem(it, this.bTarget);
+
+
+                }, this);
+
+            }
+
+
+
+
+
+
         },
 
         /**
          * Navigate to IssueItems but only with rows marked (selected === true)
          */
-        onDisplayIssueItems: function() {
+        onDisplayIssueItems: function () {
             var oComponent = this.getOwnerComponent();
             var oPickModel = oComponent.getModel("pickItems");
-            var aItems = (oPickModel && oPickModel.getProperty && oPickModel.getProperty('/items')) || [];
-            var aSelected = aItems.filter(function(it){ return !!it.selected; });
-            if (!aSelected.length) { sap.m.MessageToast.show("No items selected"); return; }
-            if (!oComponent.getModel("issueItems")) {
-                oComponent.setModel(new sap.ui.model.json.JSONModel({ items: aSelected }), "issueItems");
+            var oList = '';
+            var aSelected;
+            var aItems;
+            if (this.getOwnerComponent().getModel("device").getData().isPhone) {
+                oList = this.getView().byId("mobileCardList");
+                aItems = (oPickModel && oPickModel.getProperty && oPickModel.getProperty('/items')) || [];
+                aSelected = aItems.filter(function (it) { return !!it.selected; });
             } else {
-                oComponent.getModel("issueItems").setData({ items: aSelected });
+                oList = this.getView().byId("mobileCardPCyIList");
+                aItems = (oList && oList.getItems && oList.getItems()) || [];
+                aSelected = oList.getSelectedItems().map(function (oItem) {
+                    var oContext = oItem.getBindingContext("pickItems");
+                    return oContext && oContext.getObject();
+                }).filter(function (it) { return !!it; });
+            }
+            // var aItems = (oPickModel && oPickModel.getProperty && oPickModel.getProperty('/items')) || [];
+            // var aSelected = aItems.filter(function (it) { return !!it.selected; });
+            if (!aSelected.length) { sap.m.MessageToast.show("No items selected"); return; }
+            var copyaSelected = [...aSelected];
+            var newArray = [];
+             copyaSelected.forEach(function (it) {
+                // ensure picking qty is not empty/undefined (can happen if user selected but did not enter a value)
+                if (it.PICKING_QTY === undefined || it.PICKING_QTY === null || it.PICKING_QTY === "") {
+                    it.PICKING_QTY = 0;
+                }
+                
+                if (it.XCHPF === 'X') {
+                    if (it.BATCHDATA) {
+                        var copyObject = JSON.parse(JSON.stringify(it))
+                        for (var t = 0; t < it.BATCHDATA.length; t++) {
+                            copyObject.CHARG = it.BATCHDATA[t] ? it.BATCHDATA[t].CHARG : "";
+                            copyObject.PICKING_QTY = it.BATCHDATA[t] ? it.BATCHDATA[t].MENGE : "";
+                            delete copyObject.BATCHDATA;
+                            newArray.push({ ...copyObject});
+                        }
+                    } else {
+                        newArray.push(it);
+                    }
+                    // delete it.BATCHDATA;
+                }
+                if (it.SERNP !== '') {
+                    if (it.SERNRDATA) {
+                        var copyObject = JSON.parse(JSON.stringify(it))
+                        for (var t = 0; t < it.PICKING_QTY; t++) {
+                            copyObject.SERNR = it.SERNRDATA[t] ? it.SERNRDATA[t].SERNR : "";
+                            copyObject.PICKING_QTY = 1;
+                            delete copyObject.SERNRDATA;
+                            newArray.push({ ...copyObject});
+                        }
+                    } else {
+                        newArray.push(it);
+                    }
+                    // delete it.SERNRDATA;
+                }
+                if (it.XCHPF === '' && it.SERNP === '') {
+                    newArray.push(it);
+                }
+
+
+            });
+            if (!oComponent.getModel("issueItems")) {
+                oComponent.setModel(new sap.ui.model.json.JSONModel({ items: newArray }), "issueItems");
+            } else {
+                oComponent.getModel("issueItems").setData({ items: newArray });
             }
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
             oRouter.navTo("IssueItems");
@@ -603,49 +777,67 @@ sap.ui.define([
         /**
          * Clear selections (clears selected flag on model and unchecks header checkbox)
          */
-        onClearSelection: function() {
+        onClearSelection: function () {
             var oComponent = this.getOwnerComponent();
             var oPickModel = oComponent.getModel("pickItems");
             if (oPickModel) {
                 try {
                     var aItems = oPickModel.getProperty('/items') || [];
-                    aItems = aItems.map(function(it){ it.selected = false; return it; });
+                    aItems = aItems.map(function (it) { it.selected = false; return it; });
                     oPickModel.setProperty('/items', aItems);
                 } catch (e) { console.warn("onClearSelection model update failed", e); }
+            }
+            this.bTarget = false;
+
+
+            var list = this.byId("mobileCardPCyIList");
+            var oItems = list && list.getItems && list.getItems();
+            if (oItems && oItems.length > 0) {
+
+                oItems.forEach(function (it) {
+                    list.setSelectedItem(it, this.bTarget);
+                }, this);
+
             }
             var oHeaderCB = this.byId("selectAllCheckBox");
             if (oHeaderCB) { oHeaderCB.setSelected(false); }
             sap.m.MessageToast.show("Selection cleared");
         },
 
-            /**
-             * Validate picking quantity cannot be greater than reserved quantity
-             */
-            onQtyToPickLiveChange: function(oEvent) {
-                var oInput = oEvent.getSource();
-                var sValue = oEvent.getParameter("value");
-                var oContext = oInput.getBindingContext("pickItems");
-                if (!oContext) { return; }
-                var oData = oContext.getObject();
-                var reservedQty = Number(oData.RESERVED_QTY);
-                var pickingQty = Number(sValue);
-                if (pickingQty > reservedQty) {
-                    oInput.setValue(reservedQty);
-                    var oComponent = this.getOwnerComponent();
-                    var oPickModel = oComponent.getModel("pickItems");
-                    if (oPickModel) {
-                        oPickModel.setProperty(oContext.getPath() + "/PICKING_QTY", reservedQty);
-                    }
-                    var oView = this.getView();
-                    var sMsg = oView.getModel("i18n").getResourceBundle().getText("errorPickingQtyExceedsReserved");
-                    MessageBox.error(sMsg);
+        /**
+         * Validate picking quantity cannot be greater than reserved quantity
+         */
+        onQtyToPickLiveChange: function (oEvent) {
+            var oComponent = this.getOwnerComponent();
+            var oInput = oEvent.getSource();
+            var sValue = oEvent.getParameter("value");
+            var oContext = oInput.getBindingContext("pickItems");
+            if (!oContext) { return; }
+            var oData = oContext.getObject();
+            var reservedQty = Number(oData.RESERVED_QTY);
+            var pickingQty = Number(sValue);
+            if (pickingQty > reservedQty) {
+                oInput.setValue(reservedQty);
+                
+                var oPickModel = oComponent.getModel("pickItems");
+                if (oPickModel) {
+                    oPickModel.setProperty(oContext.getPath() + "/PICKING_QTY", reservedQty);
                 }
-            },
+                var oView = this.getView();
+                var sMsg = oView.getModel("i18n").getResourceBundle().getText("errorPickingQtyExceedsReserved");
+                MessageBox.error(sMsg);
+            }else {
+                var oPickModel = oComponent.getModel("pickItems");
+                if (oPickModel) {
+                    oPickModel.setProperty(oContext.getPath() + "/PICKING_QTY", sValue);
+                }
+            }
+        },
 
         /**
          * Sort handler for table columns
          */
-        onSort: function(oEvent) {
+        onSort: function (oEvent) {
             var sPath = oEvent.getParameter("column").getSortProperty();
             var bDescending = oEvent.getParameter("sortOrder") === "Descending";
             var oTable = this.byId("pickTable");
@@ -654,18 +846,18 @@ sap.ui.define([
             oBinding.sort(oSorter);
         },
 
-        onPickTableUpdateFinished: function() {
+        onPickTableUpdateFinished: function () {
             this._attachQtyInputSelectDelegates();
             // this._attachHoverFocusDelegates(); // disabled
         },
 
-        _attachQtyInputSelectDelegates: function() {
+        _attachQtyInputSelectDelegates: function () {
             var oView = this.getView();
             if (!oView) { return; }
 
             this._aQtySelectDelegates = this._aQtySelectDelegates || [];
 
-            this._aQtySelectDelegates = this._aQtySelectDelegates.filter(function(oEntry) {
+            this._aQtySelectDelegates = this._aQtySelectDelegates.filter(function (oEntry) {
                 if (!oEntry || !oEntry.control || oEntry.control.bIsDestroyed) {
                     if (oEntry && oEntry.control && oEntry.delegate) {
                         oEntry.control.removeEventDelegate(oEntry.delegate);
@@ -678,24 +870,24 @@ sap.ui.define([
                 return true;
             }, this);
 
-            var aInputs = oView.findAggregatedObjects(true, function(oControl) {
+            var aInputs = oView.findAggregatedObjects(true, function (oControl) {
                 return !!(oControl && oControl.isA && oControl.isA("sap.m.Input") && oControl.hasStyleClass && oControl.hasStyleClass("hoverFocusInput"));
             }) || [];
 
             var that = this;
-            aInputs.forEach(function(oInput) {
+            aInputs.forEach(function (oInput) {
                 if (!oInput) { return; }
 
-                var oTracked = that._aQtySelectDelegates.find(function(oEntry) {
+                var oTracked = that._aQtySelectDelegates.find(function (oEntry) {
                     return oEntry && oEntry.control === oInput;
                 });
 
                 if (!oTracked) {
                     var oDelegate = {
-                        onAfterRendering: function() {
+                        onAfterRendering: function () {
                             that._registerQtySelectHandlers(oInput);
                         },
-                        onBeforeRendering: function() {
+                        onBeforeRendering: function () {
                             that._deregisterQtySelectHandlers(oInput);
                         }
                     };
@@ -707,9 +899,9 @@ sap.ui.define([
             });
         },
 
-        _clearQtyInputSelectDelegates: function() {
+        _clearQtyInputSelectDelegates: function () {
             if (!this._aQtySelectDelegates) { return; }
-            this._aQtySelectDelegates.forEach(function(oEntry) {
+            this._aQtySelectDelegates.forEach(function (oEntry) {
                 if (oEntry && oEntry.control) {
                     this._deregisterQtySelectHandlers(oEntry.control);
                 }
@@ -720,12 +912,12 @@ sap.ui.define([
             this._aQtySelectDelegates = [];
         },
 
-        _registerQtySelectHandlers: function(oInput) {
+        _registerQtySelectHandlers: function (oInput) {
             if (!oInput || !oInput.$) { return; }
 
             var fnHandler = oInput.data("selectAllHandler");
             if (!fnHandler) {
-                fnHandler = function(oEvent) {
+                fnHandler = function (oEvent) {
                     if (oEvent && oEvent.type === "mousedown" && oEvent.button !== 0) { return; }
                     if (oEvent && oEvent.type === "mousedown" && oEvent.preventDefault) {
                         oEvent.preventDefault();
@@ -752,7 +944,7 @@ sap.ui.define([
             }
         },
 
-        _deregisterQtySelectHandlers: function(oInput) {
+        _deregisterQtySelectHandlers: function (oInput) {
             if (!oInput || !oInput.$) { return; }
             var $Inner = oInput.$("inner");
             if ($Inner && $Inner.length) {
@@ -760,7 +952,7 @@ sap.ui.define([
             }
         },
 
-        _selectAllInputText: function(oInput) {
+        _selectAllInputText: function (oInput) {
             if (!oInput || !oInput.selectText) { return; }
             if (this._bSelectingQtyInputText) { return; }
 
@@ -773,7 +965,7 @@ sap.ui.define([
             } catch (eFocus) {
                 // ignore focus errors here, async retry below
             }
-            setTimeout(function() {
+            setTimeout(function () {
                 try {
                     var oDomRef = oInput.getFocusDomRef && oInput.getFocusDomRef();
                     if (oInput.focus && (!oDomRef || document.activeElement !== oDomRef)) {
@@ -789,7 +981,7 @@ sap.ui.define([
             }, 0);
         },
 
-        _attachHoverFocusDelegates: function() {
+        _attachHoverFocusDelegates: function () {
             /*
             var oView = this.getView();
             if (!oView) { return; }
@@ -825,7 +1017,7 @@ sap.ui.define([
             */
         },
 
-        _registerHoverFocus: function(oInput) {
+        _registerHoverFocus: function (oInput) {
             /*
             if (!oInput || !oInput.getDomRef) { return; }
 
@@ -881,7 +1073,7 @@ sap.ui.define([
             */
         },
 
-        _deregisterHoverFocus: function(oInput) {
+        _deregisterHoverFocus: function (oInput) {
             /*
             if (!oInput) { return; }
             var $Inner;
@@ -909,7 +1101,7 @@ sap.ui.define([
             */
         },
 
-        _clearHoverFocusDelegates: function() {
+        _clearHoverFocusDelegates: function () {
             /*
             if (!this._aHoverFocusDelegates) { return; }
             this._aHoverFocusDelegates.forEach(function(oEntry) {

@@ -2,12 +2,32 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:f="sap.ui.layout.form">
-    <Page id="digitalSignatureDisplayPage" title="{i18n>documentDetails}" showNavButton="true" navButtonPress="onNavBack">
+    <Page id="digitalSignatureDisplayPage" title="{i18n>digitalSignatureTitle}" showNavButton="true" navButtonPress="onNavBack">
         <VBox id="displayVBox" class="sapUiSmallMargin">
-            <HBox id="displayButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
-                <Button id="btnClearScreen" text="{i18n>clearScreen}" type="Unstyled" press="onClearSignature" class="doubleHeightButton greenButton" />
-                <Button id="btnSave" text="{i18n>save}" type="Unstyled" press="onSave" class="doubleHeightButton greenButton sapUiSmallMarginBegin" />
+           <HBox id="displayButtonsBarsignature" class="sapUiSmallMarginBottom" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }" >
+                 <Button id="btnClearScreen" text="{i18n>clearScreen}"  type="Unstyled" press="onClearSignature"  class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"/>
+                 <Button id="btnSave" text="{i18n>save}" type="Unstyled" press="onSave" class="doubleHeightButton greenButton sapUiSmallMarginBegin" />
             </HBox>
+            <!-- Signature Canvas Section -->
+            <Panel id="displaySignaturePanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
+                <headerToolbar>
+                
+                <OverflowToolbar id="ovtoolbarId">
+                <!-- <Title text="{i18n>employeeSignature}" /> -->
+                 <Label id="lblDisplaySignature" text="{i18n>employeeSignature}" required="true" class="sapUiSmallMarginBottom"/>
+                    <ToolbarSpacer id="toolbarSpacerId"/>
+                <Button id="btnClearScreenSignature" icon="sap-icon://delete" type="Unstyled" press="onClearSignatureextra"  />
+                </OverflowToolbar>
+                </headerToolbar>
+                <VBox id="displaySignatureBox" class="sapUiSmallMargin">
+                   
+                    <core:HTML id="signatureCanvasHtml" content="&lt;canvas id='displaySignatureCanvas' style='border: 2px solid #ccc; touch-action: none; background-color: white; cursor: crosshair; width: 100%; max-width: 800px; height: 150px;'&gt;&lt;/canvas&gt;" xmlns:core="sap.ui.core"/>
+                </VBox>
+            </Panel>
+            <!-- <HBox id="displayButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
+                <Button id="btnClearScreen" text="{i18n>clearScreen}" type="Unstyled" press="onClearSignature" class="doubleHeightButton greenButton" />
+               
+            </HBox> -->
             
             <!-- Document Details Section -->
             <Panel id="documentDetailsPanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
@@ -15,12 +35,13 @@
                     <f:SimpleForm id="documentForm" editable="true" layout="ResponsiveGridLayout">
                         <f:content>
                             <Label id="lblEmployeeNumber" text="{i18n>employeeNumber}" required="true"/>
-                            <Input id="inpEmployeeNumber" 
+                            <Input id="inpEmployeeNumber" type="Number" liveChange="onLiveChangeEmployeeNumber"
                                 value="{digitalSignature>/employeeNumber}" 
                                 placeholder="{i18n>employeeNumberPlaceholder}"
-                                change="onEmployeeNumberChange"
+                                
                                 required="true"/>
-                            
+                             <Label id="lblNotesOutput" text="{i18n>Notes}"/>
+                            <TextArea id="notesinput"    value="{digitalSignature>/notes}"/>
                             <Label id="lblEmployeeEmail" text="{i18n>employeeEmail}"/>
                             <Input id="inpEmployeeEmail" 
                                 value="{digitalSignature>/employeeEmail}" 
@@ -28,28 +49,29 @@
                                 editable="false"/>
                             
                             <Label id="lblDocNumber" text="{i18n>materialDocumentNumber}"/>
-                            <Input id="txtDocNumber" value="{digitalSignature>/MBLNR}" editable="false"/>
-                            
+                              <MultiInput id="inpMaterialDocument56" 
+                            width="100%" 
+                            placeholder="{i18n>materialDocumentPlaceholder}"
+                            editable="false"
+                            tokens="{MaterialDocumentokenModel>/}">
+                            <tokens>
+                                <Token id="documentToken56" text="{MaterialDocumentokenModel>key}" key="{MaterialDocumentokenModel>key}" delete="onTokenDelete"/>
+                            </tokens>
+                        </MultiInput>
+                           
                             <Label id="lblPrintOutput" text="{i18n>printOutput}"/>
                             <CheckBox id="chkPrintOutput" selected="{digitalSignature>/printOutput}"/>
                         </f:content>
                     </f:SimpleForm>
                 </VBox>
             </Panel>
-            
-            <!-- Signature Canvas Section -->
-            <Panel id="displaySignaturePanel" expandable="false" class="sapUiResponsiveMargin" width="auto">
-                <VBox id="displaySignatureBox" class="sapUiSmallMargin">
-                    <Label id="lblDisplaySignature" text="{i18n>employeeSignature}" required="true" class="sapUiSmallMarginBottom"/>
-                    <core:HTML id="signatureCanvasHtml" content="&lt;canvas id='displaySignatureCanvas' style='border: 2px solid #ccc; touch-action: none; background-color: white; cursor: crosshair; width: 100%; max-width: 800px; height: 300px;'&gt;&lt;/canvas&gt;" xmlns:core="sap.ui.core"/>
-                </VBox>
-            </Panel>
+         
         </VBox>
         
         <footer>
-            <OverflowToolbar id="displayFooter" visible="{= ${device>/isPhone} }">
+            <OverflowToolbar id="displayFooter" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
                 <ToolbarSpacer id="footerSpacer12"/>
-                <Button id="btnClearScreenFooter" text="{i18n>clearScreen}" type="Unstyled" press="onClearSignature" class="doubleHeightButton greenButton"/>
+                <Button id="btnClearScreenFooter" text="{i18n>clearScreen}" type="Unstyled" press="onClearSignature"  class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"/>
                 <Button id="btnSaveFooter" text="{i18n>save}" type="Unstyled" press="onSave" class="doubleHeightButton greenButton sapUiSmallMarginBegin"/>
             </OverflowToolbar>
         </footer>

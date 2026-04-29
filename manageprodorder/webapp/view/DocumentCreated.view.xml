@@ -8,12 +8,13 @@
         <content>
             <VBox id="docCreatedVBox" class="sapUiSmallMargin" renderType="Bare">
                 <!-- Mobile cards (visible on phone) -->
-                <VBox id="dcMobileCardsContainer" visible="{= ${device>/isPhone} }">
-                    <List id="dcMobileCardList" items="{created>/items}" mode="None" showSeparators="All">
+                <VBox id="dcMobileCardsContainer" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
+                    <List id="dcMobileCardList" headerText="{i18n>materialdocnum}"    items="{created>/items}" mode="None" showSeparators="All">
                         <items>
                             <CustomListItem id="dcMobileCardListItem">
                                 <VBox id="dcMobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin">
-                                    <Text id="dcMobileCardDocNum" text="{i18n>materialdocnum}: {created>DocumentNumber}"/>
+                                    <!-- <Text id="dcMobileCardDocNum" text="{i18n>materialdocnum}: {created>DocumentNumber}"/> -->
+                                    <Link id="dcMobileCardDocLink" text="{created>DocumentNumber}" press="onViewMaterialDocPress"/>
                                 </VBox>
                             </CustomListItem>
                         </items>
@@ -21,14 +22,15 @@
                 </VBox>
 
                 <!-- Desktop/tablet table (hidden on phone) -->
-                <Table id="createdItemsTable" items="{created>/items}" class="sapUiSmallMarginTop" visible="{= ${device>/isPhone} !== true }">
+                <Table id="createdItemsTable" items="{created>/items}" class="sapUiSmallMarginTop" visible="{= ${device>/isTablet} === false &amp;&amp;  ${device>/isPhone} === false}">
                     <columns>
                         <Column id="colCreatedMat"><header><Text id="txtCreatedMatHdr" text="{i18n>materialdocnum}"/></header></Column>
                     </columns>
                     <items>
                         <ColumnListItem id="cliCreatedItem">
                             <cells>
-                                <Text id="cellCreatedMat" text="{created>DocumentNumber}"/>
+                            <Link id="tablelinkid" text="{created>DocumentNumber}" press="onViewMaterialDocPress"/>
+                            <!-- <Text id="cellCreatedMat" text="{created>DocumentNumber}"/> -->
                             </cells>
                         </ColumnListItem>
                     </items>

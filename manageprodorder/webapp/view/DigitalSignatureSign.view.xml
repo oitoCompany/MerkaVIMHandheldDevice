@@ -2,10 +2,10 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:f="sap.ui.layout.form">
-    <Page id="digitalSignatureSignPage" title="{i18n>documentSaved}" showNavButton="true" navButtonPress="onNavBack">
+    <Page id="digitalSignatureSignPage" title="{i18n>digitalSignatureTitle}" showNavButton="true" navButtonPress="onNavBack">
         <VBox id="signVBox" class="sapUiSmallMargin">
             <HBox id="signButtonsBar" class="sapUiSmallMarginBottom" visible="{= !${device>/isPhone} }">
-                <Button id="btnContinue" text="{i18n>continue}" type="Unstyled" press="onContinue" class="doubleHeightButton greenButton" />
+                <Button id="btnContinue" icon="sap-icon://home"  type="Unstyled" press="onContinue" class="doubleHeightButton greenButton" />
             </HBox>
             
             <!-- Success Message -->
@@ -22,16 +22,33 @@
                     <f:SimpleForm id="savedDocumentForm" editable="false" layout="ResponsiveGridLayout">
                         <f:content>
                             <Label id="lblSavedDocNumber" text="{i18n>materialDocumentNumber}"/>
-                            <Text id="txtSavedDocNumber" text="{savedDocument>/MBLNR}"/>
-                            
+                            <!-- <Text id="txtSavedDocNumber" text="{savedDocument>/MBLNR}"/> -->
+                            <MultiInput id="inpMaterialDocument567" 
+                            width="100%" 
+                            placeholder="{i18n>materialDocumentPlaceholder}"
+                            editable="false"
+                            tokens="{MaterialDocumentokenModel>/}">
+                            <tokens>
+                                <Token id="documentToken567" text="{MaterialDocumentokenModel>key}" key="{MaterialDocumentokenModel>key}" delete="onTokenDelete"/>
+                            </tokens>
+                            </MultiInput>
                             <Label id="lblSavedFiscalYear" text="{i18n>fiscalYear}"/>
-                            <Text id="txtSavedFiscalYear" text="{savedDocument>/MJAHR}"/>
+                             <!-- <Text id="txtSavedDocNumber" text="{savedDocument>/MBLNR}"/> -->
+                            <MultiInput id="inpMaterialDocument5" 
+                            width="100%" 
+
+                            editable="false"
+                            tokens="{MaterialDocumentItemModel>/}">
+                            <tokens>
+                                <Token id="documentToken5" text="{MaterialDocumentItemModel>MJAHR}" key="{MaterialDocumentItemModel>MJAHR}" delete="onTokenDelete"/>
+                            </tokens>
+                            </MultiInput>
                             
-                            <Label id="lblSavedDocumentDate" text="{i18n>documentDate}"/>
+                            <!-- <Label id="lblSavedDocumentDate" text="{i18n>documentDate}"/>
                             <Text id="txtSavedDocumentDate" text="{savedDocument>/BLDAT}"/>
                             
                             <Label id="lblSavedPostingDate" text="{i18n>postingDate}"/>
-                            <Text id="txtSavedPostingDate" text="{savedDocument>/BUDAT}"/>
+                            <Text id="txtSavedPostingDate" text="{savedDocument>/BUDAT}"/> -->
                         </f:content>
                     </f:SimpleForm>
                 </VBox>

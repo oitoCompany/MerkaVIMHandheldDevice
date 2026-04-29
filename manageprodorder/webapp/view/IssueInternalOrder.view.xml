@@ -1,55 +1,154 @@
 <mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.IssueInternalOrder"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m" xmlns:layout="sap.ui.layout">
     <Page id="issueInternalOrderPage" title="{i18n>addedItemsTitle}" showHeader="true"  showNavButton="true" navButtonPress="onNavBack" >
         <content>
             <VBox id="_IDGenVBox6" class="sapUiMediumMargin">
                 <!-- Desktop/tablet actions toolbar (top, above inputs) -->
-                <Toolbar id="issueInternalOrderTopToolbar" visible="{= !${device>/isPhone} }" class="topActionToolbar">
-                    <Button id="_IDGenButton2" text="{i18n>clearButton}" press="onClearFields" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
+                <Toolbar id="issueInternalOrderTopToolbar" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }" class="topActionToolbar">
+                    <Button id="_IDGenButton2" text="{i18n>clear}" press="onClearFields" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
                     <Button id="_IDGenButton3" text="{i18n>addButton}" press="onAdd" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
                     <Button id="_IDGenButton4" text="{i18n>showitem}" press="onContinue"  type="Unstyled" class="doubleHeightButton greenButton" />
+                     <Text
+                        id="txtItemCount"
+                        text="{i18n>ItemCountadd} {items>/items/length}"
+                        class="fontstyle"
+                    />
                 </Toolbar>
                 <Panel id="_IDGenPanel"  expandable="false" class="sapUiResponsiveMargin" width="auto">
                     <VBox id="_IDGenVBox7">
 
-                        <Label id="_IDGenLabel4" text="{i18n>materialNumberLabel}" labelFor="materialInput"/>
-                        <Input id="materialInput" width="50%" value="{view>/MATNR}"/>
+                        <!-- <Label id="_IDGenLabel4" text="{i18n>materialNumberLabel}" labelFor="materialInput"/>
+                        <Input id="materialInput"  width="50%"  value="{view>/MATNR}"/> -->
 
-                        <Label id="_IDGenLabel2" text="{i18n>issuingStorageLocationLabel}" labelFor="issuingStorageLocationInput"/>
-                        <Input id="issuingStorageLocationInput" width="40%" value="{view>/LGORT}"/>
+                        <!-- <Label id="_IDGenLabel2" text="{i18n>issuingStorageLocationLabel}" labelFor="issuingStorageLocationInput"/>
+                        <Input id="issuingStorageLocationInput" type="Number"  width="40%" value="{view>/LGORT}"/> -->
 
-                        <Label id="_IDGenLabel3" text="{i18n>internalOrderLabel}" labelFor="internalOrderInput"/>
-                        <Input id="internalOrderInput" width="40%" value="{view>/AUFNR}" showValueHelp="true" valueHelpRequest="onInternalOrderValueHelp"/>
+                        <!-- <Label id="_IDGenLabel3" text="{i18n>internalOrderLabel}" labelFor="internalOrderInput"/>
+                        <Input id="internalOrderInput" width="40%" value="{view>/AUFNR}" showValueHelp="true" valueHelpRequest="onInternalOrderValueHelp"/> -->
 
-                        <Label id="_IDGenLabel1" text="{i18n>costCenterLabel}" labelFor="costCenterInput"/>
-                        <Input id="costCenterInput" width="40%" value="{view>/KOSTL}" showValueHelp="true" valueHelpRequest="onCostCenterValueHelp"/>
+                        <!-- <Label id="_IDGenLabel1" text="{i18n>costCenterLabel}" labelFor="costCenterInput"/>
+                        <Input id="costCenterInput" width="40%" value="{view>/KOSTL}" showValueHelp="true" valueHelpRequest="onCostCenterValueHelp"/> -->
 
 
-                        <Label id="_IDGenLabel5" text="{i18n>issueQuantityLabel}" labelFor="issueQuantityInput"/>
-                        <Input id="issueQuantityInput" class="hoverFocusInput" type="Number" width="40%" value="{view>/PICKING_QTY}"/>
+                        <!-- <Label id="_IDGenLabel5" text="{i18n>issueQuantityLabel}" labelFor="issueQuantityInput"/>
+                        <Input id="issueQuantityInput" class="hoverFocusInput" type="Number" width="40%" value="{view>/PICKING_QTY}"/> -->
 
                         <!-- New disabled fields from attachment -->
-                        <Label id="_IDGenLabel7" text="{i18n>materialDescription}" labelFor="materialDescriptionInput"/>
-                        <Input id="materialDescriptionInput" width="50%" value="{view>/MAKTX}" enabled="false"/>
+                        <!-- <Label id="_IDGenLabel7" text="{i18n>materialDescription}" labelFor="materialDescriptionInput"/> -->
+                        <!-- <Input id="materialDescriptionInput" width="50%" value="{view>/MAKTX}" enabled="false"/> -->
 
-                        <Label id="_IDGenLabel8" text="{i18n>itemLocatorLabel}" labelFor="itemLocatorInput"/>
-                        <Input id="itemLocatorInput" width="40%" value="{view>/LGPBE}" enabled="false"/>
+                        <!-- <Label id="_IDGenLabel8" text="{i18n>itemLocatorLabel}" labelFor="itemLocatorInput"/>
+                        <Input id="itemLocatorInput" width="40%" value="{view>/LGPBE}" enabled="false"/> -->
 
-                        <Label id="_IDGenLabel9" text="{i18n>baseUoM}" labelFor="uomInput"/>
-                        <Input id="uomInput" width="40%" value="{view>/MEINS}" enabled="false"/>
+                        <!-- <Label id="_IDGenLabel9" text="{i18n>baseUoM}" labelFor="uomInput"/>
+                        <Input id="uomInput" width="40%" value="{view>/MEINS}" enabled="false"/> -->
 
-                        <Label id="_IDGenLabel10" text="{i18n>quantityInStockLabel}" labelFor="quantityInStockInput"/>
-                        <Input id="quantityInStockInput" width="40%" value="{view>/LABST}" enabled="false"/>
+                        <!-- <Label id="_IDGenLabel10" text="{i18n>quantityInStockLabel}" labelFor="quantityInStockInput"/>
+                        <Input id="quantityInStockInput" width="40%" value="{view>/LABST}" enabled="false"/> -->
                     </VBox>
+
+                      <layout:Grid id="grislayoutitemid" class="sapUiSmallMarginTop customBeginClass" hSpacing="1" vSpacing="1" >
+                                   
+                                     <VBox id="iditem4" >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData" span="XL12 L12 M12 S12"/>
+                                     </layoutData>
+
+                                     <Label id="_IDGenLabel4" text="{=${i18n>materialNumberLabel}+ '\u00a0\u00a0'}"  labelFor="materialInput"/>
+                                     <HBox id="iditem4hbox">                                  
+                                        <Input id="materialInput"   value="{view>/MATNR}"/>
+                                        <Text class="sapUiTinyMarginBegin boldText textbacgroundcolor" id="iioMobileCardMatDescitem2dup" text="{view>/MAKTX} " />
+                                      </HBox>
+                                    </VBox> 
+                                     <!-- <HBox id="iditem5" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData1" span="XL12 L12 M12 S12"/>
+                                     </layoutData> -->
+                                     <!-- <Text id="iioMobileCardMatDesc1" class="boldText" text="{=${i18n>materialDescription} + ':'   }"/> -->
+                                    <!-- <Text id="iioMobileCardMatDescitem2" text="{view>/MAKTX} "/>
+                                    </HBox>   -->
+                                     <VBox id="iioMobileCardItems" >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridDataitem8" span="XL4 L4 M4 S6"/>
+                                     </layoutData>
+                                        <Label id="_IDGenLabel2" text="{=${i18n>issuingStorageLocationLabelNew}+ '\u00a0\u00a0'}"  labelFor="issuingStorageLocationInput"/>
+                                        <Input id="issuingStorageLocationInput" type="Number" width="40%"   value="{view>/LGORT}" class="custmboldinput"/>
+
+                                     </VBox>
+                                     <VBox id="iditem1" >
+                                       <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData5" span="XL3 L3 M3 S6"/>
+                                     </layoutData>
+                                     <Label id="_IDGenLabel8"  text="{=${i18n>itemLocatorLabel}}" labelFor="itemLocatorInput"/>
+                                       <Text id="itemLocatorInput"  text="{view>/LGPBE}" class="boldText textbacgroundcolor"/>
+                                    </VBox> 
+                                       
+                                        <VBox id="iditem8" >
+                                         <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData2" span="XL3 L3 M3 S6"/>
+                                     </layoutData>
+                                        <Label id="_IDGenLabel10"  text="{=${i18n>quantityInStockLabel}}" labelFor="quantityInStockInput"/>
+                                       <Text id="quantityInStockInput" class="boldText textbacgroundcolor" text="{path:'view>/LABST',formatter:'.formatNumber'}" />
+                                    </VBox>  
+                                      <VBox id="iditem6" >
+                                       <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData4" span="XL2 L2 M2 S6"/>
+                                     </layoutData>
+                                       <Label id="_IDGenLabel9"  text="{=${i18n>baseUoMNew}}" labelFor="uomInput"/>
+                                       <Text id="uomInput"  text="{view>/MEINS}" class="boldText textbacgroundcolor"/>
+                                    </VBox>  
+                                      
+                                   
+                                   
+                                     <VBox id="iditem3" >
+                                    <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData6" span="XL12 L12 M12 S12"/>
+                                     </layoutData>
+                                      <Label id="_IDGenLabel3" text="{=${i18n>internalOrderLabel}+ '\u00a0\u00a0'}"  labelFor="internalOrderInput"/>
+                                      <HBox id="jhdhbox">
+                                      <Input id="internalOrderInput" value="{view>/AUFNR}" showValueHelp="true"  width="90%" liveChange="onLiveChangeOrder"    valueHelpRequest="onInternalOrderValueHelp"/>
+                                      <Text id="poie"/>
+                                      </HBox>
+                                    </VBox>  
+                                      
+                                  
+                                      <VBox id="iditem7" >
+                                       <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData7" span="XL12 L12 M12 S12"/>
+                                     </layoutData>
+                                     <Label id="_IDGenLabel1" text="{=${i18n>costCenterLabel}+ '\u00a0\u00a0'}"  labelFor="costCenterInput"/>
+                                     <HBox id="costcenterhbox">
+                                    <Input id="costCenterInput"  value="{view>/KOSTL}" showValueHelp="true" width="90%" liveChange="onLiveChangeOrdercost"  valueHelpRequest="onCostCenterValueHelp"/>
+                                   <Text id="Loie"/>
+                                    </HBox>
+                                    </VBox> 
+
+                                      <VBox id="iditem17" >
+                                       <layoutData>
+                                     <layout:GridData id="_IDGenGriditemData17" span="XL6 L6 M6 S12"/>
+                                     </layoutData>
+                                        <Label id="_IDGenLabel5" text="{=${i18n>issueQuantityLabel}+ '\u00a0\u00a0'}"  labelFor="issueQuantityInput"/>
+                                       <Input id="issueQuantityInput" class="hoverFocusInput" type="Number" width="40%"  value="{view>/PICKING_QTY}"/>
+
+                                    </VBox> 
+                                    
+                             
+                                </layout:Grid>
+           
                 </Panel>
                 
             </VBox>
         </content>
         <footer>
             <!-- Mobile-only footer actions (OverflowToolbar for consistency) -->
-            <OverflowToolbar id="issueInternalOrderFooterToolbar" visible="{= ${device>/isPhone} }" class="mobileFooterToolbar">
+            <OverflowToolbar id="issueInternalOrderFooterToolbar" visible="{= ${device>/isPhone} || ${device>/isTablet} }" class="mobileFooterToolbar">
                 <ToolbarSpacer id="issueInternalOrderFooterSpacer" />
+                 <Text
+                        id="txtItemCountmobil"
+                        text="{i18n>ItemCountadd} {items>/items/length}"
+                        class="fontstyle"
+                    />
                     <Button id="_IDGenButton5" text="{i18n>clearButton}" press="onClearFields" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
                     <Button id="_IDGenButton6" text="{i18n>addButton}" press="onAdd" type="Unstyled" class="doubleHeightButton lightBlueButton sapUiTinyMarginEnd" />
                     <Button id="_IDGenButton7" text="{i18n>showitem}" press="onContinue"  type="Unstyled" class="doubleHeightButton greenButton" />

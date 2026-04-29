@@ -25,30 +25,35 @@ sap.ui.define([
                 PICKING_QTY: ""
             }), "view");
         },
+         formatNumber:function(value){   
+            if(value || value === 0){
+                return parseFloat(value).toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 3});
+            }
+        },
 
         /**
          * Helper to set focus on material input field with proper timing
          */
-        _setMaterialFocus: function() {
+        _setMaterialFocus: function () {
             var that = this;
             // Use requestAnimationFrame for better timing with UI rendering
-            window.requestAnimationFrame(function() {
-                setTimeout(function() {
+            window.requestAnimationFrame(function () {
+                setTimeout(function () {
                     var oMaterialInput = that.getView().byId("materialInput");
                     if (oMaterialInput && oMaterialInput.getDomRef()) {
                         oMaterialInput.focus();
                         // Force focus multiple times to override UI5's automatic focus management
-                        setTimeout(function() {
+                        setTimeout(function () {
                             if (oMaterialInput && oMaterialInput.getDomRef()) {
                                 oMaterialInput.focus();
                             }
                         }, 100);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             if (oMaterialInput && oMaterialInput.getDomRef()) {
                                 oMaterialInput.focus();
                             }
                         }, 300);
-                        setTimeout(function() {
+                        setTimeout(function () {
                             if (oMaterialInput && oMaterialInput.getDomRef()) {
                                 oMaterialInput.focus();
                             }
@@ -78,11 +83,12 @@ sap.ui.define([
             var sCurrentMat = (oData.MATNR || "").trim();
             var sLastMat = (this._lastMaterialEntered || "").trim();
             var bMaterialChanged = sCurrentMat !== sLastMat;
-            oData.LGORT = bMaterialChanged ? "" : (oData.LGORT || ""); 
+            oData.LGORT = bMaterialChanged ? "" : (oData.LGORT || "");
             oData.MAKTX = bMaterialChanged ? "" : (oData.MAKTX || "");
             oData.LGPBE = bMaterialChanged ? "" : (oData.LGPBE || "");
             oData.MEINS = bMaterialChanged ? "" : (oData.MEINS || "");
             oData.LABST = bMaterialChanged ? "" : (oData.LABST || "");
+            oData.CHECK = "";
 
             // Build payload
             var oPayload = {
@@ -112,14 +118,14 @@ sap.ui.define([
 
                     // Check for error indicator 'E' in SAP message structure
                     if (response && response.MSG && response.MSG.MSGTY === "E") {
-                       MessageBox.error(response.MSG.MSGTX || "Error occurred");
+                        MessageBox.error(response.MSG.MSGTX || "Error occurred");
                         return;
                     }
 
                     // Update last material after successful check
                     that._lastMaterialEntered = (oModel.getProperty("/MATNR") || sCurrentMat || null);
 
-                    sap.m.MessageToast.show("Data updated from server.");
+                    // sap.m.MessageToast.show("Data updated from server.");
                 },
                 error: function (xhr, status, error) {
                     sap.m.MessageToast.show("Failed to fetch data on Enter.");
@@ -128,7 +134,22 @@ sap.ui.define([
         },
 
         onNavBack: function () {
-            this.getOwnerComponent().getRouter().navTo("RouteView1");
+            var that = this;
+            MessageBox.warning(
+                that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("ScreenExitWarningTitle"), {
+                actions: [that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"), MessageBox.Action.CANCEL],
+                emphasizedAction: that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"),
+                onClose: function (sAction) {
+                    if (sAction === that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")) {
+                        // User confirmed deletion
+                        that.getOwnerComponent().getRouter().navTo("RouteView1");
+                    } else {
+                        // User cancelled deletion, do nothing
+                        return;
+                    }
+                }
+            });
+
         },
 
         onNavHome: function () {
@@ -138,12 +159,21 @@ sap.ui.define([
         onInit: function () {
             var oRouter = this.getOwnerComponent().getRouter();
             var that = this;
-            oRouter.getRoute("IssueInternalOrder").attachMatched(function () {
+            oRouter.getRoute("IssueInternalOrder").attachMatched(function (oEvent) {
+                var oArgs = oEvent.getParameter("arguments") || {};
+                var oView = that.getView();
+                var Flag = oArgs.Flag || "";
+                var Aufnrn =  "";
+                var Kostln =  "";
+                if(Flag === "X"){
+                    Aufnrn = that.getView().getModel("view").getData().AUFNR || "";
+                    Kostln = that.getView().getModel("view").getData().KOSTL || "";
+                }
                 that.getView().setModel(new sap.ui.model.json.JSONModel({
                     WERKS: "",
                     LGORT: "",
-                    AUFNR: "",
-                    KOSTL: "",
+                    AUFNR: Aufnrn,
+                    KOSTL: Kostln,
                     MATNR: "",
                     MEINS: "",
                     LGPBE: "",
@@ -154,6 +184,14 @@ sap.ui.define([
                 }), "view");
                 // Set focus on material input when route is matched
                 that._setMaterialFocus();
+                 var inputfocus3 = that.getView().byId("internalOrderInput");
+            inputfocus3.setDescription("");
+            this.getView().byId("poie").setText("");
+           
+            var inputfocus4 = that.getView().byId("costCenterInput");
+            inputfocus4.setDescription("");
+            this.getView().byId("Loie").setText("");
+           
             });
             // Clear all fields in the view model on initialization
             this.getView().setModel(new sap.ui.model.json.JSONModel({
@@ -178,7 +216,7 @@ sap.ui.define([
                 }
             };
             this.getView().addEventDelegate(this._oEnterDelegate);
-
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE"? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0,1);
             var oPayload = {
                 "DATA": {
                     "WERKS": "",
@@ -191,8 +229,8 @@ sap.ui.define([
                     "LABST": 0,
                     "MAKTX": "",
                     "BKTXT": "",
-                    "SPRAS": sap.ui.getCore().getConfiguration().getLanguage() || "E",
-                    "PICKING_QTY": 0
+                    "SPRAS": lang || "E",
+                    "PICKING_QTY": ""
                 }
             };
 
@@ -206,7 +244,7 @@ sap.ui.define([
                 success: function (oData) {
 
                     if (oData.DATA.LABST === 0) {
-                        oData.DATA.LABST = "";
+                        oData.DATA.LABST = 0;
                     }
                     if (oData.DATA.PICKING_QTY === 0) {
                         oData.DATA.PICKING_QTY = "";
@@ -232,11 +270,35 @@ sap.ui.define([
             });
         },
         onAfterRendering: function () {
-           var inputfocus = this.getView().byId("issueQuantityInput");
-                 inputfocus.attachBrowserEvent("focusin", function() {
-                     inputfocus.$().find("input").select();
-                     this.selectText(0, this.getValue().length);
-        });
+            var inputfocus = this.getView().byId("issueQuantityInput");
+            inputfocus.attachBrowserEvent("focusin", function () {
+                inputfocus.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus1 = this.getView().byId("materialInput");
+            inputfocus1.attachBrowserEvent("focusin", function () {
+                inputfocus1.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus2 = this.getView().byId("issuingStorageLocationInput");
+            inputfocus2.attachBrowserEvent("focusin", function () {
+                inputfocus2.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus3 = this.getView().byId("internalOrderInput");
+            inputfocus3.setDescription("");
+            this.getView().byId("poie").setText("");
+            inputfocus3.attachBrowserEvent("focusin", function () {
+                inputfocus3.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+            var inputfocus4 = this.getView().byId("costCenterInput");
+            inputfocus4.setDescription("");
+            this.getView().byId("Loie").setText("");
+            inputfocus4.attachBrowserEvent("focusin", function () {
+                inputfocus4.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
         },
         onClearFields: function () {
             var oModel = this.getView().getModel("view");
@@ -254,13 +316,19 @@ sap.ui.define([
                 LABST: "",
                 WERKS: oData.WERKS
             });
+            var inputfocus3 = this.getView().byId("internalOrderInput");
+            inputfocus3.setDescription("");
+            this.getView().byId("poie").setText("");
+            var inputfocus4 = this.getView().byId("costCenterInput");
+            inputfocus4.setDescription("");
+            this.getView().byId("Loie").setText("");
             this._setMaterialFocus();
             var MatInput = this.getView().byId("materialInput");
             if (MatInput) {
                 jquery.sap.delayedCall(0, this, function () {
                     MatInput.focus();
                 })
-               
+
             }
         },
 
@@ -268,7 +336,7 @@ sap.ui.define([
             var oModel = this.getView().getModel("view");
             var oData = oModel.getData();
             oModel.setData({
-                LGORT: oData.LGORT,
+                LGORT: "",
                 AUFNR: oData.AUFNR,
                 KOSTL: oData.KOSTL,
                 MATNR: "",
@@ -281,7 +349,24 @@ sap.ui.define([
                 WERKS: oData.WERKS
             });
         },
+        onLiveChangeOrder: function (oEvent) {
+            var oValue = oEvent.getParameter("value");
 
+            if(oValue.length === 0){
+                var oInput = oEvent.getSource();
+                oInput.setDescription("");
+                this.getView().byId("poie").setText("");
+            }
+            
+        },
+        onLiveChangeOrdercost: function (oEvent) {
+            var oValue = oEvent.getParameter("value");
+             if(oValue.length === 0){
+                var oInput = oEvent.getSource();
+                oInput.setDescription("");
+                this.getView().byId("Loie").setText("");
+            }
+        },
         onAdd: function () {
             var oViewModel = this.getView().getModel("view");
             var oItemsModel = this.getView().getModel("items");
@@ -294,6 +379,7 @@ sap.ui.define([
             var that = this;
             var baseUrl = this.getOwnerComponent().getManifestEntry("sap.app").dataSources.mainService.uri;
             var url = "ISSUE_ORD_1_CHECK";
+            oData.CHECK = "X";
             var oPayload = {
                 DATA: oData,
                 MSG: {
@@ -321,7 +407,7 @@ sap.ui.define([
                     var aItems = oItemsModel.getProperty("/items");
                     aItems.push(response.DATA);
                     oItemsModel.setProperty("/items", aItems);
-                    MessageToast.show(that.getView().getModel("i18n").getResourceBundle().getText("itemAddedSuccess"));
+                    // MessageToast.show(that.getView().getModel("i18n").getResourceBundle().getText("itemAddedSuccess"));
                     that.onClearFieldsAdd();
                     // Set focus back on material input
                     that._setMaterialFocus();
@@ -343,6 +429,7 @@ sap.ui.define([
         },
 
         onInternalOrderValueHelp: function (oEvent) {
+            var textddes = this.getView().byId("poie");
             var oModel = this.getView().getModel("issueOrdInitModel");
             var aInternalOrders = oModel && oModel.getProperty("/LIST/AUFNR") ? oModel.getProperty("/LIST/AUFNR") : [];
             var oInput = oEvent.getSource();
@@ -350,18 +437,20 @@ sap.ui.define([
                 title: "Select Internal Order",
                 items: aInternalOrders.map(function (item) {
                     return new sap.m.StandardListItem({
-                        title: item.AUFNR_CODE || item.AUFNR,
-                        description: item.AUFNR_DESC || ""
+                        title: item.AUFNR_CODE + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.AUFNR_DESC || item.AUFNR + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.AUFNR_DESC,
+                        // description: item.AUFNR_DESC || ""
                     });
                 }),
                 confirm: function (oConfirmEvent) {
                     var oSelected = oConfirmEvent.getParameter("selectedItem");
                     if (oSelected) {
-                        oInput.setValue(oSelected.getTitle());
-                        try{
-                        var oViewModel = oInput.getBindingContext("view").getModel();
-                        oViewModel.setProperty("/AUFNR", oSelected.getTitle());
-                        }catch(e){
+                        oInput.setValue(oSelected.getTitle().split('-')[0].trim());
+                        // oInput.setDescription(oSelected.getTitle().split('-')[1].trim());
+                        textddes.setText(oSelected.getTitle().split('-')[1].trim());
+                        try {
+                            var oViewModel = oInput.getBindingContext("view").getModel();
+                            oViewModel.setProperty("/AUFNR", oSelected.getTitle().split('-')[0].trim());
+                        } catch (e) {
 
                         }
                     }
@@ -376,8 +465,8 @@ sap.ui.define([
                     oDialog.removeAllItems();
                     aFiltered.forEach(function (item) {
                         oDialog.addItem(new sap.m.StandardListItem({
-                            title: item.AUFNR_CODE || item.AUFNR,
-                            description: item.AUFNR_DESC || ""
+                            title: item.AUFNR_CODE + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.AUFNR_DESC || item.AUFNR + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.AUFNR_DESC,
+                            // description: item.AUFNR_DESC || ""
                         }));
                     });
                 }
@@ -386,6 +475,7 @@ sap.ui.define([
         },
 
         onCostCenterValueHelp: function (oEvent) {
+            var textdesss = this.getView().byId("Loie");
             var oModel = this.getView().getModel("issueOrdInitModel");
             var aCostCenters = oModel && oModel.getProperty("/LIST/KOSTL") ? oModel.getProperty("/LIST/KOSTL") : [];
             var oInput = oEvent.getSource();
@@ -393,18 +483,20 @@ sap.ui.define([
                 title: "Select Cost Center",
                 items: aCostCenters.map(function (item) {
                     return new sap.m.StandardListItem({
-                        title: item.KOSTL_CODE || item.KOSTL,
-                        description: item.KOSTL_DESC || ""
+                        title: item.KOSTL_CODE + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.KOSTL_DESC || item.KOSTL + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.KOSTL_DESC,
+                        // description: item.KOSTL_DESC || ""
                     });
                 }),
                 confirm: function (oConfirmEvent) {
                     var oSelected = oConfirmEvent.getParameter("selectedItem");
                     if (oSelected) {
-                        oInput.setValue(oSelected.getTitle());
-                        try{
-                        var oViewModel = oInput.getBindingContext("view").getModel();
-                        oViewModel.setProperty("/KOSTL", oSelected.getTitle());
-                    }catch(e){}
+                        oInput.setValue(oSelected.getTitle().split('-')[0].trim());
+                        // oInput.setDescription(oSelected.getTitle().split('-')[1].trim());
+                        textdesss.setText(oSelected.getTitle().split('-')[1].trim());
+                        try {
+                            var oViewModel = oInput.getBindingContext("view").getModel();
+                            oViewModel.setProperty("/KOSTL", oSelected.getTitle().split('-')[0].trim());
+                        } catch (e) { }
                     }
                 },
                 search: function (oSearchEvent) {
@@ -417,8 +509,8 @@ sap.ui.define([
                     oDialog.removeAllItems();
                     aFiltered.forEach(function (item) {
                         oDialog.addItem(new sap.m.StandardListItem({
-                            title: item.KOSTL_CODE || item.KOSTL,
-                            description: item.KOSTL_DESC || ""
+                            title: item.KOSTL_CODE + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.KOSTL_DESC || item.KOSTL + '\u00a0\u00a0\u00a0' + '-' + '\u00a0\u00a0\u00a0' + item.KOSTL_DESC,
+                            // description: item.KOSTL_DESC || ""
                         }));
                     });
                 }

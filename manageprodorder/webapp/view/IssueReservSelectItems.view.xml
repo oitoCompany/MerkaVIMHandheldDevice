@@ -1,0 +1,285 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.IssueReservSelectItems"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout">
+    <Page id="IssueReservSelectItemsPage" title="{i18n>IssueBasedonReservationTileHeaderNew}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} }">
+        <content>
+        <VBox id="IssueReservSelectItemsVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                 <Toolbar id="IssueReservSelectItemsActions" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }" class="sapUiTinyMarginBottom">
+                     <Button id="btnIssueSaveTop1" text="{i18n>save}" press="onSave" type="Unstyled" class="doubleHeightButton greenButton"/>
+                     <ToolbarSpacer id="issueItemsTopSpacer1"/>
+                     <Button id="btnIssueSortTop1" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                 </Toolbar>
+             <!-- <VBox id="issueItemsSummaryBox1" class="sapUiSmallMarginBottom" justifyContent="Center">
+                    <Text id="txtIssueItemsSummary1" text="{i18n>summary}" class="sapUiHighlight"/>
+            </VBox> -->
+           <!-- <VBox id="inputFieldsordeerdeVBoxMobile" class="compactFieldsContainer" visible="true">
+                <VBox id="itemInfoorderdeVBox" class="sapUiTinyMarginBottom">
+                     <Text id="txtInputMateridealorderMobile" text="{IssueBasedonReservationMainModel>/HEAD/AUFNR}" class="compactItemNumber"/>
+                    <Text id="txtInputMateridealDescriptionorderMobile" text="{IssueBasedonReservationMainModel>/HEAD/AUFNR_DESC}" class="compactDescription"/>
+                </VBox>
+          
+            </VBox> -->
+
+            <!-- Original SimpleForm for desktop/tablet -->
+            <!-- <VBox id="issueInputFieldsVBox" class="sapUiSmallMarginBottom" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }">
+                <f:SimpleForm id="issueItemsHeaderForm"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="0" emptySpanL="0" emptySpanM="0" emptySpanS="0"
+                    columnsXL="2" columnsL="2" columnsM="2"
+                    breakpointM="600" breakpointL="1024" breakpointXL="1440"
+                    singleContainerFullSize="false">
+                    <f:content>
+                        <Label id="issueInputLblMat" text="{i18n>material}" labelFor="issueInputMat"/>
+                        <Input id="issueInputMat" value="{inputFields>/Material}" enabled="false"/>
+
+                        <Label id="issueInputLblMatDesc" text="{i18n>materialDescription}" labelFor="issueInputMatDesc"/>
+                        <Input id="issueInputMatDesc" value="{inputFields>/MaterialDescription}" enabled="false"/>
+
+                        <Label id="issueInputLblUOM" text="{i18n>uom}" labelFor="issueInputUOM"/>
+                        <Input id="issueInputUOM" value="{inputFields>/UOM}" enabled="false"/>
+                    </f:content>
+                </f:SimpleForm>
+            </VBox> -->
+            <VBox id="summaryInputBox1" class="sapUiSmallMarginBottom" direction="Row" visible="false" alignItems="Center">
+                <Text id="txtSummary1" text= "{i18n>summary}" class="sapUiSmallMarginEnd"/>
+                <Input id="inputSummary1" value="" enabled="false" width="16em" />
+            </VBox>
+              <FlexBox id="issueItemsSummaryBox1"
+                justifyContent="Center"
+                alignItems="Center"
+                width="100%"
+            >
+                <items>
+                    <Title id="issueItemSummaryTitle1" text="{i18n>ReleaseofItemsforIssuance}" class="boldTitle"/>
+                </items>
+            </FlexBox>
+            <!-- Mobile cards (visible on phone) -->
+            <ScrollContainer id="issueMobileCardsScroll1" width="100%" height="100vh" vertical="true" horizontal="false"  visible="false">
+            <VBox id="issueMobileCardsContainer1">
+                <List id="issueMobileCardList1" items="{issueReservItemsModel>/items}" mode="None" showSeparators="All">
+                    <items>
+                        <CustomListItem id="issueMobileCardListItem1">
+                            <VBox id="issueMobileCardVBox1" class="sapUiSmallMarginBottom sapUiResponsiveMargin">
+                                <Text id="issueMobileCardProdOrder1" text="{=${i18n>materialNumber}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>MATNR}}" class="sapUiTinyMarginBottom"/>
+                                <Text id="issueMobileCardMatDesc1"  text="{=${i18n>materialDescription}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>MAKTX}}"/>
+                                <Text id="issueMobileCardShortBus1" text="{=${i18n>baseUoMNew}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>MEINS}}"/>
+                                <Text id="issueMobileCardShortwhBus1" text="{=${i18n>WareHouse}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>LGORT_DISP}}"/>
+                                <Text id="issueMobileCardQtyToPick1" text="{=${i18n>qtyInReservation}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>RESERVED_QTY}}"/>
+                                <Text id="issueMobileCardBatch1" text="{=${i18n>stock}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>LABST_DISP}}"/>
+                                <Text id="issueMobileCardSerial1" text="{=${i18n>qtyToPick}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${issueReservItemsModel>PICKING_QTY}}"/>
+                            </VBox>
+                           
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+
+
+            <!-- Desktop/tablet table (hidden on phone) -->
+            <!-- <ScrollContainer id="issueDesktopTableScroll1" width="100%" height="50vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }">
+                <Table id="issueReservItemsModelTable" sticky="ColumnHeaders" items="{issueReservItemsModel>/items}" class="sapUiSmallMarginTop">
+                <columns>
+                    <Column id="colIssItem1"><header><Text id="txtIssItem1" text="{i18n>materialNumber}"/></header></Column>
+                    <Column id="colIssItemDesc1"><header><Text id="txtIssItemDesc1" text="{i18n>materialDescription}"/></header></Column>
+                    <Column id="colIssLocation1"><header><Text id="txtIssLocation1" text="{i18n>baseUoMNew}"/></header></Column> 
+                     <Column id="colIssLocationWH1"><header><Text id="txtIssLocationWH1" text="{i18n>WareHouse}"/></header></Column>                               
+                    <Column id="colIssDate1"><header><Text id="txtIssDate1" text="{i18n>qtyInReservation}"/></header></Column>
+                    <Column id="colIssInventory1"><header><Text id="txtIssInventory1" text="{i18n>stock}"/></header></Column>
+                    <Column id="colIssQtyInReservation1"><header><Text id="txtIssQtyInReservation1" text="{i18n>qtyToPick}"/></header></Column>
+                </columns>
+                <items>
+                    <ColumnListItem id="cliIssueItem1">
+                        <cells>
+                            <Text id="cellIssItem1" text="{issueReservItemsModel>MATNR}"/>
+                            <Text id="cellIssItemDesc1" text="{issueReservItemsModel>MAKTX}"/>
+                            <Text id="cellIssLocation1" text="{issueReservItemsModel>MEINS}"/>
+                            <Text id="cellIssLocationWH1" text="{issueReservItemsModel>LGORT_DISP}"/>
+                           <Text id="cellIssDate1" text="{issueReservItemsModel>RESERVED_QTY}"/>
+                            <Text id="cellIssInventory1" text="{issueReservItemsModel>LABST_DISP}"/>
+                            <Text id="cellIssQtyInReservation1" text="{issueReservItemsModel>PICKING_QTY}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+            </ScrollContainer> -->
+             <VBox id="desktopGridVBox" class="gridBackgroundcolor bordeerBottom" visible="true">
+             
+                <layout:Grid id="desktopGrid" class="sapUiMediumMarginBegin sapUiSmallMarginTop customBeginClass gridBackgroundcolor " hSpacing="0" vSpacing="1" visible="{= ${device>/isPhone} === false }">
+                                    
+                                    
+                                     <HBox id="mobileCardItemHBox1N" justifyContent="Center" alignItems="Center">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N" span="XL3 L3 M3 S2"/>
+                                     </layoutData>
+                                   
+                                    <Text id="mobileCardItemLabel1N" text="{i18n>itemLabel}" class="textcolor"/>
+                                    </HBox>  
+                                    <HBox id="mobileCardItemHBox1N2" class="sapUiSmallMarginBegin">
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridData2N" span="XL1 L1 M1 S1"/>
+                                     </layoutData>
+
+                                 </HBox> 
+                                     
+                                 <HBox id="mobileCardWHHBox1N" alignItems="Center"  >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridData3N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <HBox id="mobileCardWHHBox1NInner" >
+                                      <Text id="mobileCardWHLabel1N" text="{i18n>WareHouse}" class="textcolor"/>
+                                      <!-- <CheckBox id="mobileCardSelectCheckBoxu1N" selected="{pickItems>selected}" select="onSelectRow"/> -->
+                                     </HBox>
+                                </HBox> 
+                                 <HBox id="mobileCardQtyInResHBox1N"  >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData4N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167N" class="boldText" text="{=${i18n>shortbusnumNewR} + ':' + '\u00a0'  }"/> -->
+                                    <Text id="mobileCardQtyInResLabel1N" text="{i18n>qtyInReservation}" class="textcolor"/>
+                                    </HBox>
+                                 
+                                     <HBox id="mobileCardStockHBox1N" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData5N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167b" class="boldText" text="{=${i18n>qtyInReservation} + ':' + '\u00a0'  }"/> -->
+                                      <Text id="mobileCardStockLabel1N"  text="{i18n>stock}" class="textcolor"/> 
+                                     </HBox>  
+                                      <HBox id="mobileCardQtyToPickHBox1N" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData6N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167b" class="boldText" text="{=${i18n>qtyInReservation} + ':' + '\u00a0'  }"/> -->
+                                      <Text id="mobileCardQtyToPickLabel1N"  text="{i18n>qtyToPick}" class="textcolor"/> 
+                                     </HBox>  
+                             
+                               
+                                 
+                            </layout:Grid>
+            </VBox>
+            <!-- Card-based layout for mobile mode -->
+            <ScrollContainer id="mobileCardsIRScrollContainer" width="100%" height="100vh" vertical="true" horizontal="false" visible="true">
+             <VBox id="mobileCardsIRVBox" >
+              
+                <List id="mobileCardIRList1" items="{issueReservItemsModel>/items}" mode="None" showSeparators="All" updateFinished="onMobileListUpdateFinished">
+                    <items>
+                        <CustomListItem id="mobileCardIRListItem1N" >
+                     
+                             <layout:Grid id="mobileCardIRGrid1N" class="sapUiSmallMarginTop customBeginClass" hSpacing="0" vSpacing="1" >
+                                   
+                                    
+                                     
+                                     <HBox id="mobileCardItemHBox1N1" justifyContent="Start" alignItems="Start">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N1" span="XL3 L3 M3 S6"/>
+                                     </layoutData>
+                                    <HBox id="rtey">
+                                    <Text id="mobileCardItemText1N" text="{issueReservItemsModel>MATNR} " class="compactFieldValueTable "/>
+
+                                     
+                                   
+                                    </HBox>
+                                    </HBox>  
+                                    <HBox id="mobileCardItemHBox1N21" alignItems="Start"  justifyContent="Start">
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N21" span="XL1 L1 M1 S2"/>
+                                     </layoutData>
+                                        <Input id="mobileCardItemInput1N21" class=" customheightinputnew inputTableBorderd" value="{issueReservItemsModel>MEINS}" valueLiveUpdate="true"  width="3em"  editable="false"  />     
+                                      
+                                  
+                                   </HBox>  
+                                     
+                                 <HBox id="mobileCardItemHBox1N3"  justifyContent="Center" alignItems="Center" >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N3" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <HBox id="mobileCardItemHBox1N3Inner" >
+                                      <Text id="mobileCardItemText1N3" text="{issueReservItemsModel>LGORT_DISP}" class="compactFieldValueTable"/>
+                                      <!-- <CheckBox id="mobileCardSelectCheckBoxu1N" selected="{pickItems>selected}" select="onSelectRow"/> -->
+                                     </HBox>
+                                </HBox> 
+                                 <HBox id="mobileCardItemHBox1N4" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N4" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167N" class="boldText" text="{=${i18n>shortbusnumNewR} + ':' + '\u00a0'  }"/> -->
+                                    <Text id="mobileCardItemText1N4"  text="{path:'issueReservItemsModel>RESERVED_QTY',formatter:'.formatNumber'}" class="compactFieldValueTable"/>
+                                    </HBox>
+
+                                     <HBox id="mobileCardItemHBox1N5" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N5" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <Text id="mobileCardItemText1N5" class="boldText" text="{path:'issueReservItemsModel>LABST_DISP',formatter:'.formatNumber'}"/>
+                                   
+                                      </HBox> 
+                                 
+                                     <HBox id="mobileCardItemHBox1N6" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N6" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                        <Input id="mobileCardQtyToPickInput1N6" class="hoverFocusInput customheightinputnew" value="{path:'issueReservItemsModel>PICKING_QTY',formatter:'.formatNumber'}" valueLiveUpdate="true"  width="4em" type="Number" liveChange="onQtyToPickLiveChange" editable="false" />     
+                                      </HBox>  
+                               
+                                
+                                   <HBox id="mobileCardItemHBox1N7" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N7" span="XL8 L8 M8 S1"/>
+                                     </layoutData>
+                                      <Text id="mobileCardItemText1N7" text="{issueReservItemsModel>MAKTX} "/>
+                                    </HBox> 
+                                    <HBox id="mobileCardItemHBox1N8" >
+                                 <layoutData>
+                                     <layout:GridData id="_IDGenGridData1N8" span="XL2 L2 M2 S12"/>
+                                     </layoutData>
+                                     <Text id="mobileCardItemText1N8" text="{issueReservItemsModel>LGPBE_DISP} "/>
+
+                                     </HBox> 
+                                      <HBox id="mobileCardQtyToPick" justifyContent="Start">
+                                 <layoutData>
+                                     <layout:GridData id="_IDGeGriDarta1y" span="XL2 L2 M2 S12"/>
+                                     </layoutData>
+                                     
+                                      <Text id="iioMobilCarrdOrCC2" visible="{= ${issueReservItemsModel>SERNP} !== '' ? true : false }" text="{issueReservItemsModel>SERNR} "/>
+                                     <Text id="iioMobtileOrC21" visible="{= ${issueReservItemsModel>XCHPF} === 'X' ? true : false }" text="{issueReservItemsModel>CHARG} "/>
+                                 </HBox> 
+                                 
+                            </layout:Grid>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+        </VBox>
+        </content>
+        <footer>
+            <Bar id="issueReservItemsModelFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
+                <contentLeft>
+                    <Button id="btnIssueSortMobile1" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                </contentLeft> 
+                <contentRight>
+                    <ToolbarSpacer id="prodOrderFooterSpacer1234"/>
+                    <Button id="btnIssueSave1" text="{i18n>save}" press="onSave" type="Unstyled" class="doubleHeightButton greenButton"/>
+                </contentRight>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="issueSortDialog1" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="issueSortItemProdOrder1" text="{i18n>materialNumber}" key="MATNR"/>
+                    <ViewSettingsItem id="issueSortItemMatDesc1" text="{i18n>materialDescription}" key="MAKTX"/>
+                    <ViewSettingsItem id="issueSortItemShortBus1" text="{i18n>baseUoMNew}" key="MEINS"/>
+                    <ViewSettingsItem id="issueSortItemQtyToPick1" text="{i18n>qtyInReservation}" key="PICKING_QTY"/>
+                    <ViewSettingsItem id="issueSortItemBatch1" text="{i18n>stock}" key="LABST"/>
+                    <ViewSettingsItem id="issueSortItemSerial1" text="{i18n>qtyToPick}" key="PICKING_QTY"/>
+                </sortItems>
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

@@ -37,7 +37,9 @@ sap.ui.define([
         },
         onNavBack: function () {
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("ProductionOrderContinue");
+            oRouter.navTo("ProductionOrderContinue", {
+                NFLAG: "X"
+            }, true);
         },
 
         /**
@@ -65,7 +67,7 @@ sap.ui.define([
                 var oSorter = new sap.ui.model.Sorter(sPath, bDescending);
 
                 // Desktop/tablet table
-                var oTable = this.byId("issueItemsTable");
+                var oTable = this.byId("mobileCardPCyIListrt");
                 if (oTable) {
                     var oTableBinding = oTable.getBinding("items");
                     if (oTableBinding && oTableBinding.sort) {
@@ -208,7 +210,11 @@ sap.ui.define([
                     var oCreatedModel = new JSONModel({ items: aCreated });
                     that.getOwnerComponent().setModel(oCreatedModel, "created");
                     var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-                    oRouter.navTo("DocumentCreated");
+                    // oRouter.navTo("DocumentCreated");
+                      oRouter.navTo("InternalOrderCreated", {
+                        MBLNR: aCreated[0].DocumentNumber,
+                        MJAHR: ""
+                    });
                 } else {
                     var sErr = (oResolvedResponse && oResolvedResponse.MSG && oResolvedResponse.MSG.MSGTX) || that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("failedToSaveIssueItems");
                     MessageBox.error(sErr);

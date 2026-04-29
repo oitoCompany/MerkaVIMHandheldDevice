@@ -1,0 +1,117 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.PickForCartList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout">
+    <Page id="PickForCartListPage" title="{i18n>PickCartTitleDetails}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} === true || ${device>/isTablet} === true }">
+        <content>
+        <VBox id="continuePCLVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                <Toolbar id="PickForCartListTopToolbar" visible="true" class="topActionToolbar">
+                    <!-- <Button id="btnClearPCLSelectionTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
+                    <!-- <Button id="btnDisplayPCLIssueTop" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" /> -->
+                    <ToolbarSpacer id="topToolbarPCLSpacer"/>
+                    <Button id="btnPCLSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <Button id="btnPCLFilterTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
+                </Toolbar>
+          
+
+          
+           
+            <!-- Card-based layout for mobile mode -->
+            <!-- <ScrollContainer id="mobileCardsScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} === true || ${device>/isTablet} === true}">
+            <VBox id="mobileCardsContainer" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
+                <Toolbar id="mobileCardsTopToolbar" design="Transparent" class="sapUiTinyMarginBottom">
+                    <ToolbarSpacer id="mobileTopToolbarSpacer"/>
+                    <Button id="btnSelectAllMobile" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
+                    <Button id="btnSortMobileTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <Button id="btnFilterMobileTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
+                </Toolbar> -->
+                  <!-- <List id="mobileCardList" items="{pickItems>/items}" mode="None" showSeparators="All">
+                    <items>
+                        <CustomListItem id="mobileCardListItem"> -->
+                     <!-- <VBox id="mobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin" >
+                                <HBox id="mobileCardHeaderHBox" alignItems="Center" justifyContent="End" class="sapUiTinyMarginBottom">
+                                    <CheckBox id="mobileCardSelectCheckBox" selected="{pickItems>selected}" select="onSelectRow"/>
+                                </HBox>
+                                <Text id="mobileCardActionText" text="{=${i18n>action}  +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>VORNR}}" class="sapUiTinyMarginBottom"/>
+                                <Text id="mobileCardModelText" text="{=${i18n>model}  +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>MODEL}}" class="sapUiTinyMarginBottom"/>
+                                <Text id="mobileCardModelDescText" text="{=${i18n>modelDesc}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>MODEL_DESC}}"/>
+                                <Text id="mobileCardShortBusNumText" text="{=${i18n>shortbusnumNewR}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>CY_SEQNR}}"/>
+                                <Text id="mobileCardDateText" text="{=${i18n>dateNew} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${path: 'pickItems>BDTER', formatter: '.formatter.bdterToDDMMYY'}}"/>
+                                <Text id="mobileCardQtyInReservationText" text="{=${i18n>qtyInReservation}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>RESERVED_QTY}}"/>
+                                <HBox id="mobileCardQtyToPickHBox" alignItems="Center">
+                                    <Text id="mobileCardQtyToPickLabel" text="{=${i18n>qtyToPick} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'}"/>
+                                    <Input id="mobileCardQtyToPickInput" class="hoverFocusInput" value="{pickItems>PICKING_QTY}" valueLiveUpdate="true" type="Tel" width="4em" liveChange="onQtyToPickLiveChange"/>
+                                </HBox>
+                            </VBox> -->
+                             <!-- </CustomListItem>
+                    </items>
+                </List> -->
+            <!-- </VBox>
+            </ScrollContainer> -->
+
+            <!-- Table for desktop/tablet only: scroll only the items -->
+            <!-- <ScrollContainer id="desktopTablePCLScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="true"> -->
+                <Table id="pickPCLTable" sticky="ColumnHeaders" items="{CartList>/LIST}" mode="None" class="sapUiSmallMarginTop" updateFinished="onPickTableUpdateFinished">
+                    <columns>
+                        <!-- <Column id="colPCLAction" width="3em">
+                            <header>
+                                <CheckBox id="selectdupAllCheckBox" enabled="false" select="onSelectAll"/>
+                            </header>
+                        </Column> -->
+                        <Column id="colPCLItem"><header><Text id="txtPCLColItem" text="{i18n>CartNumber}"/></header></Column>
+                        
+                        <Column id="colPCLDate"><header><Text id="txtPCLColDate" text="{i18n>BusModelNumber}"/></header></Column>
+                        <Column id="colPCLe"><header><Text id="txtLColDate" text="{i18n>BusModel}"/></header></Column>
+                         <Column id="colPCLItemDesc3"><header><Text id="txtPCLColItemDesc3" text="{i18n>CartStatus}"/></header></Column>
+                        <Column id="colPCLLocation"><header><Text id="txtPCLColLocation" text="{i18n>BusNumber}"/></header></Column>
+                        <Column id="colPCLInventory"><header><Text id="txtPCLColInventory" text="{i18n>CartTypeDescription}"/></header></Column>
+                        
+                        
+                    </columns>
+                    <items>
+                        <ColumnListItem id="pickTablePCLRowTemplate" type="Active" press="onSelectRowNew">
+                            <cells>
+                                <!-- <CheckBox id="rowPCLSelectCheckBox" selected="{CartList>selected}" select="onSelectRow"/> -->
+                                <Text id="roPCLItem" text="{CartList>CART}"/>
+                                <Text id="rowPCLtem" text="{CartList>MODEL}"/>
+                                <Text id="rowPLItem" text="{CartList>MODEL_DESC}"/>
+                                <Text id="rowPCLInventory" text="{path: 'CartList>CART_STS_DESC'}"/>
+                                <Text id="rowPCItem" text="{CartList>BUS}"/>
+                                <Text id="rowPCLItemDesc" text="{CartList>CART_TYPE_DESC}"/>
+                                <!-- <Text id="rowPCLDate" text="{CartList>MODEL_DESC}"/> -->
+                                <!-- <Text id="rowPCLLocation" text="{CartList>CART_STS}"/> -->
+                                
+                               
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            <!-- </ScrollContainer> -->
+        </VBox>
+        </content>
+        <footer>
+            <Bar id="prodOrderPCLContinueFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
+                <contentMiddle>
+                    <!-- <Button id="btnPCLClearSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
+                    <!-- <Button id="btnPCLDisplayIssue" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" /> -->
+                </contentMiddle>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="sortPCLDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="sortPCLItemAction" text="{i18n>CartNumber}" key="CART"/>
+                    <ViewSettingsItem id="sortPCLItemModel" text="{i18n>model}" key="MODEL"/>
+                    <ViewSettingsItem id="sortPCLItemModelDesc" text="{i18n>BusNumber}" key="MODEL_DESC"/>
+                    <ViewSettingsItem id="sortPCLItemShortBus" text="{i18n>CartType}" key="CART_TYPE"/>
+                    <ViewSettingsItem id="sortPCLItemDate" text="{i18n>CartTypeDescription}" key="CART_TYPE_DESC"/>
+                    <!-- <ViewSettingsItem id="sortPCLItemQtyReserved" text="{i18n>qtyInReservation}" key="RESERVED_QTY"/> -->
+                </sortItems>
+            </ViewSettingsDialog>
+            <ViewSettingsDialog id="filterPCLDialog" confirm="onFilterConfirm" title="{i18n>filter}">
+                <!-- Filter items are built dynamically in controller on beforeOpen -->
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

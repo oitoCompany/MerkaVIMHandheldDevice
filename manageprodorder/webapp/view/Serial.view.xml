@@ -1,0 +1,157 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.Serial"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout">
+    <Page id="SerialPage" title="{i18n>SerialTileHeader}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} === true || ${device>/isTablet} === true }">
+        <content>
+        <VBox id="SerialVBox" class="sapUiSmallMargin" height="100%">
+           
+              <VBox id="inputFieldsVoxIMobile" class="compactFieldsContainer" visible="true">
+              
+                <HBox id="detailsyHBox" alignItems="Center" justifyContent="Start" class="compactDetailsRow">
+                    <VBox id="uomVeBox" class="compactFieldGroup">
+                        <HBox id="yutgti" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="lblInpUeyrOMMobile" text="{=${i18n>Plant}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputUeOMMobile" text="{SerialListMain>/HEAD/WERKS}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+
+                        <HBox id="yuyyyhi1" alignItems="Center" class="alignMyItems">
+                        <Label id="lblInpLeyrocationMobile" text="{=${i18n>materialNumberLabel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInputLocertionMobile" text="{SerialListMain>/HEAD/MATNR}" class="compactFieldValuedups"/>
+                        </HBox>
+                          
+                    </VBox>
+                   
+                    <VBox id="binVtyox" class="compactFieldGroup">
+                        <HBox id="yuiuhju2" alignItems="Baseline" class="alignMyItems">
+                         
+                        <Label id="lblInupuhjtLerionMobile" text="{=${i18n>storageLocationLabel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="txtInpuutfffhujMMobile" text="{SerialListMain>/HEAD/LGORT}" class="compactFieldValue"/>
+                        <Label id="lblInptLehjrofgycaytionMobile" text="{=${i18n>quantity}  +'\u00a0'+ ':'+ '\u00a0'}" class="sapUiSmallMarginBegin compactFieldLabel"/>
+                        <Text id="tcv" text="{SerialListMain>/HEAD/MENGE}" class="compactFieldValuedups"/>
+                        </HBox>
+                        <HBox id="tcgv" alignItems="Baseline" class="alignMyItems">
+                        <Label id="newtcv" text="{=${i18n>materialDescriptionLabel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabel"/>
+                         <Text id="localtcv" text="{SerialListMain>/HEAD/MAKTX}" class="compactFieldValue"/>
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+          
+
+            <!-- Table for desktop/tablet only: scroll only the items -->
+            <ScrollContainer id="desktopTableSerialScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="false">
+                <Table id="pickSerialTable" sticky="ColumnHeaders" items="{SerialList>/SERNR}" mode="None" class="sapUiSmallMarginTop" updateFinished="onPickTableUpdateFinished">
+                    <columns>
+                        <Column id="colSerialAction" width="3em">
+                            <header>
+                                <CheckBox id="selectSerialAllCheckBox" select="onSelectAll"/>
+                            </header>
+                        </Column>
+                       
+                        <Column id="colSerialLocation"><header><Text id="txtSerialColLocation" text="{i18n>SerialNumber}"/></header></Column>
+                       
+                    </columns>
+                    <items>
+                        <ColumnListItem id="pickSerialTableRowTemplate">
+                            <cells>
+                                <CheckBox id="rowSerialSelectCheckBox" selected="{SerialList>selected}" select="onSelectRow"/>
+                                
+
+                                
+                                
+                                <Input id="rowSerialQtyToPick" class="hoverFocusInput" value="{SerialList>SERNR}" valueLiveUpdate="true" type="Tel" width="4em" liveChange="onQtyToPickLiveChange"/>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </ScrollContainer>
+              <VBox id="dfr8rut" visible="true">
+             <Toolbar id="mobileCaur8rdsPCITopToolbar" design="Transparent" class="sapUiTinyMarginBottom" >
+                    <ToolbarSpacer id="mobiler8uTopToolbarPCISpacer"/>
+                    <Button id="btnSelectAllrMuo8bilePCI" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
+                    <Button id="btnSortMobilreTuo8pPCI" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog" visible="{= ${device>/isPhone} === true || ${device>/isTablet} === true }"/>
+                    <!-- <Button id="btnFilterMobrile8TopPCI" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog" visible="{= ${device>/isPhone} === true || ${device>/isTablet} === true }"/> -->
+                </Toolbar>
+            </VBox>
+             <VBox id="forhetader" class="gridBackgroundcolor bordeerBottom" visible="true">
+             
+                <layout:Grid id="grislayoctontiid78" class="sapUiMediumMarginBegin sapUiSmallMarginTop customBeginClass gridBackgroundcolor " hSpacing="0" vSpacing="1" visible="{= ${device>/isPhone} === false }">
+                                    <HBox id="idt8yn" justifyContent="Center" alignItems="Center">
+                                      <layoutData>
+                                     <layout:GridData id="yu8uyu" span="XL4 L4 M4 S4"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCardMatDesc14" class="boldText" text="{=${i18n>model} + ':' + '\u00a0'  }"/> -->
+                                    <Text id="iioMobileCard8atuyuDsc24N" text="{i18n>SerialNumber} " class="textcolor"/>
+                                    </HBox> 
+                                   
+                                     
+                                   
+                                     
+                                
+                               
+                             
+                               
+                                 
+                            </layout:Grid>
+            </VBox>
+            <!-- Card-based layout for mobile mode -->
+            <ScrollContainer id="mobileCdsPCIScroll8" width="100%" height="100vh" vertical="true" horizontal="false" visible="true">
+             <VBox id="mobileCardsPCICntainer8" >
+              
+                <List id="mobileCardPCILrtist8" items="{SerialList>/SERNR}" mode="MultiSelect" showSeparators="All" updateFinished="onMobileListUpdateFinished">
+                    <items>
+                        <CustomListItem id="mobileCrtar8dPCIListItem" >
+                             <layout:Grid id="grislayoutcort8ntiid78" class="sapUiSmallMarginTop customBeginClass" hSpacing="0" vSpacing="1" >
+                                    <HBox id="ider84n" justifyContent="Start" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGid8erData144N" span="XL4 L4 M4 S4"/>
+                                     </layoutData>
+                                     <Text id="iioMobileCar8dtDesc26N" text="{SerialList>SERNR} " class="compactFieldValueTable "/>
+                                    </HBox> 
+                                   
+                                     
+                                  
+                                  
+                                    
+                                
+                                 
+                                  
+                                
+                                
+                              
+                                
+                            </layout:Grid>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+
+        </VBox>
+        </content>
+        <footer>
+        <Bar id="prodOrderContinuesFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
+                <contentMiddle>
+                    <Button id="btnClearSerialSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
+                    <Button id="btnDisplaySerialIssue" text="{i18n>saveLabel}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                </contentMiddle>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="sortSerialDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="sortItemSerialAction" text="{i18n>SerialNumber}" key="SERNR"/>
+                   
+
+                </sortItems>
+            </ViewSettingsDialog>
+            <ViewSettingsDialog id="filterSerialDialog" confirm="onFilterConfirm" title="{i18n>filter}">
+                <!-- Filter items are built dynamically in controller on beforeOpen -->
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

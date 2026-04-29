@@ -1,0 +1,301 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.StockTransferbnSLItems"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m" xmlns:layout="sap.ui.layout">
+    <Page id="StockTransferbnSLItemsPage" title="{i18n>addedStockTransferBetweenSLTitle}" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <VBox id="_IDGenVB" class="sapUiMediumMargin" >
+                <!-- Desktop/tablet actions toolbar -->
+                <Toolbar id="StockTransferbnSLItemsTopToolbar" visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }" class="topActionToolbar">
+                    <Button id="continueButtonTopSl" text="{i18n>saveLabel}" type="Unstyled" class="doubleHeightButton greenButton" press="onContinue"/>
+                    <ToolbarSpacer id="iioTopSpacerSL"/>
+                    <Button id="iioSortTopSL" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                </Toolbar>
+                <!-- Remarks field -->
+                <VBox id="_IDGenRemarksBoxSL" class="sapUiSmallMarginBottom">
+                    <Label id="_IDGenRemarksLabelSL" text="{i18n>remark}" labelFor="remarkInputSL"/>
+                    <TextArea id="remarkInputSL" width="100%" value="{view>/BKTXT}" rows="3" liveChange="onRemarkLiveChange"/>
+                </VBox>
+                <VBox id="_IDGenVBoxSL" height="16px" />
+                <!-- Mobile cards (visible on phone) -->
+                <VBox id="iioMobileCardsContainerSL" visible="{= ${device>/isPhone} === true }">
+                    <List id="iioMobileCardListSL" items="{SLitems>/items}" mode="None" showSeparators="All">
+                        <items>
+                            <CustomListItem id="iioMobileCardListItemSL">
+                                <!-- <VBox id="iioMobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin"> -->
+                                    <!-- <Text id="iioMobileCardOrdOrCC" text="{= ${items>AUFNR} ? ${i18n>internalOrder} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>AUFNR} : ${i18n>costCenterLabel} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>KOSTL} }"/>
+                                    <Text id="iioMobileCardStorLoc" text="{=${i18n>storageLocation} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>LGORT}}"/>
+                                    <Text id="iioMobileCardMatNr" text="{=${i18n>materialNumber} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>MATNR}}"/>
+                                    <Text id="iioMobileCardMatDesc" text="{=${i18n>materialDescription} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>MAKTX}}"/>
+                                    <Text id="iioMobileCardUom" text="{=${i18n>baseUoM} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>MEINS}}"/>
+                                    <Text id="iioMobileCardStock" text="{=${i18n>stock} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>LABST}}"/>
+                                    <Text id="iioMobileCardPickQty" text="{=${i18n>issueQuantityLabelNew} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${items>PICKING_QTY}}"/>
+                                    <HBox id="iioMobileCardActions" justifyContent="End">
+                                        <Button id="iioMobileCardEdit" icon="sap-icon://edit" type="Transparent" press="onEditItem" tooltip="Edit"/>
+                                        <Button id="iioMobileCardDelete" icon="sap-icon://delete" type="Transparent" press="onDeleteItem" tooltip="Delete"/>
+                                    </HBox> -->
+                                <!-- </VBox> -->
+                                <layout:Grid id="grislayoutidSL" class="sapUiSmallMarginTop customBeginClass" hSpacing="0" vSpacing="1" >
+                                   
+                                     <HBox id="idSL" >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridDataSL" span="XL5 L5 M5 S12"/>
+                                     </layoutData>
+
+                                     <Text id="iioMobileCardMatNrSL" class="boldText" text="{=${i18n>materialNumber} + ':' }"/>
+                                    <Text id="iioMobileCardMatNr1SL" text="{SLitems>MATNR} "/>
+                                    </HBox> 
+                                     <HBox id="idSL5" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGridDataSL1" span="XL6 L6 M6 S10"/>
+                                     </layoutData>
+                                     <Text id="iioMobileCardMatDescSL1" class="boldText" text="{=${i18n>materialDescription} + ':'   }"/>
+                                    <Text id="iioMobileCardMatDescSL2" text="{SLitems>MAKTX} "/>
+                                    </HBox>  
+                                     <HBox id="iioMobileCardActionsSL" justifyContent="End">
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridData1SL" span="XL1 L1 M1 S2"/>
+                                     </layoutData>
+                                        <Button id="iioMobileCardEditSL" icon="sap-icon://edit" type="Transparent" press="onEditItem" tooltip="Edit"/>
+                                        <Button id="iioMobileCardDeleteSL" icon="sap-icon://delete" type="Transparent" press="onDeleteItem" tooltip="Delete"/>
+                                    </HBox>
+                                     <HBox id="id1SL" >
+                                       <layoutData>
+                                     <layout:GridData id="_IDGenGridDataSL5" span="XL4 L4 M4 S12"/>
+                                     </layoutData>
+                                     <Text id="iioMobileCardOrdOrCCSL"  class="boldText" text="{=${i18n>issuingStorageLocationLabel} + ':' }"/>
+                                    <Text id="iioMobileCardOrdOrCCSL1" text="{SLitems>LGORT_F} "/>
+                                    </HBox> 
+                                        <HBox id="idSL6" >
+                                       <layoutData>
+                                     <layout:GridData id="_IDGenGridDataSL4" span="XL4 L4 M4 S6"/>
+                                     </layoutData>
+                                     <Text id="iioMobileCardSL1" class="boldText" text="{=${i18n>RecievingStorageLocationLabel} + ':'   }"/>
+                                    <Text id="iioMobileCardSL2" text="{SLitems>LGORT_T} "/>
+                                    </HBox> 
+                                    <HBox id="idSL8" >
+                                         <layoutData>
+                                     <layout:GridData id="_IDGenGridDataSL2" span="XL4 L4 M4 S6"/>
+                                     </layoutData>
+                                        <Text id="iioMobileCardPickQtySL1" class="boldText" text="{=${i18n>issueQuantityLabelNew} + ':'   }"/> 
+                                        <Text id="iioMobileCardPickQtySL2" text="{SLitems>PICKING_QTY} "/>
+                                    </HBox>  
+                                      
+                                      
+                                   
+                                      
+                                   
+                                    <!-- <HBox id="id2" visible="false">
+                                     <Text id="dummytext1" class="boldText" text="{=${i18n>issueQuantityLabelNew} +'\u00a0\u00a0\u00a0'+ ':' + '\u00a0\u00a0\u00a0'  }"/> 
+                                        <Text id="dummytext2" text="{items>PICKING_QTY} "/>
+                                    </HBox>     -->
+                                        <!-- <HBox id="id81" >
+                                     <Text id="iioMobileCardUom11" class="boldText" text="{=${i18n>baseUoM} +'\u00a0\u00a0\u00a0'+ ':' + '\u00a0\u00a0\u00a0'  }"/>
+                                    <Text id="iioMobileCardUom112" text="{items>MEINS} "/>
+                                    </HBox>                       -->
+                                 
+                                    <!-- <HBox id="iioMobileCardActions" justifyContent="End">
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGridData8" span="XL2 L2 M2 S4"/>
+                                     </layoutData>
+                                        <Button id="iioMobileCardEdit" icon="sap-icon://edit" type="Transparent" press="onEditItem" tooltip="Edit"/>
+                                        <Button id="iioMobileCardDelete" icon="sap-icon://delete" type="Transparent" press="onDeleteItem" tooltip="Delete"/>
+                                    </HBox> -->
+                                </layout:Grid>
+                            </CustomListItem>
+                        </items>
+                    </List>
+                </VBox>
+
+                <!-- Desktop/tablet table (hidden on phone) -->
+                <Table id="itemsTableSL" items="{SLitems>/items}" width="100%" fixedLayout="true" visible="false">
+                    <columns>
+                         <!-- <Column id="colIioAUFNR" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioAUFNR" text="{i18n>internalOrder}"/></Column> -->
+                        <!-- <Column id="colIioLGORT" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioLGORT" text="{i18n>storageLocation}"/></Column> -->
+                         <Column id="colIioSLMATNR" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioSLMATNR" text="{i18n>materialNumber}"/></Column>
+                          <Column id="colIioSLMAKTX" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioSLMAKTX" text="{i18n>materialDescription}"/></Column>
+                        <Column id="colIioSLLGORTF" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioSLLGORTF" text="{i18n>issuingStorageLocationLabel}"/></Column>
+                        <Column id="colIioSLLGORTT" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioSLLGORTT" text="{i18n>RecievingStorageLocationLabel}"/></Column>
+                        <Column id="colIioSLPICKING_QTY" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioSLPICKING_QTY" text="{i18n>issueQuantityLabelNew}"/></Column>
+                        <Column id="colIioSLActions" minScreenWidth="Phone" demandPopin="false"><Text id="txtIioSLActions" text="  "/></Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem id="iioDesktopSLRow">
+                            <cells>
+                                <!-- <Text id="iioCellAUFNR" text="{= ${items>AUFNR} ? ${items>AUFNR} : ${items>KOSTL} }"/>
+                                <Text id="iioCellLGORT" text="{items>LGORT}"/> -->
+                                <Text id="iioCellSLMATNR" text="{SLitems>MATNR}"/>
+                                <Text id="iioCellSLMAKTX" text="{SLitems>MAKTX}"/> 
+                                <Text id="iioCellSLLGORTF" text="{SLitems>LGORT_F}"/>
+                                <Text id="iioCellSLLGORTT" text="{SLitems>LGORT_T}"/>
+                                <Text id="iioCellSLPICKING_QTY" text="{SLitems>PICKING_QTY}"/>
+                                <HBox id="iioCellSLActions">
+                                    <Button id="iioSLBtnEdit" icon="sap-icon://edit" type="Transparent" press="onEditItem" tooltip="Edit"/>
+                                    <Button id="iioSLBtnDelete" icon="sap-icon://delete" type="Transparent" press="onDeleteItem" tooltip="Delete"/>
+                                </HBox>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+
+                
+
+              <VBox id="fortnheder" class="gridBackgroundcolor bordeerBottom" visible="{= ${device>/isPhone} === false}">
+             
+                <layout:Grid id="grisladrtcontiid78" class="sapUiSmallMarginBegin sapUiSmallMarginTop customBeginClass gridBackgroundcolor " hSpacing="0" vSpacing="1" visible="{= ${device>/isPhone} === false }">
+                                    
+                                     <HBox id="id56yiytuN" justifyContent="Start" alignItems="Start">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGyyrartta146N" span="XL3 L3 M3 S2"/>
+                                     </layoutData>
+                                   
+                                    <Text id="iioMobileCartdMatysc26N" text="{i18n>itemLabel}" class="textcolor"/>
+                                    </HBox>  
+                                     <HBox id="id7t6ybN" justifyContent="Start" alignItems="Start">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGrDtatya51467bN" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167b" class="boldText" text="{=${i18n>qtyInReservation} + ':' + '\u00a0'  }"/> -->
+                                      <Text id="mobileCardQtToPiknputytt1N"  text="{i18n>issuingStorageLocationLabel}" class="textcolor"/> 
+                                     </HBox>  
+                                     <HBox id="id56ittuN" justifyContent="Start" alignItems="Start">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGratrtta146N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                   
+                                    <Text id="iioMobileCartdtMasc26N" text="{i18n>RecievingStorageLocationLabel}" class="textcolor"/>
+                                    </HBox>  
+                                    <HBox id="id57tt7yN"  >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGen7rdDatat1467N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167N" class="boldText" text="{=${i18n>shortbusnumNewR} + ':' + '\u00a0'  }"/> -->
+                                    <Text id="iioMobila267N" text="{i18n>issueQuantityLabelNew}" class="textcolor"/>
+                                    </HBox>
+                                   
+                                    
+                                
+                                 
+                                 
+                                    
+                                      <HBox id="id5y797bN" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGen9G7riDyata51467bN" span="XL2 L2 M2 S12"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167b" class="boldText" text="{=${i18n>qtyInReservation} + ':' + '\u00a0'  }"/> -->
+                                      <!-- <Text id="mobileCardQtToPi9ykInputt1N"  text="{i18n>stock}" class="textcolor"/>  -->
+                                     </HBox> 
+                                      
+                                     
+                             
+                               
+                                 
+                            </layout:Grid>
+            </VBox>
+            <!-- Card-based layout for mobile mode -->
+            <ScrollContainer id="mobileCrtardirPCIScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} === false}">
+             <VBox id="mobileCardsIRrCortntainer" >
+              
+                <List id="mobileCarrtdIrRList" items="{SLitems>/items}" mode="None" showSeparators="All" updateFinished="onMobileListUpdateFinished">
+                    <items>
+                        <CustomListItem id="mobileCardIRLytistItem" >
+                     
+                             <layout:Grid id="grislayoycontityid78" class="sapUiSmallMarginBegin sapUiSmallMarginTop customBeginClass" hSpacing="0" vSpacing="1" >
+                                   
+                                     <HBox id="id45t4y1N" >
+                                     <layoutData>
+                                     <layout:GridData id="_IDGenGriduatta14N" span="XL3 L3 M3 S2"/>
+                                     </layoutData>
+                                        <Text id="iioMobileCardMaty1s26N" class="boldText" text="{SLitems>MATNR} "/>
+                                   </HBox>  
+                                       <HBox id="id587tt9bN" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGrit9ydDaa1467bN" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                      <Text id="iioMobilrcy2tt67NN" text="{SLitems>LGORT_F}" class="compactFieldValueTable"/>                                   
+                                      </HBox> 
+                                     <HBox id="id5t6ty6N" justifyContent="Start" alignItems="Start">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGrittdayta146N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                    <HBox id="pittyu">
+                                    <Text id="iioMobieCardttyMatDesc26N" text="{SLitems>LGORT_T} " class="compactFieldValueTable "/>
+                                   
+                                    </HBox>
+                                    </HBox> 
+
+                                     <HBox id="id56t9ty7N" alignItems="Start"  justifyContent="Start">
+                                      <layoutData>
+                                     <layout:GridData id="_IDGenGidDatyyta1467N" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <!-- <Text id="iioMobileCarsc167N" class="boldText" text="{=${i18n>shortbusnumNewR} + ':' + '\u00a0'  }"/> -->
+                                    <!-- <Text id="iioMobiltyrcy267NN" text="{SLitems>PICKING_QTY}" class="compactFieldValueTable"/> -->
+                                    <!-- <Input id="iioMobilrcy267NN" class=" customheightinputnew inputTableBorderd" value="{items>MEINS}" valueLiveUpdate="true"  width="3em"  editable="false"  />      -->
+                                    <Text id="iioMobiltyrcy267NN"  text="{path:'SLitems>PICKING_QTY',formatter:'.formatNumber'}" class="compactFieldValueTable"/>   
+
+                                    </HBox>
+                                    
+                                   
+                                     
+                                
+                                
+
+                                   
+                                 
+                                    
+                                <HBox id="mobileCattryToic" alignItems="End" justifyContent="End">
+                                 <layoutData>
+                                     <layout:GridData id="_IDGDtatta1y" span="XL2 L2 M2 S2"/>
+                                     </layoutData>
+                                     <Button id="iioMobileCardteEdit" icon="sap-icon://edit" type="Transparent" press="onEditItem" tooltip="Edit"/>
+                                     <Button id="iioMobileCatrdDeelete" icon="sap-icon://delete" type="Transparent" press="onDeleteItem" tooltip="Delete" class="delete"/>
+                                 </HBox> 
+
+                               
+                                
+                                   <HBox id="id5t8y4n" >
+                                      <layoutData>
+                                     <layout:GridData id="_IDtGeta1y44N" span="XL7 L7 M7 S1"/>
+                                     </layoutData>
+                                      <Text id="iioMobileCatrdesc24rN" text="{SLitems>MAKTX} "/>
+                                    </HBox> 
+                                 <HBox id="mobQtyToic" justifyContent="End">
+                                 <layoutData>
+                                     <layout:GridData id="_IDta1y" span="XL4 L4 M4 S6"/>
+                                     </layoutData>
+                                     <Button id="btrial" text="{i18n>batchSerial}" visible="{= ${SLitems>SERNP} !== '' || ${SLitems>XCHPF} !== '' ? true : false}" press="onPressBatchSerial"></Button>
+                                 </HBox> 
+                                    
+                                    
+                                 
+                            </layout:Grid>
+                        </CustomListItem>
+                    </items>
+                </List>
+            </VBox>
+            </ScrollContainer>
+            </VBox>
+        </content>
+        <footer>
+            <!-- Mobile-only footer actions (OverflowToolbar for consistency) -->
+            <OverflowToolbar id="issueInternalOrderFooterSLToolbar12" visible="{= ${device>/isPhone} || ${device>/isTablet}}" class="mobileFooterToolbar">
+                <Button id="iioSortSLMobile" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                <ToolbarSpacer id="issueInternalOrderFooterSLSpacer12" />
+                <Button id="continueButtonSLTop1" text="{i18n>saveLabel}" type="Unstyled" class="doubleHeightButton greenButton" press="onContinue"/>
+            </OverflowToolbar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="iioSortDialogSL" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <!-- <ViewSettingsItem id="iioSortItemAUFNR" text="{i18n>internalOrder}" key="AUFNR"/> -->
+                    <!-- <ViewSettingsItem id="iioSortItemKOSTL" text="{i18n>costCenterLabel}" key="KOSTL"/> -->
+                    <!-- <ViewSettingsItem id="iioSortItemLGORT" text="{i18n>storageLocation}" key="LGORT"/> -->
+                    <ViewSettingsItem id="iioSortSLItemMATNR" text="{i18n>materialNumber}" key="MATNR"/>
+                    <ViewSettingsItem id="iioSortSLItemMAKTX" text="{i18n>materialDescription}" key="MAKTX"/>
+                    <ViewSettingsItem id="iioSortSLItemMEINS" text="{i18n>issuingStorageLocationLabel}" key="LGORT_F"/>
+                    <ViewSettingsItem id="iioSortSLItemLABST" text="{i18n>RecievingStorageLocationLabel}" key="LGORT_T"/>
+                    <ViewSettingsItem id="iioSortSLItemPICKING_QTY" text="{i18n>issueQuantityLabelNew}" key="PICKING_QTY"/>
+                </sortItems>
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

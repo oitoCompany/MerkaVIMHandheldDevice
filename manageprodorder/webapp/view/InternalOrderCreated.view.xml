@@ -4,7 +4,7 @@
     xmlns:core="sap.ui.core"
     controllerName="com.merkavim.ewm.manageprodorder.controller.InternalOrderCreated"
     displayBlock="true">
-    <Page id="_IDGenPage" title="{i18n>addedItemsTitle}"  showNavButton="true" navButtonPress="onNavBack" >
+    <Page id="_IDGenPage" title="{i18n>addedItemsTitleNew}"  showNavButton="true" navButtonPress="onNavBack" >
 
     <content>
             <VBox id="_IDGenVBox" alignItems="Center" justifyContent="Center">
@@ -16,10 +16,19 @@
                 </HBox>
                     <Label id="_IDGenLabel" text="" />
                     <Button id="_IDGenButton" text="{i18n>goToDigitalSign}" press="onSign" class="doubleHeightButton greenButton" type="Unstyled"/>
+                <HBox id="_IDGenHBox21" alignItems="Center" justifyContent="Center" visible="{= ${internalOrderCreated>/flag} === 'X' }" class="sapUiSmallMarginTop" >
+                    <Button id="_IDGenB7utton" text="{i18n>Print}" press="onPrint" class="doubleHeightButton greenButton" type="Unstyled"/>
+                    <!-- <Button id="_IDGenBu7tton" text="{i18n>ChangeParkingStatus}" press="onChangeParkingStatus" class="sapUiSmallMarginBegin  doubleHeightButton greenButton" type="Unstyled"/> -->
+                </HBox>
             </VBox>
     </content>
         <headerContent>
             <Button id="_IDGenButton1" icon="sap-icon://home" press="onNavHome"/>
         </headerContent>
+        <footer>
+         <OverflowToolbar id="issueInternal">
+             <Button id="_IDGenBu7tton" text="{i18n>ChangeParkingStatus}" press="onChangeParkingStatus" class="sapUiSmallMarginBegin  doubleHeightButton greenButton" type="Unstyled" visible="{= ${internalOrderCreated>/flag} === 'X' }"/>
+               </OverflowToolbar>    
+            </footer>
     </Page>
 </mvc:View>

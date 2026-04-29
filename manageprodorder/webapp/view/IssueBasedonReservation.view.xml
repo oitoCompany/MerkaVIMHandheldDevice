@@ -1,0 +1,136 @@
+<mvc:View
+    controllerName="com.merkavim.ewm.manageprodorder.controller.IssueBasedonReservation"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="IssueBasedonReservationPage"
+        title="{i18n>IssueBasedonReservationTileHeader}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <VBox
+            id="IssueBasedonReservationVBox"
+            class="sapUiSmallMargin"
+        >
+            <HBox
+                id="searchButtons1Bar"
+                class="sapUiSmallMarginBottom"
+                visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }"
+            >
+                <Button
+                    id="btnClear1"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    class="doubleHeightButton lightBlueButton"
+                    press="onClearSearch"
+                />
+                <Button
+                    id="btnDisplay1"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onDisplay"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+            </HBox>
+            <Panel
+                id="searchPanel1"
+                expandable="false"
+                class="sapUiResponsiveMargin"
+                width="auto"
+            >
+                <VBox
+                    id="searchBox1"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <Label
+                        id="lblMaterialDocument1"
+                        text="{i18n>ReservationNumber}"
+                        labelFor="inpMaterialDocument"
+                        required="true"
+                    />
+                    <HBox
+                        id="inputBox1"
+                        width="100%"
+                    >
+                        <!-- <MultiInput
+                            id="inpMaterialDocument1"
+                            width="100%"
+                            type="Number"
+                            placeholder="{i18n>ReservationNumberPlaceholder}"
+                            tokenUpdate="onTokenUpdate"
+                            submit="onSubmitToken"
+                            liveChange="onLiveChangeMaterialDocument"
+                            showValueHelp="false"
+                            showSuggestion="false"
+                            enableSuggestionsHighlighting="false"
+                            tokens="{IssueBasedonReservationModel>/documentTokens}"
+                        >
+                            <tokens>
+                                <Token
+                                    id="documentToken1"
+                                    text="{IssueBasedonReservationModel>key}"
+                                    key="{IssueBasedonReservationModel>key}"
+                                    delete="onTokenDelete"
+                                />
+                            </tokens>
+                        </MultiInput> -->
+
+                            
+                        <Input id="ReservationNumberInput"  liveChange="onLiveChangeMaterialDocument" type="Number" />
+                        <!-- <Button
+                            id="btnAdd1"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            press="onAddDocument"
+                            class="sapUiSmallMarginBegin"
+                            tooltip="Add Document"
+                        /> -->
+                    </HBox>
+                    <!-- <Button
+                        id="btest"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press="onAddDocument"
+                        class="sapUiSmallMarginBegin"
+                        tooltip="Add Document"
+                    /> -->
+
+                    <!-- <Text
+                        id="txtDocumentCount1"
+                        text="{i18n>ReservationCountadd} {IssueBasedonReservationModel>/documentTokens/length}"
+                        class="sapUiTinyMarginTop"
+                    /> -->
+
+                  <!-- <VBox id="_IDGenRemarksBox2" class="sapUiSmallMarginBottom">
+                    <Label id="_IDGenRemarksLabel2" text="{i18n>remark}" labelFor="remarkInput"/>
+                    <TextArea id="remarkInput2" width="100%" value="{IssueBasedonReservationModel>/BKTXT}" rows="3" liveChange="onRemarkLiveChange"/>
+                  </VBox> -->
+                </VBox>
+            </Panel>
+        </VBox>
+
+        <footer>
+            <OverflowToolbar
+                id="IssueBasedonReservationFooter"
+                visible="{= ${device>/isPhone} || ${device>/isTablet} }"
+            >
+                <ToolbarSpacer id="footerSpacerI1" />
+                <Button
+                    id="btnDisplayFooter1"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onDisplay"
+                    class="doubleHeightButton greenButton"
+                />
+                <Button
+                    id="btnClearFooter1"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    press="onClearSearch"
+                    class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

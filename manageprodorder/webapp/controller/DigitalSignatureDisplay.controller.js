@@ -20,40 +20,58 @@ sap.ui.define([
 
         _onRouteMatched: function () {
             // Get data from component model
-            var oComponentModel = this.getOwnerComponent().getModel("digitalSignature");
-            if (!oComponentModel || !oComponentModel.getProperty("/MBLNR")) {
-                // If no data, navigate back to search
-                var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-                oRouter.navTo("DigitalSignature");
-                return;
-            }
+
+            var oTokens = this.getOwnerComponent().getModel("MaterialDocumentokenModel").getData();
+            var oDigitalSignatureTokenModel = new sap.ui.model.json.JSONModel({
+
+                documentTokens: oTokens
+            });
+            this.getView().setModel(oDigitalSignatureTokenModel, "digitalSignatureToknmdl");
+
+            var oComponentModel = new sap.ui.model.json.JSONModel();
+            oComponentModel.setData({
+                employeeNumber: "",
+                employeeEmail: "",
+                printOutput: false,
+                MBLNR: "",
+                MJAHR: "",
+                notes: ""
+            });
+
 
             // Set the component model to the view
             this.getView().setModel(oComponentModel, "digitalSignature");
 
             // Initialize employee fields if not already set
-            if (!oComponentModel.getProperty("/employeeNumber")) {
-                oComponentModel.setProperty("/employeeNumber", "12345");
-                oComponentModel.setProperty("/employeeEmail", "john.doe@example.com");
-                oComponentModel.setProperty("/printOutput", true);
-            }
-            
+            // if (!oComponentModel.getProperty("/employeeNumber")) {
+            //     oComponentModel.setProperty("/employeeNumber", "12345");
+            //     oComponentModel.setProperty("/employeeEmail", "john.doe@example.com");
+            //     oComponentModel.setProperty("/printOutput", true);
+            // }
+
             // Set dummy MBLNR if not present
-            if (!oComponentModel.getProperty("/MBLNR")) {
-                oComponentModel.setProperty("/MBLNR", "5000000123");
-            }
-            
-            // Set dummy MJAHR if not present
-            if (!oComponentModel.getProperty("/MJAHR")) {
-                oComponentModel.setProperty("/MJAHR", "2025");
-            }
+            // if (!oComponentModel.getProperty("/MBLNR")) {
+            //     oComponentModel.setProperty("/MBLNR", "5000000123");
+            // }
+
+            // // Set dummy MJAHR if not present
+            // if (!oComponentModel.getProperty("/MJAHR")) {
+            //     oComponentModel.setProperty("/MJAHR", "2025");
+            // }
 
             // Initialize canvas after view is rendered
             setTimeout(() => {
                 this._initializeCanvas();
             }, 100);
         },
-
+         onAfterRendering: function () {
+            
+            var inputfocus = this.getView().byId("inpEmployeeNumber");
+            inputfocus.attachBrowserEvent("focusin", function () {
+                inputfocus.$().find("input").select();
+                this.selectText(0, this.getValue().length);
+            });
+        },
         onEmployeeNumberChange: function (oEvent) {
             var sEmployeeNumber = oEvent.getParameter("value");
             var that = this;
@@ -101,12 +119,12 @@ sap.ui.define([
         _initializeCanvas: function () {
             // Try multiple ways to get the canvas element
             var canvas = document.getElementById("displaySignatureCanvas");
-            
+
             if (!canvas) {
                 // Try getting it from the DOM directly
                 canvas = document.querySelector("canvas");
             }
-            
+
             if (!canvas) {
                 console.error("Canvas element not found - canvas:", canvas);
                 setTimeout(() => {
@@ -118,15 +136,15 @@ sap.ui.define([
             console.log("Canvas found:", canvas);
             this._canvas = canvas;
             this._ctx = canvas.getContext("2d");
-            
+
             // Set canvas size to match display size (important for proper drawing)
             var rect = canvas.getBoundingClientRect();
             // Set the actual canvas resolution
             canvas.width = rect.width || 800;
             canvas.height = rect.height || 300;
-            
+
             console.log("Canvas initialized - width:", canvas.width, "height:", canvas.height);
-            
+
             // Drawing settings
             this._ctx.strokeStyle = "#000";
             this._ctx.lineWidth = 2;
@@ -151,18 +169,18 @@ sap.ui.define([
             canvas.addEventListener("touchmove", this._handleMove, false);
             canvas.addEventListener("touchend", this._handleEnd, false);
             canvas.addEventListener("touchcancel", this._handleEnd, false);
-            
+
             console.log("Event listeners attached successfully");
         },
 
         _onStart: function (e) {
             e.preventDefault();
             this._isDrawing = true;
-            
+
             var coords = this._getCoordinates(e);
             this._lastX = coords.x;
             this._lastY = coords.y;
-            
+
             console.log("Drawing started at:", coords.x, coords.y);
         },
 
@@ -171,7 +189,7 @@ sap.ui.define([
             e.preventDefault();
 
             var coords = this._getCoordinates(e);
-            
+
             this._ctx.beginPath();
             this._ctx.moveTo(this._lastX, this._lastY);
             this._ctx.lineTo(coords.x, coords.y);
@@ -205,21 +223,45 @@ sap.ui.define([
                 y: clientY - rect.top
             };
         },
-
-        onClearSignature: function () {
+        onClearSignatureextra: function () {
             if (this._ctx && this._canvas) {
                 this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
             }
         },
+        onClearSignature: function () {
+            if (this._ctx && this._canvas) {
+                this._ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+            }
+            var oComponentModel = new sap.ui.model.json.JSONModel();
+            oComponentModel.setData({
+                employeeNumber: "",
+                employeeEmail: "",
+                printOutput: false,
+                MBLNR: "",
+                MJAHR: "",
+                notes: ""
+            });
+
+
+            // Set the component model to the view
+            this.getView().setModel(oComponentModel, "digitalSignature");
+            this.getView().byId("notesinput").setValue();
+        },
 
         onSave: function () {
             var oModel = this.getView().getModel("digitalSignature");
+            var aDocumentTokens = this.getOwnerComponent().getModel("MaterialDocumentokenModel").getData();
+            var ItemsData = this.getOwnerComponent().getModel("MaterialDocumentItemModel").getData();
             var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-
+            // Get all document numbers
+            var aDocumentNumbers = aDocumentTokens.map(function (oToken) {
+                return oToken.key;
+            });
             // Validate employee number
             var sEmployeeNumber = oModel.getProperty("/employeeNumber");
+            var notes = oModel.getProperty("/notes") || "";
             if (!sEmployeeNumber) {
-                MessageBox.error("Employee Number is mandatory");
+                MessageBox.error(oBundle.getText("employeeNumberRequired"));
                 return;
             }
 
@@ -239,32 +281,38 @@ sap.ui.define([
             this.getView().setBusy(true);
 
             // Convert canvas to Blob
-            this._canvas.toBlob(function(blob) {
+            this._canvas.toBlob(function (blob) {
                 // Convert Blob to base64 for sending in JSON
                 var reader = new FileReader();
-                reader.onloadend = function() {
+                reader.onloadend = function () {
                     var base64data = reader.result;
-                    
+
                     // Get all material documents
-                    var aDocuments = oModel.getProperty("/DOCUMENTS") || [];
-                    
+                    var aDocuments = aDocumentNumbers || [];
+                     var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE"? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0,1);
                     var oPayload = {
                         DATA: {
-                            IT_MBLNR: aDocuments
+                            IT_MBLNR: aDocuments,
+                            SPRAS: lang || "E"
                         },
-                        ITEM: [],
+                        ITEM: ItemsData,
                         HEAD: {
                             PERNR: sEmployeeNumber,
                             EMAIL: oModel.getProperty("/employeeEmail") || "",
+                            // SIGN: {
+                            //     CONTENT: base64data
+                            // },
                             SIGN: base64data,
-                            PRINT: bPrintOutput ? "X" : ""
+                            BASE64: base64data.split("data:image/png;base64,")[1],
+                            PRINT: bPrintOutput ? "X" : "",
+                            BKTXT: notes
                         },
-                        MSG : {}
+                        MSG: {}
                     };
 
                     var baseUrl = that.getOwnerComponent().getManifestEntry("sap.app").dataSources.mainService.uri;
                     var url = "SIGN_3_SAVE";
-                    
+
                     $.ajax({
                         url: baseUrl + url,
                         type: "POST",
@@ -272,35 +320,73 @@ sap.ui.define([
                         data: JSON.stringify(oPayload),
                         success: function (oResponse) {
                             that.getView().setBusy(false);
-                            
+
                             console.log("Save response:", oResponse);
-                            
+
                             // Store saved document data before any navigation
                             var oSavedDocModel = new sap.ui.model.json.JSONModel(oModel.getData());
                             that.getOwnerComponent().setModel(oSavedDocModel, "savedDocument");
-                            
+
                             // Get router
                             var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
 
                             if (oResponse && oResponse.MSG) {
                                 var sMessageType = oResponse.MSG.MSGTY;
                                 var sMessageText = oResponse.MSG.MSGTX || "";
-                                
+
                                 if (sMessageType === "S") {
+                                    MessageBox.success(
+                                        sMessageText || "Signature saved successfully", {
+                                        actions: [that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")],
+                                        emphasizedAction: that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"),
+                                        onClose: function (sAction) {
+                                            if (sAction === that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")) {
+                                                // User confirmed deletion
+                                                 oRouter.navTo("RouteView1", {}, true);
+                                            } else {
+                                                // User cancelled deletion, do nothing
+                                                 oRouter.navTo("RouteView1", {}, true);
+                                            }
+                                        }
+                                    });
                                     // Success - navigate immediately
-                                    MessageBox.success(sMessageText || "Signature saved successfully");
-                                    oRouter.navTo("DigitalSignatureSign");
+                                    // MessageBox.success(sMessageText || "Signature saved successfully");
+                                    // oRouter.navTo("DigitalSignatureSign");
                                 } else if (sMessageType === "E") {
                                     // Error message
                                     MessageBox.error(sMessageText || "Error saving signature");
                                 } else if (sMessageType === "W") {
                                     // Warning message - still navigate
-                                    MessageBox.warning(sMessageText || "Warning while saving signature");
-                                    oRouter.navTo("DigitalSignatureSign");
+                                    MessageBox.warning(
+                                        sMessageText || "Signature saved successfully", {
+                                        actions: [that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")],
+                                        emphasizedAction: that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"),
+                                        onClose: function (sAction) {
+                                            if (sAction === that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")) {
+                                                // User confirmed deletion
+                                                 oRouter.navTo("RouteView1", {}, true);
+                                            } else {
+                                                // User cancelled deletion, do nothing
+                                                 oRouter.navTo("RouteView1", {}, true);
+                                            }
+                                        }
+                                    });
                                 } else if (sMessageType === "I") {
                                     // Information message - still navigate
-                                    MessageBox.information(sMessageText || "Information");
-                                    oRouter.navTo("DigitalSignatureSign");
+                                    MessageBox.information(
+                                        sMessageText || "Signature saved successfully", {
+                                        actions: [that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")],
+                                        emphasizedAction: that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm"),
+                                        onClose: function (sAction) {
+                                            if (sAction === that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")) {
+                                                // User confirmed deletion
+                                                 oRouter.navTo("RouteView1", {}, true);
+                                            } else {
+                                                // User cancelled deletion, do nothing
+                                                 oRouter.navTo("RouteView1", {}, true);
+                                            }
+                                        }
+                                    });
                                 }
                             } else {
                                 // No MSG in response - navigate directly
@@ -317,20 +403,27 @@ sap.ui.define([
                 reader.readAsDataURL(blob);
             }, "image/png");
         },
+        onLiveChangeEmployeeNumber: function (oEvent) {
+            var sValue = oEvent.getParameter("value");
+            var oMultiInput = oEvent.getSource();
+            var sFilteredValue = sValue.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            oMultiInput.setValue(sFilteredValue);
+
+        },
 
         _isCanvasBlank: function () {
             if (!this._canvas) return true;
-            
+
             var blank = document.createElement("canvas");
             blank.width = this._canvas.width;
             blank.height = this._canvas.height;
-            
+
             return this._canvas.toDataURL() === blank.toDataURL();
         },
 
         onNavBack: function () {
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-            oRouter.navTo("DigitalSignature", {}, true);
+            oRouter.navTo("DigitalSignatureItems", {}, true);
         },
 
         onExit: function () {
