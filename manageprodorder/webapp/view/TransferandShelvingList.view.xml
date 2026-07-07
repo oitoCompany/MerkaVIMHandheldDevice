@@ -1,0 +1,88 @@
+<mvc:View controllerName="com.merkavim.ewm.manageprodorder.controller.TransferandShelvingList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form" xmlns:layout="sap.ui.layout">
+    <Page id="TransferAndShelvingListPage" title="{i18n>transferAndShelvingTitle}" showNavButton="true" navButtonPress="onNavBack" enableScrolling="{= ${device>/isPhone} === true || ${device>/isTablet} === true }">
+        <content>
+        <VBox id="continuetasVBox" class="sapUiSmallMargin" height="100%">
+            <!-- Desktop/tablet actions toolbar -->
+                <Toolbar id="TransferAndShelvingListTopToolbar" visible="true" class="topActionToolbar">
+                    <!-- <Button id="btnClearPCLSelectionTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
+                    <!-- <Button id="btnDisplayPCLIssueTop" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" /> -->
+                    <ToolbarSpacer id="topToolbartasSpacer"/>
+                    <Button id="btntasSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
+                    <Button id="btntasFilterTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
+                </Toolbar>
+          
+
+          
+           
+           
+
+            <!-- Table for desktop/tablet only: scroll only the items -->
+            <!-- <ScrollContainer id="desktopTablePCLScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="true"> -->
+                <Table id="TASLTable" sticky="ColumnHeaders" items="{TransferList>/LIST}" mode="MultiSelect" class="sapUiSmallMarginTop" updateFinished="onPickTableUpdateFinished">
+                <!-- <Toolbar id="mobileCarrdstasTopToolbar" design="Transparent" class="sapUiTinyMarginBottom" >
+                    <ToolbarSpacer id="moToolbarPacer"/>
+                    <Button id="bMobilePCI" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
+                 
+                </Toolbar> -->
+                    <columns>
+                        <!-- <Column id="colPCLAction" width="3em">
+                            <header>
+                                <CheckBox id="selectdupAllCheckBox" enabled="false" select="onSelectAll"/>
+                            </header>
+                        </Column> -->
+                        <Column id="coltasItem"><header><Text id="txttasColItem" text="{i18n>itemLabel}"/></header></Column>
+                        
+                        <Column id="coltasModel"><header><Text id="txttasColModel" text="{i18n>materialdocnum}"/></header></Column>
+                        <Column id="coltase"><header><Text id="txttasColDate" text="{i18n>ShelvedQty}"/></header></Column>
+                         <Column id="coltasItemDesc3"><header><Text id="txttasColItemDesc3" text="{i18n>ReceiptDate}"/></header></Column>
+                        
+                        
+                        
+                    </columns>
+                    <items>
+                        <ColumnListItem id="pickTabletasRowTemplate" >
+                            <cells>
+                                <!-- <CheckBox id="rowPCLSelectCheckBox" selected="{CartList>selected}" select="onSelectRow"/> -->
+                                <Text id="roItem" text="{TransferList>MATNR}"/>
+                                <Text id="rowtastem" text="{TransferList>MBLNR}"/>
+                                <Text id="rowtasItem" text="{path:'TransferList>MENGE',formatter:'.formatNumber'}"/>
+                                <Text id="rowtasInventory" text="{=${path: 'TransferList>BUDAT', formatter: '.formatter.bdterToDDMMYYYY'}} "/>
+                                
+                                
+                                
+                               
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            <!-- </ScrollContainer> -->
+        </VBox>
+        </content>
+        <footer>
+            <Bar id="prodOrdertasContinueFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
+                <contentMiddle>
+                    <Button id="btnPCLClearSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/>
+                    <Button id="btnPCLDisplayIssue" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                </contentMiddle>
+            </Bar>
+        </footer>
+        <dependents>
+            <ViewSettingsDialog id="sorttasDialog" confirm="onSortConfirm" title="{i18n>sort}">
+                <sortItems>
+                    <ViewSettingsItem id="sorttasItemAction" text="{i18n>itemLabel}" key="MATNR"/>
+                    <ViewSettingsItem id="sorttasItemModel" text="{i18n>materialdocnum}" key="MBLNR"/>
+                    <ViewSettingsItem id="sorttasItemModelDesc" text="{i18n>ShelvedQty}" key="MENGE"/>
+                    <ViewSettingsItem id="sorttasItemShortBus" text="{i18n>ReceiptDate}" key="BUDAT"/>
+                   
+                    <!-- <ViewSettingsItem id="sortPCLItemQtyReserved" text="{i18n>qtyInReservation}" key="RESERVED_QTY"/> -->
+                </sortItems>
+            </ViewSettingsDialog>
+            <ViewSettingsDialog id="filtertasDialog" confirm="onFilterConfirm" title="{i18n>filter}">
+                <!-- Filter items are built dynamically in controller on beforeOpen -->
+            </ViewSettingsDialog>
+        </dependents>
+    </Page>
+</mvc:View>

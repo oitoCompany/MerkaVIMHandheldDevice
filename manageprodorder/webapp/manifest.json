@@ -51,7 +51,7 @@
         "sap.m": {},
         "sap.ui.core": {},
         "sap.ui.comp": {},
-        "sap.f":{}
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -149,7 +149,7 @@
           "defaultBindingMode": "TwoWay"
         }
       },
-       "TapiListModel": {
+      "TapiListModel": {
         "type": "sap.ui.model.json.JSONModel",
         "settings": {
           "defaultBindingMode": "TwoWay"
@@ -173,19 +173,31 @@
           "defaultBindingMode": "TwoWay"
         }
       },
-      "SerialListMain":{
+      "SerialListMain": {
         "type": "sap.ui.model.json.JSONModel",
         "settings": {
           "defaultBindingMode": "TwoWay"
         }
       },
-      "PickForCartCheckModel":{
+      "PickForCartCheckModel": {
         "type": "sap.ui.model.json.JSONModel",
         "settings": {
           "defaultBindingMode": "TwoWay"
         }
       },
-      "CartdlvListModel":{
+      "CartdlvListModel": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "TransferSaveItems": {
+        "type": "sap.ui.model.json.JSONModel",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "TransferList":{
         "type": "sap.ui.model.json.JSONModel",
         "settings": {
           "defaultBindingMode": "TwoWay"
@@ -400,6 +412,41 @@
           "target": [
             "TargetCartDlvIDetails"
           ]
+        },
+        {
+          "name": "TransferandShelving",
+          "pattern": "TransferandShelving/:Document:",
+          "target": [
+            "TargetTransferandShelving"
+          ]
+        },
+        {
+          "name": "TransferandShelvingItems",
+          "pattern": "TransferandShelvingItems",
+          "target": [
+            "TargetTransferandShelvingItems"
+          ]
+        },
+        {
+          "name": "TransferandShelvingSave",
+          "pattern": "TransferandShelvingSave",
+          "target": [
+            "TargetTransferandShelvingSave"
+          ]
+        },
+        {
+          "name": "TransferandShelvingPrint",
+          "pattern": "TransferandShelvingPrint/:view:",
+          "target": [
+            "TargetTransferandShelvingPrint"
+          ]
+        },
+        {
+          "name":"TransferandShelvingList",
+          "pattern":"TransferandShelvingList",
+          "target":[
+            "TargetTransferandShelvingList"
+          ]
         }
       ],
       "targets": {
@@ -409,7 +456,8 @@
         },
         "TargetLogout": {
           "id": "Logout",
-          "name": "Logout"        },
+          "name": "Logout"
+        },
         "TargetProductionOrder": {
           "id": "ProductionOrder",
           "name": "ProductionOrder"
@@ -509,6 +557,26 @@
         "TargetCartDlvIDetails": {
           "id": "CartDlvIDetails",
           "name": "CartDlvIDetails"
+        },
+        "TargetTransferandShelving": {
+          "id": "TransferandShelving",
+          "name": "TransferandShelving"
+        },
+        "TargetTransferandShelvingItems": {
+          "id": "TransferandShelvingItems",
+          "name": "TransferandShelvingItems"
+        },
+        "TargetTransferandShelvingSave": {
+          "id": "TransferandShelvingSave",
+          "name": "TransferandShelvingSave"
+        },
+        "TargetTransferandShelvingPrint": {
+          "id": "TransferandShelvingPrint",
+          "name": "TransferandShelvingPrint"
+        },
+        "TargetTransferandShelvingList": {
+          "id": "TransferandShelvingList",
+          "name": "TransferandShelvingList"
         }
       }
     },

@@ -1,0 +1,273 @@
+
+<mvc:View
+     controllerName="com.merkavim.ewm.manageprodorder.controller.TransferandShelvingItems"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="itemsshel"
+        title="{i18n>backToDocumentEntry}"
+        class="sapUiContentPadding" showNavButton="true" navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox id="idfg" width="100%">
+             <Toolbar id="ewselectToolbar" visible="{= ${device>/isPhone} === false &amp;&amp; ${device>/isTablet} === false}" class="topActionToolbar">
+             <Button id="savenewwLabel"
+                    text="{i18n>saveLabel}"
+                    type="Emphasized" press="onSaveScreen"/>
+                <Button id="printLalrertyuuButton"
+                    text="{i18n>PrintLabel}" type="Emphasized" press="onPrintScreen"/>
+                <Button id="clearScrnnewtryButton"
+                    text="{i18n>clearButton}"
+                    type="Reject" press="onClearSelection"/>
+        
+                    
+            </Toolbar>
+
+                <!-- HEADER SECTION -->
+                <Panel id="headerPanel" class="sapUiResponsiveMargin">
+
+                    <HBox id="terdt"
+                        width="100%"
+                        
+                        wrap="Wrap">
+
+                        <!-- LEFT -->
+                        <VBox id="leftSection" alignItems="Start" class="marginHboxtrasfer">
+                         <HBox id="yti" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="vendorName" text="{=${i18n>VendorName}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="vendorNamef" text="{MaterialDocumentItemModel>/HEAD/NAME1}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+                         <HBox id="ytti" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="receiptDatee" text="{=${i18n>ReceiptDate}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="receiptDatef" text="{=${path: 'MaterialDocumentItemModel>/HEAD/BUDAT', formatter: '.formatter.bdterToDDMMYYYY'}} " class="compactFieldValuedups"/>
+                        
+                        </HBox> 
+                            
+                        </VBox>
+
+                        <!-- RIGHT -->
+                        <VBox id="rightSection" alignItems="Start">
+                         <HBox id="ytrti" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="receipttDatee" text="{=${i18n>VendorNumber}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="receipttDatef" text="{MaterialDocumentItemModel>/HEAD/LIFNR}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+                         <HBox id="yzti" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="recetDatee" text="{=${i18n>Buyer}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="receiDatef" text="{MaterialDocumentItemModel>/HEAD/EKGRP}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+                         <HBox id="ytzi" alignItems="Center" class="alignMyItems">
+                       
+                        <Label id="receipttee" text="{=${i18n>ReceivedBy}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
+                        <Text id="receiptf" text="{MaterialDocumentItemModel>/HEAD/EKNAM}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+                           
+                        </VBox>
+
+                    </HBox>
+                     
+
+                </Panel>
+
+                <!-- SELECT ALL -->
+                <HBox id="shgds"
+                    width="100%"
+                    justifyContent="Start"
+                    class="sapUiSmallMargin">
+
+                    <CheckBox id="asd" text="{i18n>selectAll}" select="onSelectAll"/>
+
+                </HBox>
+
+                <!-- MATERIAL LIST -->
+                <List id="materialList"
+                     width="100%"
+                     items="{MaterialDocumentItemModel>/ITEM}"
+                    inset="false"
+                    showSeparators="None">
+
+                    <!-- CARD 1 -->
+                    <CustomListItem id="card1">
+
+                        <Panel id="card1Panel" width="95%" class="sapUiResponsiveMargin cardPanel">
+
+                            <VBox id="card1VBox" class="">
+                <Text id="cardaterial"
+                                            text="{MaterialDocumentItemModel>NumberRow}" class="boldText sapUiSmallMarginBegin"
+                                            />
+                                <!-- TOP ROW -->
+                                <HBox id="card1TopRow" class="borderadjustmenttop"
+                                    width="100%"
+                                    alignItems="Center"
+                                    justifyContent="SpaceBetween">
+
+                                    <!-- LEFT SECTION -->
+                                    <HBox id="card1LeftSection" alignItems="Center">
+
+                                        <!-- CHECKBOX -->
+                                        <CheckBox id="card1Checkbox"
+                                            selected="{MaterialDocumentItemModel>selected}" select="onSelectRow" 
+                                            class="sapUiSmallMarginEnd"/>
+
+                                        <!-- MATERIAL -->
+                                        <Title id="card1Material"
+                                            text="{MaterialDocumentItemModel>MATNR}"
+                                            class="sapUiLargeMarginEnd"/>
+                                        <Input id="mobileCQPickInputt1N" class=" customheightinputnew inputTableBorderd" value="{MaterialDocumentItemModel>MEINS}" valueLiveUpdate="true"  width="4em"   editable="false"/>     
+
+                                    </HBox>
+
+                                    <!-- RIGHT -->
+                                    <Input id="cardStatus" class=" customheightinputnew inputTableBorderdnew"
+                                        value="{MaterialDocumentItemModel>LGPBE}" editable="false"
+                                        />
+
+                                </HBox>
+
+                                <!-- DESCRIPTION -->
+                                <Text id="card1Description"
+                                    text="{MaterialDocumentItemModel>SGTXT}"
+                                    class="sapUiMediumMarginTop"/>
+
+                                <!-- DETAILS -->
+                                <FlexBox id="card1Details"
+                                    wrap="Wrap"
+                                    
+                                    class="sapUiMediumMarginTop backgroundcolorpanel">
+                                    <VBox id="vbox1" class="marginHboxtrasfer">
+                                     <HBox id="card1Order">
+                                        <Label id="card1OrderLabel" text="{=${i18n>Ordernewt}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card1OrderText" text="{MaterialDocumentItemModel>EBELN}"/>
+                                    </HBox>
+                                     <HBox id="card2Order">
+                                        <Label id="card1Order2Label" text="{=${i18n>Managerwhse}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="manage"/>
+                                        <Text id="card1Order2Text" text="{MaterialDocumentItemModel>LGPRO}"/>
+                                    </HBox>
+                                     <HBox id="card3Order">
+                                        <Label id="card3OrderLabel" text="{=${i18n>RecievedQty}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card3OrderText" text="{path:'MaterialDocumentItemModel>MENGE',formatter:'.formatNumber'}"/>
+                                    </HBox>
+                                    </VBox>
+                                   
+                                    <VBox id="card2">
+                                    <HBox id="card1Batch">
+                                        <Label id="card1BatchLabel" text="{=${i18n>batchSerial}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card1BatchText" text="{MaterialDocumentItemModel>SERNR}| {MaterialDocumentItemModel>CHARG}"/>
+                                    </HBox>
+                                    <HBox id="card1Batchexp">
+                                        <Label id="card1BatchexpLabel" text="{=${i18n>ExpirationDate}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card1BatchexpText" text="{=${path: 'MaterialDocumentItemModel>VFDAT', formatter: '.formatter.bdterToDDMMYYYY'}} "/>
+                                    </HBox>
+                                     <HBox id="card1Status">
+                                        <Label id="card1StatusLabel" text="{=${i18n>Status}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <ObjectStatus id="card1StatusText" text="{MaterialDocumentItemModel>STATUS}" state="Warning"/>
+                                    </HBox>
+                                     <HBox id="card1FreeStock">
+                                        <Label id="card1FreeStockLabel" text="{=${i18n>FreeStock}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card1FreeStockText" text="{path:'MaterialDocumentItemModel>LABST',formatter:'.formatNumber'}"/>
+                                        </HBox>
+                                    </VBox>
+                                    
+
+                                   
+                                      
+
+                                </FlexBox>
+
+                                <!-- LOCATION -->
+                                <VBox id="lastbox" class="borderadjustment">
+                                <HBox id="card1Location"
+                                    width="100%"
+                                    
+                                    alignItems="Center"
+                                    wrap="Wrap"
+                                    class="">
+
+                                    <Label id="card1LocationLabel" class="sapUiSmallMarginEnd" text="{i18n>Location}"/>
+                                     <Input id="card1LocationInput"
+                                        width="400px" change="onChangeInputValue"
+                                        value="{MaterialDocumentItemModel>LGPBE_IN}"
+                                         class="sapUiSmallMarginBegin sapUiSmallMarginEnd"/>
+
+                                    <!-- BUTTON -->
+                                    <Button id="card1LocationButton" 
+                                        text="{=${MaterialDocumentItemModel>locationText} === 'X'? ${i18n>verified} : ${i18n>Notverified}}"
+                                        type="{=${MaterialDocumentItemModel>locationText} === 'X'? 'Accept' : 'Reject'}"
+                                        />
+
+                                    <!-- INPUT -->
+                                   
+
+                                    <!-- LABEL -->
+                                    
+
+                                </HBox>
+
+                                <!-- SHELVED QTY -->
+                                <HBox id="card1ShelvedQty"
+                                                                   width="100%"
+                                    
+                                    alignItems="Center"
+                                    class="sapUiSmallMarginTop">
+                                     <Label id="card1ShelvedQtyLabel" class="sapUiSmallMarginEnd"   text="{i18n>ShelvedQty}"/>
+                                    <!-- INPUT -->
+                                    <Input id="card1ShelvedQtyInput"
+                                        width="400px"
+                                        value="{path:'MaterialDocumentItemModel>MENGE_IN',formatter:'.formatNumber'}"
+                                         editable ="false" />
+
+                                    <!-- LABEL -->
+                                    
+
+                                </HBox>
+                                </VBox>
+
+                            </VBox>
+
+                        </Panel>
+
+                    </CustomListItem>
+
+                    <!-- CARD 2 -->
+                  
+
+                </List>
+
+            </VBox>
+
+        </content>
+
+        <!-- FOOTER -->
+        <footer >
+
+            <Toolbar id="footerToolbar" width="100%" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
+
+                <Button id="saveLabel"
+                    text="{i18n>saveLabel}"
+                    type="Emphasized" press="onSaveScreen"/>
+
+                <ToolbarSpacer id="sec"/>
+
+                <Button id="printLabelButton"
+                    text="{i18n>PrintLabel}" type="Emphasized" press="onPrintScreen"/>
+
+                <ToolbarSpacer id="spacer"/>
+
+                <Button id="clearScreenButton"
+                    text="{i18n>clearButton}"
+                    type="Reject" press="onClearSelection"/>
+
+            </Toolbar>
+
+        </footer>
+
+    </Page>
+</mvc:View>

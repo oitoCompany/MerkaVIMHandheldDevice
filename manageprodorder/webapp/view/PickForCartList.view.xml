@@ -17,38 +17,7 @@
 
           
            
-            <!-- Card-based layout for mobile mode -->
-            <!-- <ScrollContainer id="mobileCardsScroll" width="100%" height="100vh" vertical="true" horizontal="false" visible="{= ${device>/isPhone} === true || ${device>/isTablet} === true}">
-            <VBox id="mobileCardsContainer" visible="{= ${device>/isPhone} || ${device>/isTablet} }">
-                <Toolbar id="mobileCardsTopToolbar" design="Transparent" class="sapUiTinyMarginBottom">
-                    <ToolbarSpacer id="mobileTopToolbarSpacer"/>
-                    <Button id="btnSelectAllMobile" text="{i18n>selectAll}"  press="onSelectAllMobile"/>
-                    <Button id="btnSortMobileTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
-                    <Button id="btnFilterMobileTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
-                </Toolbar> -->
-                  <!-- <List id="mobileCardList" items="{pickItems>/items}" mode="None" showSeparators="All">
-                    <items>
-                        <CustomListItem id="mobileCardListItem"> -->
-                     <!-- <VBox id="mobileCardVBox" class="sapUiSmallMarginBottom sapUiResponsiveMargin" >
-                                <HBox id="mobileCardHeaderHBox" alignItems="Center" justifyContent="End" class="sapUiTinyMarginBottom">
-                                    <CheckBox id="mobileCardSelectCheckBox" selected="{pickItems>selected}" select="onSelectRow"/>
-                                </HBox>
-                                <Text id="mobileCardActionText" text="{=${i18n>action}  +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>VORNR}}" class="sapUiTinyMarginBottom"/>
-                                <Text id="mobileCardModelText" text="{=${i18n>model}  +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>MODEL}}" class="sapUiTinyMarginBottom"/>
-                                <Text id="mobileCardModelDescText" text="{=${i18n>modelDesc}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>MODEL_DESC}}"/>
-                                <Text id="mobileCardShortBusNumText" text="{=${i18n>shortbusnumNewR}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>CY_SEQNR}}"/>
-                                <Text id="mobileCardDateText" text="{=${i18n>dateNew} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${path: 'pickItems>BDTER', formatter: '.formatter.bdterToDDMMYY'}}"/>
-                                <Text id="mobileCardQtyInReservationText" text="{=${i18n>qtyInReservation}+'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'+${pickItems>RESERVED_QTY}}"/>
-                                <HBox id="mobileCardQtyToPickHBox" alignItems="Center">
-                                    <Text id="mobileCardQtyToPickLabel" text="{=${i18n>qtyToPick} +'\u00a0\u00a0\u00a0'+ ':'+ '\u00a0\u00a0\u00a0'}"/>
-                                    <Input id="mobileCardQtyToPickInput" class="hoverFocusInput" value="{pickItems>PICKING_QTY}" valueLiveUpdate="true" type="Tel" width="4em" liveChange="onQtyToPickLiveChange"/>
-                                </HBox>
-                            </VBox> -->
-                             <!-- </CustomListItem>
-                    </items>
-                </List> -->
-            <!-- </VBox>
-            </ScrollContainer> -->
+           
 
             <!-- Table for desktop/tablet only: scroll only the items -->
             <!-- <ScrollContainer id="desktopTablePCLScroll" width="100%" height="50vh" vertical="true" horizontal="false" visible="true"> -->

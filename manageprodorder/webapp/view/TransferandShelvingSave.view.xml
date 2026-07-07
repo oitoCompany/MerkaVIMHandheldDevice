@@ -1,0 +1,159 @@
+
+<mvc:View
+     controllerName="com.merkavim.ewm.manageprodorder.controller.TransferandShelvingSave"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="itemshel"
+        title="{i18n>backToShelving}"
+        class="sapUiContentPadding" showNavButton="true" navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox id="idfgh" width="100%">
+
+              <MessageStrip id="mesagetop" text="{i18n>savescreenmessage}"
+                 showIcon="false" type="Warning" class="sapUiSmallMarginBottom">
+              </MessageStrip>
+
+              
+
+                <!-- MATERIAL LIST -->
+                <List id="materialsList"
+                     width="100%"
+                     items="{TransferSaveItems>/items}"
+                    inset="false"
+                    showSeparators="None">
+
+                    <!-- CARD 1 -->
+                    <CustomListItem id="card12">
+
+                        <Panel id="card123Panel" width="95%" class="sapUiResponsiveMargin cardPanel">
+
+                            <VBox id="card12VBox" class="">
+              
+                                <!-- TOP ROW -->
+                                <HBox id="card123TopRow" class="borderadjustmenttop"
+                                    width="100%"
+                                    alignItems="Center"
+                                    justifyContent="SpaceBetween">
+
+                                    <!-- LEFT SECTION -->
+                                    <HBox id="card123LeftSection" alignItems="Center">
+
+                                        <!-- CHECKBOX -->
+                                        <!-- <CheckBox id="card123Checkbox"
+                                            selected="{MaterialDocumentItemModel>selected}" select="onSelectRow" 
+                                            class="sapUiSmallMarginEnd"/> -->
+
+                                        <!-- MATERIAL -->
+                                        <Title id="card123Material"
+                                            text="{TransferSaveItems>MATNR}"
+                                            class="sapUiLargeMarginEnd"/>
+                                        <Input id="mobileCQPickI6nputt1N" class=" customheightinputnew inputTableBorderd" value="{TransferSaveItems>MEINS}" valueLiveUpdate="true"  width="4em"   editable="false"/>     
+
+                                    </HBox>
+
+                                    <!-- RIGHT -->
+                                                <!-- <Input id="cardStatus" class=" customheightinputnew inputTableBorderdnew"
+                                                    value="{TransferSaveItems>LGPBE}" editable="false"
+                                                    /> -->
+
+                                </HBox>
+
+                                <!-- DESCRIPTION -->
+                                <Text id="card13Description"
+                                    text="{TransferSaveItems>SGTXT}"
+                                    class="sapUiMediumMarginTop"/>
+
+                                <!-- DETAILS -->
+                                <FlexBox id="card1newDetails"
+                                    wrap="Wrap"
+                                    
+                                    class="sapUiMediumMarginTop backgroundcolorpanel">
+                                    <VBox id="vvbox1" class="marginHboxtrasfernew">
+                                     <HBox id="card1rOrder">
+                                        <Label id="card1OrvderLabel" text="{=${i18n>Status}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card1OrdverText" text="{TransferSaveItems>STATUS}"/>
+                                    </HBox>
+                                    
+                                    </VBox>
+                                   
+                                    <VBox id="card2bh">
+                                    <HBox id="card1Bbatch">
+                                        <Label id="cardb1BatchLabel" text="{=${i18n>BalanceSelf}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
+                                        <Text id="card1BabtchText" text="{TransferSaveItems>MENGE}"/>
+                                    </HBox>
+                                    
+                                    </VBox>
+                                    
+
+                                   
+                                      
+
+                                </FlexBox>
+
+                                <!-- LOCATION -->
+                                <VBox id="lasstbox" class="borderadjustment">
+                               
+
+                                <!-- SHELVED QTY -->
+                                <HBox id="card1sShelvedQty"
+                                                                   width="100%"
+                                    
+                                    alignItems="Center"
+                                    class="sapUiSmallMarginTop">
+                                     <Label id="card1sShelvedQtyLabel" class="sapUiSmallMarginEnd"   text="{i18n>ShelvedQty}"/>
+                                    <!-- INPUT -->
+                                    <Input id="card1sShelvedQtyInput"
+                                        width="400px"
+                                        value="{path:'TransferSaveItems>MENGE_IN',formatter:'.formatNumber'}"
+                                         editable ="false" />
+
+                                    <!-- LABEL -->
+                                    
+
+                                </HBox>
+                                </VBox>
+
+                            </VBox>
+
+                        </Panel>
+
+                    </CustomListItem>
+
+                    <!-- CARD 2 -->
+                  
+
+                </List>
+
+            </VBox>
+
+        </content>
+
+        <!-- FOOTER -->
+        <footer>
+
+            <Toolbar id="footernewToolbar" width="100%">
+
+                <Button id="savenewLabel"
+                    text="{i18n>saveLabel}"
+                    type="Emphasized" visible="false" press="onSaveScreen"/>
+
+                <ToolbarSpacer id="sesc"/>
+
+                <Button id="printLabeslButton"
+                    text="{i18n>saveLabel}" type="Unstyled" class="doubleHeightButton greenButton" press="onSaveandFinish"/>
+
+                <ToolbarSpacer id="spascer"/>
+
+                <Button id="clearScreesnButton"
+                    text="{i18n>clearButton}"
+                    type="Reject" press="onClearSelection" visible="false"/>
+
+            </Toolbar>
+
+        </footer>
+
+    </Page>
+</mvc:View>

@@ -136,7 +136,7 @@
 }
 
 .lightBlueButton {
-	background-color: #a9c4f2 !important ;
+	background-color: #a9c4f2 !important;
 	color: black;
 	border: 1px solid #a9c4f2;
 	border-radius: 0.7rem;
@@ -185,6 +185,7 @@
 	border-radius: 0.7rem;
 	font-weight: bold;
 }
+
 /* App header logo: keep rectangular aspect, fit in toolbar */
 .appHeaderLogo {
 	height: 2rem;
@@ -370,8 +371,14 @@
 .boldText {
 	font-weight: bold;
 }
-.textbacgroundcolor {
+
+.marginHboxtrasfer {
 	/* background-color: #80808030 !important; */
+	margin-inline-end: 110px !important;
+}
+.marginHboxtrasfernew {
+	/* background-color: #80808030 !important; */
+	margin-inline-end: 200px !important;
 }
 
 .customBeginClass {
@@ -421,7 +428,7 @@
 }
 
 .myBlueHeaderTable .sapMListTblHeader {
-    border-bottom: 2px solid #043494 !important;
+	border-bottom: 2px solid #043494 !important;
 	background-color: #d6deed !important;
 }
 
@@ -429,27 +436,27 @@
 /* This is often where the line is actually rendered in Fiori themes */
 .myBlueHeaderTable thead th,
 .myBlueHeaderTable .sapMListTblHeaderCell {
-    border-bottom: 2px solid #043494 !important;
+	border-bottom: 2px solid #043494 !important;
 	background-color: #d6deed !important;
 }
 
 /* 3. If you have "sticky" headers enabled, use this */
 .myBlueHeaderTable .sapMListTblHasStickyHeader .sapMListTblHeaderCell {
-    border-bottom-color: #043494 !important;
+	border-bottom-color: #043494 !important;
 }
 
 /* Remove the horizontal padding between the two form columns */
-.noColumnGap .sapUiResponsiveGrid > div {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+.noColumnGap .sapUiResponsiveGrid>div {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 /* Optional: If you want the labels to be right-aligned 
    so they touch the input field directly */
 .noColumnGap .sapMLabel {
-    text-align: right !important;
-    justify-content: flex-end !important;
-    padding-right: 0.5rem !important;
+	text-align: right !important;
+	justify-content: flex-end !important;
+	padding-right: 0.5rem !important;
 }
 
 .compactFieldValuedups {
@@ -460,15 +467,15 @@
 
 .alignMyItems .sapMLabel,
 .alignMyItems .sapMText {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-    display: flex !important;
-    align-items: center !important;
+	margin-top: 0 !important;
+	padding-top: 0 !important;
+	display: flex !important;
+	align-items: center !important;
 }
 
 /* Ensure the label has a consistent line height */
 .alignMyItems .sapMLabel {
-    line-height: normal !important;
+	line-height: normal !important;
 }
 
 .textcolor.sapMText {
@@ -476,9 +483,9 @@
 	font-weight: bold !important;
 }
 
-.hebrewbreak .sapMTextLineClamp{
+.hebrewbreak .sapMTextLineClamp {
 	white-space: pre-line !important;
-    display: inline-block !important;
+	display: inline-block !important;
 }
 
 .gridBackgroundcolor {
@@ -494,17 +501,26 @@
 
 
 .inputTableBorderd .sapMInputBaseInner {
-	border-color: #456294 !important ;
-    border: 1px solid!important;
+	border-color: #456294 !important;
+	border: 1px solid !important;
 }
 
-.boldTitle{
-	font-weight: bold!important;
-	font-size: 1.5rem!important;
+.inputTableBorderdnew .sapMInputBaseInner {
+	border-color: #456294 !important;
+	border: 1px solid !important;
+	background-color: #0891f5 !important;
+	color: white !important;
+	font-weight: bolder !important;
+}
+
+
+.boldTitle {
+	font-weight: bold !important;
+	font-size: 1.5rem !important;
 	color: #043494 !important;
 }
 
-.bordeerBottom{
+.bordeerBottom {
 	border-bottom: 2px solid #043494 !important;
 	padding-bottom: 10px !important;
 }
@@ -514,33 +530,35 @@
 
 /* Target the row based on the DOM attribute */
 li[data-ISSUED="X"] {
-    background-color: #f2f2f2 !important;
-    touch-action: pan-y !important;
+	background-color: #f2f2f2 !important;
+	touch-action: pan-y !important;
 	pointer-events: none;
 }
+
 /* Target the row based on the DOM attribute */
 li[data-ISSUED=""] {
-    background-color: #ffffff !important;
-    touch-action: pan-y !important;
-	
+	background-color: #ffffff !important;
+	touch-action: pan-y !important;
+
 }
 
 li[data-issued="X"] {
-    background-color: #f2f2f2 !important;
-    touch-action: pan-y !important;
+	background-color: #f2f2f2 !important;
+	touch-action: pan-y !important;
 	pointer-events: none;
 }
+
 /* Target the row based on the DOM attribute */
 li[data-issued=""] {
-    background-color: #ffffff !important;
-    touch-action: pan-y !important;
-	
+	background-color: #ffffff !important;
+	touch-action: pan-y !important;
+
 }
 
 
 .delete.sapMBtn .sapMBtnIcon {
-    /* cursor: inherit; */
-    color: red ! important;
+	/* cursor: inherit; */
+	color: red ! important;
 }
 
 .custmboldinput .sapMInputBaseInner {
@@ -551,4 +569,33 @@ li[data-issued=""] {
 	font-size: 1.1rem !important;
 	font-weight: bolder !important;
 	/* color: #043494 !important; */
+}
+
+.backgroundcolorpanel {
+	background-color: #efeff2;
+}
+
+.borderadjustment {
+	border: 1px solid #043494 !important;
+	border-radius: 0.5rem !important;
+	padding: 0.5rem !important;
+}
+
+.borderadjustmenttop {
+	border-bottom: 1px solid #043494 !important;
+	margin-bottom: 8px !important;
+	padding-bottom: 8px !important;
+}
+
+.cardPanel {
+	border: 1px solid #043494 !important;
+	border-radius: 0.5rem !important;
+	padding: 0.5rem !important;
+}
+
+
+
+.manage  {
+	font-weight: bolder !important;
+	color: #101010 !important;
 }

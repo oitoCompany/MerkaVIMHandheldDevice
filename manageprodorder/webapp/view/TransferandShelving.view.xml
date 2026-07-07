@@ -1,0 +1,156 @@
+<mvc:View
+    controllerName="com.merkavim.ewm.manageprodorder.controller.TransferandShelving"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+>
+    <Page
+        id="transferAndShelvingPage"
+        title="{i18n>transferAndShelvingTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <VBox
+            id="transferAndShelvingVBox"
+            class="sapUiSmallMargin"
+        >
+            <HBox
+                id="searchButtontsBar"
+                class="sapUiSmallMarginBottom"
+                visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }"
+            >
+                <Button
+                    id="btnyClear"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    class="doubleHeightButton lightBlueButton"
+                    press="onClearSearch"
+                />
+                <Button
+                    id="btntDisplay"
+                    text="{i18n>displaynew}"
+                    type="Unstyled"
+                    press="onDisplay"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btntPrint1"
+                    text="{i18n>PrintLabel}"
+                    type="Unstyled"
+                    press="onPrintLabel"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btnList1"
+                    text="{i18n>Listnewe}"
+                    type="Unstyled"
+                    press="onDisplayList"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+            </HBox>
+            <Panel
+                id="searchrPanel"
+                expandable="false"
+                class="sapUiResponsiveMargin"
+                width="auto"
+            >
+                <VBox
+                    id="searcrhBox"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <Label
+                        id="lblMaterialtDocument"
+                        text="{i18n>materialDocumentNumber}"
+                        labelFor="inpMaterialDocument"
+                        required="true"
+                    />
+                    <HBox
+                        id="inputtBox"
+                        width="100%"
+                    >
+                        <MultiInput
+                            id="inpMaterialDocument1"
+                            width="100%"
+                            type="Number"
+                            placeholder="{i18n>materialDocumentPlaceholder}"
+                            tokenUpdate="onTokenUpdate"
+                            submit="onSubmitToken"
+                            liveChange="onLiveChangeMaterialDocument"
+                            showValueHelp="false"
+                            showSuggestion="false"
+                            enableSuggestionsHighlighting="false"
+                            tokens="{digitalSignature>/documentTokens}"
+                        >
+                            <tokens>
+                                <Token
+                                    id="documenteToken"
+                                    text="{digitalSignature>key}"
+                                    key="{digitalSignature>key}"
+                                    delete="onTokenDelete"
+                                />
+                            </tokens>
+                        </MultiInput>
+                        <Button
+                            id="btnrAdd"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            press="onAddDocument"
+                            class="sapUiSmallMarginBegin"
+                            tooltip="Add Document"
+                        />
+                    </HBox>
+                    <!-- <Button
+                        id="btest"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press="onAddDocument"
+                        class="sapUiSmallMarginBegin"
+                        tooltip="Add Document"
+                    /> -->
+
+                    <Text
+                        id="txtDocumentrCount"
+                        text="{i18n>documentCountadd} {digitalSignature>/documentTokens/length}"
+                        class="sapUiTinyMarginTop"
+                    />
+                </VBox>
+            </Panel>
+        </VBox>
+
+        <footer>
+            <OverflowToolbar
+                id="digitalSignatureFootert"
+                visible="{= ${device>/isPhone} || ${device>/isTablet} }"
+            >
+                <ToolbarSpacer id="footertSpacer1" />
+                <Button
+                    id="btnDisplaytFooter"
+                    text="{i18n>display}"
+                    type="Unstyled"
+                    press="onDisplay"
+                    class="doubleHeightButton greenButton"
+                />
+                <Button
+                    id="btnCleartFooter"
+                    text="{i18n>clear}"
+                    type="Unstyled"
+                    press="onClearSearch"
+                    class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"
+                />
+                <Button
+                    id="btntPrint1footer"
+                    text="{i18n>PrintLabel}"
+                    type="Unstyled"
+                    press="onPrintLabel"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+                 <Button
+                    id="btnList1footer"
+                    text="{i18n>Listnewe}"
+                    type="Unstyled"
+                    press="onDisplayList"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>
