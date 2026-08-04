@@ -51,6 +51,8 @@ sap.ui.define([
 
        
         onNavBack: function() {
+
+            this.onUnlockCart();
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
           
 
@@ -344,12 +346,138 @@ sap.ui.define([
             // } else {
             //     oComponent.getModel("issueItems").setData({ items: aSelected });
             // }
+            var oI18n = this.getView().getModel("i18n").getResourceBundle();
+            var oTable = this.byId("pickpcdTable");
+            var items = oTable.getBinding("items")
+            var BUS = items.oModel.oData.BUS;
+            
+            if(BUS != undefined && BUS != null && BUS != ""){
+                var cart_sts = BUS[0].CART_STS;
+            }
+            if(cart_sts == "1" ){
+                          
+                MessageBox.error(oI18n.getText("ProceedError"));
+                return;
+            }
             var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
               var flag = this.getOwnerComponent().getModel("PickForCartCheckModel").getProperty("/FLAG");
             oRouter.navTo("PickForCartItems",{ NFLAG: flag },true);
         },
 
-      
+       onChangeProcessStatus: function () {
+            var oMainModelRef = this.getOwnerComponent().getModel("PickForCartMainModel").getData();
+
+            // this.getOwnerComponent().getModel("IssueBasedonReservationMainModel").setData(aDocumentTokens);
+            var that = this;
+            this.getView().setBusy(true);
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE" ? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0, 1);
+            var oPayload = {
+                DATA: oMainModelRef.DATA || {},
+
+                MSG: {
+                    MSGTX: "",
+                    MSGTY: ""
+                }
+            };
+
+            var that = this;
+            var baseUrl = this.getOwnerComponent().getManifestEntry("sap.app").dataSources.mainService.uri;
+            var url = "ISSUE_CART_3_PROCES";
+            $.ajax({
+                url: baseUrl + url,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(oPayload),
+                success: function (response) {
+                    that.getView().setBusy(false);
+                    var oI18n = that.getView().getModel("i18n").getResourceBundle();
+
+                    // Bind response to the view model
+
+
+
+                    // Check for error indicator 'E' in SAP message structure
+                    if (response && response.MSG && response.MSG.MSGTY === "E") {
+                        MessageBox.error(response.MSG.MSGTX || "Error occurred");
+                        return;
+                    }
+                    var oTable = that.byId("pickpcdTable");
+                    var items = oTable.getBinding("items");
+                    var oModel = items.getModel();
+                    var BUS = oModel.oData.BUS;
+                    for (var i = 0; i < BUS.length; i++) {
+                        BUS[i].CART_STS = "2";
+                        BUS[i].CART_STS_DESC = "בהכנה";
+                }
+                  var mainModel = that.getOwnerComponent().getModel("PickForCartMainModel");
+                 var data = mainModel.getData( );
+                 data.DATA.CART_STS = "2";
+                  data.DATA.CART_STS_DESC = "בהכנה";
+                  mainModel.setData(data);
+                    oTable.getBinding("items").refresh();
+                    oModel.refresh();
+                    MessageBox.success(response.MSG.MSGTX || oI18n.getText("SuccessfullyprocessStatus"));
+
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    that.getView().setBusy(false);
+                    sap.m.MessageToast.show("Failed to fetch data on Enter.");
+                }
+            });
+        },
+        onUnlockCart: function () {
+            var oMainModelRef = this.getOwnerComponent().getModel("PickForCartMainModel").getData();
+
+            // this.getOwnerComponent().getModel("IssueBasedonReservationMainModel").setData(aDocumentTokens);
+            var that = this;
+            this.getView().setBusy(true);
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE" ? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0, 1);
+            var oPayload = {
+                CART: oMainModelRef.DATA.CART || {},
+                ITEMS: oMainModelRef.DATA.ITEMS || [],
+                MSG: {
+                    MSGTX: "",
+                    MSGTY: ""
+                }
+            };
+
+            var that = this;
+            var baseUrl = this.getOwnerComponent().getManifestEntry("sap.app").dataSources.mainService.uri;
+            var url = "ISSUE_CART_UNLOCK";
+            $.ajax({
+                url: baseUrl + url,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(oPayload),
+                success: function (response) {
+                    that.getView().setBusy(false);
+                    var oI18n = that.getView().getModel("i18n").getResourceBundle();
+
+                    // Bind response to the view model
+
+
+
+                    // Check for error indicator 'E' in SAP message structure
+                    if (response && response.MSG && response.MSG.MSGTY === "E") {
+                        MessageBox.error(response.MSG.MSGTX || "Error occurred");
+                        return;
+                    }
+                    //MessageBox.success(response.MSG.MSGTX || oI18n.getText("SuccessfullyUnlockedStatus"));
+
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    that.getView().setBusy(false);
+                    sap.m.MessageToast.show("Failed to fetch data on Enter.");
+                }
+            });
+        },
+
 
         
 

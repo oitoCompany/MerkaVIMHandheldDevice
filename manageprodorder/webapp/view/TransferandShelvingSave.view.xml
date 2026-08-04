@@ -71,13 +71,13 @@
                                     wrap="Wrap"
                                     
                                     class="sapUiMediumMarginTop backgroundcolorpanel">
-                                    <VBox id="vvbox1" class="marginHboxtrasfernew">
+                                    <!--<VBox id="vvbox1" class="marginHboxtrasfernew">
                                      <HBox id="card1rOrder">
                                         <Label id="card1OrvderLabel" text="{=${i18n>Status}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
                                         <Text id="card1OrdverText" text="{TransferSaveItems>STATUS}"/>
                                     </HBox>
                                     
-                                    </VBox>
+                                    </VBox> -->
                                    
                                     <VBox id="card2bh">
                                     <HBox id="card1Bbatch">

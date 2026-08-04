@@ -100,7 +100,7 @@ sap.ui.define([
         onNavBack: function () {
             // this.getOwnerComponent().getModel("PickForCartCheckModel").setProperty("/FLAG", "X");
             // this.onClearSelection();
-            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+            var oRouter = sap.ui.core.UIComponent.getRouterFor(this);            
             oRouter.navTo(this.navBackView, {
 
             }, true);
@@ -146,7 +146,9 @@ sap.ui.define([
             var that = this;
             var oComponent = this.getOwnerComponent();
             var oList = '';
-            var aSelected = [];
+            var route =  this.getRouter();
+             var view = route.oHashChanger.hash.includes("Items") ? "TransferandShelvingSave" : "TransferandShelvingItems";
+            var aSelected = [];           
             var oMainModel = oComponent.getModel("MaterialDocumentItemModel");
             var oPickModel = oComponent.getModel("TransferSaveItems");
             var aItems = (oPickModel && oPickModel.getProperty && oPickModel.getProperty('/items')) || [];
@@ -205,7 +207,8 @@ sap.ui.define([
                     }
 
                     var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-                    oRouter.navTo("TransferandShelvingSave");
+                    //oRouter.navTo("TransferandShelvingSave");                    
+                   oRouter.navTo( view ); 
 
 
                 },

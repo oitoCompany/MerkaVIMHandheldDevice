@@ -69,11 +69,12 @@ sap.ui.define([
             that._setMaterialFocus();
             // var oArgs = oEvent.getParameter("arguments") || {};
             var oView = this.getView();
+            this.StatusCode = 0;
             // var CART = oArgs.CART || "";
             // this.routeFlag = oArgs.Flag || "";
             // this.onLoadingData();
 
-           
+
             // this.getOwnerComponent().getModel("PickForCartCheckModel").setProperty("/FLAG", "X");
             // this.onDisplay(CART);
             // }
@@ -83,7 +84,7 @@ sap.ui.define([
 
 
         },
-       
+
         onLoadingData: function () {
             var oListTapiModel = this.getOwnerComponent().getModel("CartdlvListModel");
 
@@ -194,10 +195,11 @@ sap.ui.define([
             });
             var oMultiInput = this.getView().byId("InputPcT");
             oMultiInput.setValue("");
+            this.onClearSearch();
         },
 
-       
-       
+
+
 
         onDisplay: function () {
             var oModel = this.getView().getModel("CartModel");
@@ -323,8 +325,8 @@ sap.ui.define([
                     oListModel.setData(response);
                     // that.coreFlag = "";
                     // that.onDisplay();
-                    var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
-                    oRouter.navTo("CartDlvIDetails");
+                    // var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
+                    // oRouter.navTo("CartDlvIDetails");
 
 
                 },
@@ -346,14 +348,21 @@ sap.ui.define([
             // oModel.setProperty("/ISSUED_ITEMS", false);
             // oModel.setProperty("/ITEMS_IN_STOCK", false);
             this.getView().byId("InputPcT").setValue();
+            this.getView().byId("btnDelivery").setType("Default");
+            this.getView().byId("btnParking").setType("Default");
+            this.getView().byId("btnStartPicking").setType("Default");
 
             // Set focus back to material document input
             setTimeout(() => {
                 var oMaterialDocInput = this.getView().byId("InputPcT");
-                    if (oMaterialDocInput) {
+                if (oMaterialDocInput) {
                     oMaterialDocInput.focus();
                 }
             }, 0);
+            var oListModel = this.getOwnerComponent().getModel("CartdlvListModel");
+            oListModel.setData({});
+            this.getView().byId("inpDeliveryLocation").setValue("");
+
         },
 
         onNavBack: function () {
@@ -366,6 +375,7 @@ sap.ui.define([
                 onClose: function (sAction) {
                     if (sAction === that.getOwnerComponent().getModel("i18n").getResourceBundle().getText("Confirm")) {
                         // User confirmed deletion
+                        that.onClearSearch();
                         var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
                         oRouter.navTo("RouteView1", {}, true);
 
@@ -375,6 +385,121 @@ sap.ui.define([
                     }
                 }
             });
+        },
+
+        onChangeStatus: function (oEvent) {
+            var oButton = oEvent.getSource();
+            this.getView().byId("btnDelivery").setType("Default");
+            this.getView().byId("btnParking").setType("Default");
+            this.getView().byId("btnStartPicking").setType("Default");
+            var ResInput = this.getView().byId("inpDeliveryLocation").getValue();
+            var sButtonId = oButton.getId();
+            oButton.setType("Accept");
+            switch (sButtonId) {
+                case this.getView().byId("btnParking").getId():
+                    this.StatusCode = 3;
+                    this.getView().byId("inpDeliveryLocation").setValue('');
+                    // this.onParking();
+                    break;
+                case this.getView().byId("btnDelivery").getId():
+                    // this.onDelivery();
+
+                    // if (!ResInput || ResInput.length === 0) {
+                    //     oButton.setType("Default");
+                    //     var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+                    //     MessageBox.error(oBundle.getText("requiredFieldsErrorLocation") || "Please enter Location");
+                    //     return;
+                    // }
+                    this.StatusCode = 4;
+
+                    break;
+                default:
+                    this.StatusCode = 2;
+                    this.getView().byId("inpDeliveryLocation").setValue('');
+                    // Handle other buttons if needed
+                    break;
+            }
+        },
+        onDisplayIssueItems: function () {
+
+
+
+            var oModel = this.getView().getModel("CartModel");
+
+            var ResInput = this.getView().byId("inpDeliveryLocation").getValue();
+            // if (!ResInput || ResInput.length === 0) {
+            //     var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+            //     MessageBox.error(oBundle.getText("requiredFieldsErrorLocation") || "Please enter Location");
+            //     return;
+            // }
+
+            var delbtn = this.getView().byId("btnDelivery");
+            var parkbtn = this.getView().byId("btnParking");
+            var startbtn = this.getView().byId("btnStartPicking");
+
+            if (delbtn.getType() !== "Accept" && parkbtn.getType() !== "Accept" && startbtn.getType() !== "Accept") {
+                var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+                MessageBox.error(oBundle.getText("requiredFieldsErrorStatus") || "Please select a status");
+                return;
+            }
+            if (delbtn.getType() === "Accept") {
+                if (!ResInput || ResInput.length === 0) {
+                    
+                    var oBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+                    MessageBox.error(oBundle.getText("requiredFieldsErrorLocation") || "Please enter Location");
+                    return;
+                }
+            }
+            var oListModel = this.getOwnerComponent().getModel("CartdlvListModel");
+            // var that = this;
+            oListModel.getData().DATA.CART_STS_NEW = this.StatusCode;
+            oListModel.getData().DATA.LGPBE = ResInput;
+            this.getView().setBusy(true);
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE" ? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0, 1);
+            var oPayload = {
+                DATA: oListModel.getData().DATA,
+                MSG: {
+                    MSGTX: "",
+                    MSGTY: ""
+                }
+            };
+
+            var that = this;
+            var baseUrl = this.getOwnerComponent().getManifestEntry("sap.app").dataSources.mainService.uri;
+            var url = "DLV_CART_1_SAVE";
+            $.ajax({
+                url: baseUrl + url,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(oPayload),
+                success: function (response) {
+                    that.getView().setBusy(false);
+
+
+
+
+
+                    // Check for error indicator 'E' in SAP message structure
+                    if (response && response.MSG && response.MSG.MSGTY === "E") {
+                        MessageBox.error(response.MSG.MSGTX || "Error occurred");
+                        return;
+                    }
+                    MessageBox.success(response.MSG.MSGTX, {
+                        onClose: function () {
+                            var oRouter = sap.ui.core.UIComponent.getRouterFor(that);
+                            //   var flag = this.getOwnerComponent().getModel("PickForCartCheckModel").getProperty("/FLAG");
+                            oRouter.navTo("RouteView1", {}, true);
+                        }
+                    });
+
+
+                },
+                error: function (xhr, status, error) {
+                    that.getView().setBusy(false);
+                    sap.m.MessageToast.show("Failed to fetch data on Enter.");
+                }
+            });
         }
+
     });
 });

@@ -146,6 +146,13 @@
                     press="onMainPrintNew"
                     class="sapUiSmallMarginBegin doubleHeightButton greenButton"
                 />
+                <Button
+                    id="btnpcUnlockCart"
+                    text="{i18n>UnlockCart}"
+                    type="Unstyled"
+                    press="onUnlockCartBtn"
+                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
+                />
             </OverflowToolbar>
         </footer>
     </Page>

@@ -8,7 +8,7 @@
             <!-- Desktop/tablet actions toolbar -->
                 <Toolbar id="TransferAndShelvingListTopToolbar" visible="true" class="topActionToolbar">
                     <!-- <Button id="btnClearPCLSelectionTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
-                    <!-- <Button id="btnDisplayPCLIssueTop" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" /> -->
+                     <Button id="btnDisplayPCLIssueTop" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" /> 
                     <ToolbarSpacer id="topToolbartasSpacer"/>
                     <Button id="btntasSortTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
                     <Button id="btntasFilterTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
@@ -34,7 +34,7 @@
                             </header>
                         </Column> -->
                         <Column id="coltasItem"><header><Text id="txttasColItem" text="{i18n>itemLabel}"/></header></Column>
-                        
+                        <Column id="coltasVendor"><header><Text id="txttasColVendor" text="{i18n>Vendor}"/></header></Column>
                         <Column id="coltasModel"><header><Text id="txttasColModel" text="{i18n>materialdocnum}"/></header></Column>
                         <Column id="coltase"><header><Text id="txttasColDate" text="{i18n>ShelvedQty}"/></header></Column>
                          <Column id="coltasItemDesc3"><header><Text id="txttasColItemDesc3" text="{i18n>ReceiptDate}"/></header></Column>
@@ -47,6 +47,7 @@
                             <cells>
                                 <!-- <CheckBox id="rowPCLSelectCheckBox" selected="{CartList>selected}" select="onSelectRow"/> -->
                                 <Text id="roItem" text="{TransferList>MATNR}"/>
+                                <Text id="roLifnr" text="{TransferList>NAME1}"/>
                                 <Text id="rowtastem" text="{TransferList>MBLNR}"/>
                                 <Text id="rowtasItem" text="{path:'TransferList>MENGE',formatter:'.formatNumber'}"/>
                                 <Text id="rowtasInventory" text="{=${path: 'TransferList>BUDAT', formatter: '.formatter.bdterToDDMMYYYY'}} "/>
@@ -73,6 +74,7 @@
             <ViewSettingsDialog id="sorttasDialog" confirm="onSortConfirm" title="{i18n>sort}">
                 <sortItems>
                     <ViewSettingsItem id="sorttasItemAction" text="{i18n>itemLabel}" key="MATNR"/>
+                    <ViewSettingsItem id="sorttasItemLifnr" text="{i18n>vendor}" key="NAME1"/>
                     <ViewSettingsItem id="sorttasItemModel" text="{i18n>materialdocnum}" key="MBLNR"/>
                     <ViewSettingsItem id="sorttasItemModelDesc" text="{i18n>ShelvedQty}" key="MENGE"/>
                     <ViewSettingsItem id="sorttasItemShortBus" text="{i18n>ReceiptDate}" key="BUDAT"/>

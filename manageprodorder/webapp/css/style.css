@@ -335,6 +335,12 @@
 	margin-bottom: 0.125rem;
 	line-height: 1.2;
 }
+.compactFieldLabelNew {
+	font-size: 0.75rem;
+	color: #666;
+	margin-bottom: 0.02rem;
+	line-height: 1.2;
+}
 
 .compactFieldValue {
 	font-size: 0.95rem;
@@ -598,4 +604,59 @@ li[data-issued=""] {
 .manage  {
 	font-weight: bolder !important;
 	color: #101010 !important;
+}
+
+.margin-top {
+	margin-top: 1.5rem !important;
+}
+
+.margin-bottom {
+	margin-bottom: 1.5rem !important;
+}
+
+.font-weight-bold {
+	font-weight: bolder !important;
+	
+}
+
+
+.detailsContainer{
+    background:#fff;
+    border-radius:8px;
+    padding:1.5rem;
+    margin-top:1rem;
+    box-shadow:0 0 2px rgba(0,0,0,.15);
+	margin-bottom:1.5rem;
+}
+
+.detailsColumn{
+    width:48%;
+}
+
+.detailRow{
+    align-items:center;
+    margin-bottom:0.8rem;
+}
+
+.detailRow .sapMLabel{
+    width:9rem;
+    font-weight:600;
+}
+
+.detailRow .sapMText{
+    margin-left:.5rem;
+}
+
+.detailRowNew{
+    align-items:center;
+    margin-bottom:0.8rem;
+}
+
+.detailRowNew .sapMLabel{
+    /* width:9rem; */
+    font-weight:600;
+}
+
+.detailRowNew .sapMText{
+    margin-left:.5rem;
 }

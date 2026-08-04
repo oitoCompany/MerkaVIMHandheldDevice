@@ -6,6 +6,10 @@ specVersion: "3.1"
 metadata:
   name: com.merkavim.ewm.manageprodorder
 type: application
+resources:
+  configuration:
+    paths:
+      webapp: webapp
 builder:
   resources:
     excludes:
@@ -23,7 +27,7 @@ builder:
           name: Z_PICKING_BY_WB
           description: initialization of application
           package: YMOBILE_SCANNERS
-          transport: MRDK920404
+          transport: MRDK920818
         exclude:
           - /test/
 

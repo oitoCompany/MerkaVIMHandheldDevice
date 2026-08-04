@@ -115,9 +115,9 @@
                                     <!-- INPUT -->
                                     <Input id="card1sShelvedQtypInput"
                                         width="400px"
-                                        value="{path:'TransferSaveItems>LABEL_QTY',formatter:'.formatNumber'}"
+                                        value="{TransferSaveItems>LABEL_QTY}"
                                          valueLiveUpdate="true"   type="Number"  />
-
+<!-- value="{path:'TransferSaveItems>LABEL_QTY' ,formatter:'.formatNumber'}"-->
                                     <!-- LABEL -->
                                     
 

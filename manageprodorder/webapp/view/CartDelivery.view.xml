@@ -1,7 +1,7 @@
 <mvc:View
     controllerName="com.merkavim.ewm.manageprodorder.controller.CartDelivery"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
+    xmlns="sap.m" xmlns:f="sap.ui.layout.form"
 >
     <Page
         id="Pcarage"
@@ -9,97 +9,202 @@
         showNavButton="true"
         navButtonPress="onNavBack"
     >
-        <VBox
-            id="PcarVBox"
-            class="sapUiSmallMargin"
-        >
+
+
+        <VBox id="mainContainer" class="sapUiMediumMargin">
+
+            <!-- Header -->
+            <!-- <HBox id="headerSectionnew" class="headerSection" justifyContent="End">
+                <Button
+                    id="btnBack"
+                    text="Back to Main Menu"
+                    press="onBack"/>
+            </HBox> -->
+
+            <!-- Search -->
             <HBox
-                id="searchButtnspcBar"
-                class="sapUiSmallMarginBottom"
-                visible="{= ${device>/isPhone} !== true &amp;&amp; ${device>/isTablet} !==true }"
-            >
-                <Button
-                    id="btnpClear"
-                    text="{i18n>clear}"
-                    type="Unstyled"
-                    class="doubleHeightButton lightBlueButton"
-                    press="onClearSearch"
-                />
-                <Button
-                    id="btnpcisplay"
+                id="searchSection"  
+                class="searchSection"
+                justifyContent="Start"
+                alignItems="Start">
+
+                 
+
+                <Label
+                    id="lblCartNumber"
+                    text="{i18n>CartNumber}"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop" labelFor="InputPcT"/>
+                <Input
+                    id="InputPcT"
+                    width="160px" type="Number"
+                    class="fieldSpace" required="true"
+                    />
+                 <Button
+                    id="btnShow"
                     text="{i18n>display}"
                     type="Unstyled"
                     press="onCartCheck"
-                    class="sapUiSmallMarginBegin doubleHeightButton greenButton"
-                />
+                    class=" greenButton sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
+                     <!-- <Button
+                    id="btnClearnew"
+                     text="{i18n>clear}"
+                    type="Unstyled"
+                    press="onClearSearch"
+                    class="  lightBlueButton"/> -->
                
+
+               
+
+               
+
+            </HBox>
+
+            <!-- Cart Details -->
+<VBox id="inputFieldsVBoxnewIMobile" class="detailsContainer" visible="true">
+ <HBox id="detailserHnewBox"  justifyContent="SpaceBetween" >
+  <VBox id="uomVernewBox" class="detailsColumn" >
+                        <HBox id="yunewi" alignItems="Center" class="detailRowNew">
+                       
+                        <Label id="lblInputUernewOMMobile"  text="{=${i18n>CartNumber}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                        <Text id="txtInputUernewOMMobile" text="{CartdlvListModel>/DATA/CART}" class="compactFieldValuedups"/>
+                        
+                        </HBox>
+
+                        <HBox id="yui1new" alignItems="Center" class="detailRowNew">
+                        <Label id="lblInputLeronewcationMobile"  text="{=${i18n>BusModel}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                        <Text id="txtInputLocaertnewionMobile" text="{CartdlvListModel>/DATA/MODEL}" class="compactFieldValuedups"/>
+                        </HBox>
+                         <HBox id="yui3new" alignItems="Center" class="detailRowNew">
+                        <Label id="lblInputLero1newcationMobile"  text="{=${i18n>CartType}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                        <Text id="txtInputLocae1rtnewionMobile" text="{CartdlvListModel>/DATA/CART_TYPE}" class="compactFieldValuedups"/>
+                        </HBox>
+                         <HBox id="yui34new" alignItems="Center" class="detailRowNew">
+                        <Label id="lblInputLeron1ewcationMobile"  text="{=${i18n>BusNumber}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                        <Text id="txtInputLocaer1tnewionMobile" text="{CartdlvListModel>/DATA/BUS}" class="compactFieldValuedups"/>
+                        </HBox>
+                          
+                    </VBox>
+                   
+                    <VBox id="binnewVBtyox" class="detailsColumn">
+                        <HBox id="newyui2" alignItems="Baseline" class="detailRowNew">
+                         
+                        <Label id="lblInputLeriweonMobile"  text="{=${i18n>CartDescription}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                        <Text id="txtInputMMobiwele" text="{CartdlvListModel>/DATA/CART_TYPE_DESC}" class="compactFieldValue"/>
+                        </HBox>
+                        <HBox id="yuiwe3" alignItems="Baseline" class="detailRowNew">
+                        <Label id="lblInpcatweionMobile"  text="{=${i18n>modelDescnewd}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                         <Text id="txtInputLweocaeronMobile" text="{CartdlvListModel>/DATA/MODEL_DESC}" class="compactFieldValue"/>
+                        </HBox>
+                         <HBox id="yuiwwe3" alignItems="Baseline" class="detailRowNew">
+                        <Label id="lblInpcatwweionMobile"  text="{=${i18n>Department}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                         <Text id="txtInpuwtLweocaeronMobile" text="{CartdlvListModel>/DATA/DEPT_DESC}" class="compactFieldValue"/>
+                        </HBox>
+                    </VBox>
+           
+     </HBox>
+ </VBox>
+            <!-- Status -->
+
+            <HBox id="statusSection" 
+                
+                justifyContent="Start"
+                alignItems="Start">
+
+                <Link
+                    id="lnkChangeStatus"
+                    text="{i18n>ChangeCartStatus}"
+                    press="onChangeStatus" class="font-weight-bold sapUiTinyMarginBegin sapUiLargeMarginEnd"/>
+
+                <HBox id="statusText" class="sapUiTinyMarginBegin" alignItems="Center">
+                    <Text id="CurrentStatus" text="{=${i18n>CurrentStatus}  +'\u00a0'+ ':'+ '\u00a0'}" class="compactFieldLabelNew"/>
+                    <Text id="Status" text="{CartdlvListModel>/DATA/CART_STS_DESC}"/>
+                </HBox>
+
+               
+
+            </HBox>
+
+            <!-- Action Buttons -->
+
+            <HBox id="actionSection"
+                class="margin-top"
+                justifyContent="Start">
+
+                <VBox id="actionButtons">
+
+                    <Button
+                        id="btnStartPicking"
+                        text="{i18n>StartPicking}"
+                        class="actionButton"
+                        press="onChangeStatus"/>
+
+                    <Button
+                        id="btnParking"
+                        text="{i18n>Parking}"
+                        class="actionButton"
+                        press="onChangeStatus"/>
+                    <HBox id="deliverySection"
+                class="deliverySection"
+                alignItems="Center">
+                 <Button
+                        id="btnDelivery"
+                        text="{i18n>Delivery}"
+                        
+                        press="onChangeStatus" class="sapUiTinyMarginEnd"/>
+ <Label
+                    id="lblDeliveryLocation"
+                    text="{i18n>location}" labelFor="inpDeliveryLocation"
+                    class="sapUiTinyMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
+
+                <Input
+                    id="inpDeliveryLocation"
+                    width="180px" required="true"
+                    />
+
                
             </HBox>
-            <Panel
-                id="searchcPanel"
-                expandable="false"
-                class="sapUiResponsiveMargin"
-                width="auto"
-            >
-                <VBox
-                    id="searcpcBox"
-                    class="sapUiSmallMarginBottom"
-                >
-                    <Label
-                        id="lblMaterialpcocument"
-                        text="{i18n>Cart}"
-                        labelFor="inpMaterialDocument"
-                        required="true"
-                    />
-                    <HBox
-                        id="inpupcBox"
-                        width="100%"
-                    >
-                        <Input id="InputPcT" value="{CartModel>/CART}" liveChange="onLiveChangeMaterialDocument" type="Number" />
+                   
 
-
-
-                                            </HBox>
-                    <!-- <Button
-                        id="btest"
-                        icon="sap-icon://add"
-                        type="Emphasized"
-                        press="onAddDocument"
-                        class="sapUiSmallMarginBegin"
-                        tooltip="Add Document"
-                    /> -->
-
-                
-                  
-                
                 </VBox>
-            </Panel>
-        </VBox>
 
-        <footer>
-            <OverflowToolbar
-                id="pctFooter"
-                visible="{= ${device>/isPhone} || ${device>/isTablet} }"
-            >
-                <ToolbarSpacer id="footerpcSpaucer1" />
+            </HBox>
+
+            <!-- Delivery -->
+
+            
+
+            <!-- Save -->
+
+            <!-- <HBox id="bewdds"
+                class="saveSection"
+                justifyContent="Center">
+
                 <Button
-                    id="btnDisplayupcFooter"
-                    text="{i18n>display}"
-                    type="Unstyled"
-                    press="onCartCheck"
-                    class="doubleHeightButton greenButton"
-                />
-                <Button
-                    id="btnClearpctFooter"
-                    text="{i18n>clear}"
-                    type="Unstyled"
-                    press="onClearSearch"
-                    class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"
-                />
-                
+                    id="btnnewSave"
+                    text="{i18n>Save}"
+                    type="Emphasized"
+                    width="120px"
+                    press="onSave"/>
+
+            </HBox> -->
+
+        </VBox>
+         <footer>
+            <Bar id="prodOrdonFooterBar" >
+                <contentMiddle>
                
-                 
-            </OverflowToolbar>
+                    <Button id="btnClearnew" text="{i18n>clear}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSearch"/>
+                    <Button id="btnPlayPIssue" text="{i18n>saveLabel}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                </contentMiddle>
+            </Bar>
         </footer>
+
     </Page>
+
 </mvc:View>
+
+
+
+
+
+

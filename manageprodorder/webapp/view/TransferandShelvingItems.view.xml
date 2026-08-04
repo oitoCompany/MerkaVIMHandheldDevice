@@ -60,13 +60,16 @@
                          <HBox id="yzti" alignItems="Center" class="alignMyItems">
                        
                         <Label id="recetDatee" text="{=${i18n>Buyer}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
-                        <Text id="receiDatef" text="{MaterialDocumentItemModel>/HEAD/EKGRP}" class="compactFieldValuedups"/>
+                        <Text id="receiDatef" text="{MaterialDocumentItemModel>/HEAD/EKGRP}" class="compactFieldValuedups sapUiTinyMarginEnd"/>
+                        <Text id="receiptf" text="{MaterialDocumentItemModel>/HEAD/EKNAM}" class="compactFieldValuedups"/>
                         
                         </HBox>
                          <HBox id="ytzi" alignItems="Center" class="alignMyItems">
                        
                         <Label id="receipttee" text="{=${i18n>ReceivedBy}  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}" class="compactFieldLabel"/>
-                        <Text id="receiptf" text="{MaterialDocumentItemModel>/HEAD/EKNAM}" class="compactFieldValuedups"/>
+                        <!-- <Text id="receiptf" text="{MaterialDocumentItemModel>/HEAD/EKNAM}" class="compactFieldValuedups"/> -->
+                        <Text id="receipts" text="{MaterialDocumentItemModel>/HEAD/USNAM}" class="compactFieldValuedups sapUiTinyMarginEnd"/>
+                        <Text id="receiptn" text="{MaterialDocumentItemModel>/HEAD/ADRNAME}" class="compactFieldValuedups"/>
                         
                         </HBox>
                            
@@ -166,10 +169,10 @@
                                         <Label id="card1BatchexpLabel" text="{=${i18n>ExpirationDate}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
                                         <Text id="card1BatchexpText" text="{=${path: 'MaterialDocumentItemModel>VFDAT', formatter: '.formatter.bdterToDDMMYYYY'}} "/>
                                     </HBox>
-                                     <HBox id="card1Status">
+                                   <!--  <HBox id="card1Status">
                                         <Label id="card1StatusLabel" text="{=${i18n>Status}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
                                         <ObjectStatus id="card1StatusText" text="{MaterialDocumentItemModel>STATUS}" state="Warning"/>
-                                    </HBox>
+                                    </HBox> -->
                                      <HBox id="card1FreeStock">
                                         <Label id="card1FreeStockLabel" text="{=${i18n>FreeStock}+'\u00a0'  +'\u00a0'+ ':'+ '\u00a0'+'\u00a0'}"/>
                                         <Text id="card1FreeStockText" text="{path:'MaterialDocumentItemModel>LABST',formatter:'.formatNumber'}"/>

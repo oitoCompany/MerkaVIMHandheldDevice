@@ -61,6 +61,10 @@ sap.ui.define([
                 return null; // Return null to prevent token creation
             }
         },
+    
+    onUnlockCartBtn: function () {
+        this.onUnlockCart( true );
+    },
 
         _onRouteMatched: function (oEvent) {
             // Reset the model when the route is matched
@@ -77,6 +81,7 @@ sap.ui.define([
                 this.getView().getModel("PickForCartModel").setProperty("/CART", CART);
                 // this.onDisplay(CART);
             } else {
+                this.onUnlockCart();
                 var oListModel = this.getOwnerComponent().getModel("PickForCartListModel");
                 var oMainModelRef = this.getOwnerComponent().getModel("PickForCartMainModel");
                 oListModel.setData([]);
@@ -492,6 +497,63 @@ sap.ui.define([
                 }
             }, 0);
         },
+       onUnlockCart: function ( byUser ) {
+            var oMainModelRef = this.getOwnerComponent().getModel("PickForCartMainModel").getData();
+            var ResInput = this.getView().byId("InputPc").getValue();
+            // this.getOwnerComponent().getModel("IssueBasedonReservationMainModel").setData(aDocumentTokens);
+            var that = this;
+            this.getView().setBusy(true);
+            var lang = sap.ui.getCore().getConfiguration().getLanguage() === "HE" ? "B" : sap.ui.getCore().getConfiguration().getLanguage().substring(0, 1);
+            var oPayload = {
+                CART: ResInput || {},
+                ITEMS: [],
+                MSG: {
+                    MSGTX: "",
+                    MSGTY: ""
+                },
+                BYUSER: byUser ? "X" : ""
+            };
+
+            var that = this;
+            var baseUrl = this.getOwnerComponent().getManifestEntry("sap.app").dataSources.mainService.uri;
+            var url = "ISSUE_CART_UNLOCK";
+            $.ajax({
+                url: baseUrl + url,
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(oPayload),
+                success: function (response) {
+                    that.getView().setBusy(false);
+                    var oI18n = that.getView().getModel("i18n").getResourceBundle();
+
+                    // Bind response to the view model
+
+
+
+                    // Check for error indicator 'E' in SAP message structure
+                    if (response && response.MSG ){
+                        if( response.MSG.MSGTY === "E") {
+                        MessageBox.error(response.MSG.MSGTX || "Error occurred");
+                        return;
+                        }
+                        else{
+                            if(byUser && response.MSG.MSGTY === "S"){
+                            MessageBox.success(response.MSG.MSGTX || oI18n.getText("SuccessfullyUnlockedStatus"));
+                            }
+                        }
+                    }
+                    //MessageBox.success(response.MSG.MSGTX || oI18n.getText("SuccessfullyUnlockedStatus"));
+
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    that.getView().setBusy(false);
+                    sap.m.MessageToast.show("Failed to fetch data on Enter.");
+                }
+            });
+        }, 
 
         onNavBack: function () {
 

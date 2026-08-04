@@ -10,6 +10,7 @@
                 <Toolbar id="prodOrderContinueToppcdToolbar" visible="{= ${device>/isPhone} === false &amp;&amp; ${device>/isTablet} === false}" class="topActionToolbar">
                     <!-- <Button id="btnClearSelectionpcdTop" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
                     <Button id="btnDisplayIssuepcdTop" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
+                    <Button id="btnChangeSttIssuepcdTop" text="{i18n>ChangeStatBtn}"  press="onChangeProcessStatus" type="Unstyled" class="doubleHeightButton lightBlueButton" />
                     <ToolbarSpacer id="topToolbarpcdSpacer"/>
                     <Button id="btnSortpcdTop" icon="sap-icon://sort" text="{i18n>sort}" press="onOpenSortDialog"/>
                     <Button id="btnFilterpcdTop" icon="sap-icon://filter" text="{i18n>filter}" press="onOpenFilterDialog"/>
@@ -99,6 +100,7 @@
                         <Column id="colpcdItem"><header><Text id="txtColpcdItem" text="{i18n>BusNumber}"/></header></Column>
                         <Column id="colpcdItemDesc"><header><Text id="txtColpcdItemDesc" text="{i18n>CustomerName}"/></header></Column>
                         <Column id="colpcdDate"><header><Text id="txtColpcdDate" text="{i18n>Order}"/></header></Column>
+                        <Column id="colpcdStat"><header><Text id="txtColpcdStat" text="{i18n>Stats}"/></header></Column>
                         
                     </columns>
                     <items>
@@ -108,7 +110,7 @@
                                 <Text id="rowpcdItem" text="{PickForCartMainModel>BUS}"/>
                                 <Text id="rowpcdItemDesc" text="{PickForCartMainModel>NAME1}"/>
                                 <Text id="rowpcdDate" text="{PickForCartMainModel>AUFNR}"/>
-                               
+                                <Text id="rowpcdStat" text="{PickForCartMainModel>CART_STS_DESC}"/>
                             </cells>
                         </ColumnListItem>
                     </items>
@@ -120,6 +122,7 @@
             <Bar id="prodOrderContinuePCDFooterBar" visible="{= ${device>/isPhone} || ${device>/isTablet}}">
                 <contentMiddle>
                     <!-- <Button id="btnClearSelection" text="{i18n>clearSelection}" type="Unstyled" class="sapUiSmallMarginBegin doubleHeightButton lightBlueButton"  press="onClearSelection"/> -->
+                    <Button id="btnChangeSttPCDIssue" text="{i18n>ChangeStatBtn}"  press="onChangeProcessStatus" type="Unstyled" class="doubleHeightButton lightBlueButton" />
                     <Button id="btnDisplayPCDIssue" text="{i18n>continueButton}"  press="onDisplayIssueItems" type="Unstyled" class="doubleHeightButton greenButton" />
                 </contentMiddle>
             </Bar>

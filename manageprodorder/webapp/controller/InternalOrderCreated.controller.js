@@ -130,7 +130,7 @@ sap.ui.define([
                         MessageBox.error(response.MSG.MSGTX || "Error occurred");
                         return;
                     }
-                    MessageBox.success(response.MSG.MSGTX || oI18n.getText("SuccessfullypickingStatus"));
+                    MessageBox.success(response.MSG.MSGTX || oI18n.getText(""));
 
 
 
