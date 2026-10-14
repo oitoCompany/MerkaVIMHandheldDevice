@@ -27,7 +27,7 @@ builder:
           name: Z_PICKING_BY_WB
           description: initialization of application
           package: YMOBILE_SCANNERS
-          transport: MRDK920818
+          transport: MRDK920854
         exclude:
           - /test/
 
